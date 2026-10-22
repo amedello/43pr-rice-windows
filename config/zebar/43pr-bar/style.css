@@ -1,0 +1,175 @@
+/* 43PR / Quickshell Aesthetic Bar Style for Windows (Zebar) */
+
+:root {
+  --font-family: 'JetBrainsMono Nerd Font', 'Segoe UI Variable Text', -apple-system, sans-serif;
+  --font-size: 13px;
+  --font-weight: 600;
+
+  /* Theme tokens (Can be overridden by 43pr theme engine) */
+  --bg-bar: transparent;
+  --bg-pill: rgba(20, 24, 30, 0.75);
+  --bg-pill-hover: rgba(30, 36, 46, 0.85);
+  --border-pill: rgba(255, 255, 255, 0.08);
+  --border-pill-active: rgba(137, 180, 250, 0.4);
+  
+  --fg-main: #cdd6f4;
+  --fg-dim: #9399b2;
+  --fg-dark: #11111b;
+  
+  --accent: #89b4fa;
+  --accent-secondary: #cba6f7;
+  --accent-green: #a6e3a1;
+  --accent-yellow: #f9e2af;
+  --accent-red: #f38ba8;
+
+  --shadow-pill: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --radius-pill: 9999px;
+  --blur-pill: blur(16px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  color: var(--fg-main);
+  background: transparent;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  padding: 0 12px;
+}
+
+.bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Base Pill Style (43PR Quickshell floating island aesthetic) */
+.pill {
+  background: var(--bg-pill);
+  backdrop-filter: var(--blur-pill);
+  -webkit-backdrop-filter: var(--blur-pill);
+  border: 1px solid var(--border-pill);
+  box-shadow: var(--shadow-pill);
+  border-radius: var(--radius-pill);
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pill:hover {
+  background: var(--bg-pill-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Sections */
+.bar-left, .bar-center, .bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Workspaces Module */
+.workspaces-pill {
+  padding: 2px 4px;
+  gap: 3px;
+}
+
+.ws-btn {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-pill);
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg-dim);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ws-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--fg-main);
+}
+
+.ws-btn.displayed {
+  color: var(--fg-main);
+}
+
+.ws-btn.focused {
+  background: var(--accent);
+  color: var(--fg-dark);
+  box-shadow: 0 2px 8px rgba(137, 180, 250, 0.4);
+}
+
+/* Window Title Pill */
+.window-title-pill {
+  max-width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+.window-title-pill i {
+  color: var(--accent);
+}
+
+/* Center Clock / Date Pill */
+.clock-pill {
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+}
+
+.clock-pill i {
+  color: var(--accent);
+}
+
+/* Media Playing Pill */
+.media-pill {
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--accent-secondary);
+}
+
+/* Status Sensors (CPU, RAM, Network, Battery) */
+.sensor-pill {
+  font-size: 12px;
+}
+
+.sensor-pill i {
+  font-size: 14px;
+}
+
+.cpu-icon { color: var(--accent-secondary); }
+.ram-icon { color: var(--accent-yellow); }
+.net-icon { color: var(--accent); }
+.bat-icon { color: var(--accent-green); }
+.bat-warning { color: var(--accent-red); }

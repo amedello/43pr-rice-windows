@@ -1,0 +1,193 @@
+# 43PR GlazeWM Configuration (Windows Tiling Window Manager)
+# Replicating 43PR/dotfiles Hyprland experience for Windows
+
+general:
+  cursor_jump:
+    on_focus_window: false
+  show_floating_on_top: true
+  startup_commands:
+    - 'shell-exec zebar open 43pr-bar'
+  shutdown_commands:
+    - 'shell-exec taskkill /IM zebar.exe /F'
+
+gaps:
+  scale_with_dpi: true
+  inner_gap: "8px"
+  outer_gap:
+    top: "46px"    # Clearance for the floating 43PR Zebar top bar
+    bottom: "8px"
+    left: "8px"
+    right: "8px"
+
+window_effects:
+  focused_window:
+    border:
+      enabled: true
+      color: "#89b4fa"   # Accent color (updated by theme engine)
+  other_windows:
+    border:
+      enabled: false
+      color: "#1e1e2e"
+
+workspaces:
+  - name: "1"
+    display_name: "1"
+    keep_alive: true
+  - name: "2"
+    display_name: "2"
+    keep_alive: true
+  - name: "3"
+    display_name: "3"
+    keep_alive: true
+  - name: "4"
+    display_name: "4"
+    keep_alive: true
+  - name: "5"
+    display_name: "5"
+    keep_alive: true
+  - name: "6"
+    display_name: "6"
+  - name: "7"
+    display_name: "7"
+  - name: "8"
+    display_name: "8"
+  - name: "9"
+    display_name: "9"
+
+window_rules:
+  # Do not tile status bars, launchers and system utility overlays
+  - commands: ['ignore']
+    match:
+      - window_process: { equals: 'zebar' }
+      - window_process: { regex: '(?i)flow\.launcher' }
+      - window_process: { regex: '(?i)powertoys' }
+      - window_process: { equals: 'ScreenClippingHost' }
+      - window_process: { equals: 'SnippingTool' }
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+      - window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
+
+  # Automatically float small popups and utility apps
+  - commands: ['set-floating']
+    match:
+      - window_process: { equals: 'CalculatorApp' }
+      - window_process: { equals: 'Taskmgr' }
+
+keybindings:
+  # =====================================================================
+  # 43PR Essential Shortcuts (Super on Linux -> Alt on Windows)
+  # =====================================================================
+  # Launch Terminal (Super + T)
+  - commands: ['shell-exec wt']
+    bindings: ['alt+t']
+
+  # Close Active Window (Super + Q)
+  - commands: ['close']
+    bindings: ['alt+q']
+
+  # Application Launcher (Super + D)
+  - commands: ['shell-exec explorer shell:appsFolder\FlowLauncher_0.0.0.0_neutral__8wekyb3d8bbwe!App']
+    bindings: ['alt+d']
+
+  # File Explorer (Super + E)
+  - commands: ['shell-exec explorer.exe']
+    bindings: ['alt+e']
+
+  # Default Browser (Super + B)
+  - commands: ['shell-exec cmd /c start http://']
+    bindings: ['alt+b']
+
+  # Toggle Floating Window (Super + Space)
+  - commands: ['toggle-floating']
+    bindings: ['alt+space']
+
+  # Toggle Fullscreen (Super + F)
+  - commands: ['toggle-fullscreen']
+    bindings: ['alt+f']
+
+  # Reload GlazeWM Configuration (Super + Shift + R)
+  - commands: ['wm-reload-config']
+    bindings: ['alt+shift+r']
+
+  # Exit / Pause GlazeWM (Super + Shift + Q)
+  - commands: ['wm-exit']
+    bindings: ['alt+shift+q']
+
+  # =====================================================================
+  # Window Focus Navigation (Vim keys & Arrows)
+  # =====================================================================
+  - commands: ['focus --direction left']
+    bindings: ['alt+h', 'alt+left']
+
+  - commands: ['focus --direction down']
+    bindings: ['alt+j', 'alt+down']
+
+  - commands: ['focus --direction up']
+    bindings: ['alt+k', 'alt+up']
+
+  - commands: ['focus --direction right']
+    bindings: ['alt+l', 'alt+right']
+
+  # =====================================================================
+  # Window Moving (Shift + Vim keys & Arrows)
+  # =====================================================================
+  - commands: ['move --direction left']
+    bindings: ['alt+shift+h', 'alt+shift+left']
+
+  - commands: ['move --direction down']
+    bindings: ['alt+shift+j', 'alt+shift+down']
+
+  - commands: ['move --direction up']
+    bindings: ['alt+shift+k', 'alt+shift+up']
+
+  - commands: ['move --direction right']
+    bindings: ['alt+shift+l', 'alt+shift+right']
+
+  # =====================================================================
+  # Workspace Switching (Super + 1..9)
+  # =====================================================================
+  - commands: ['focus --workspace 1']
+    bindings: ['alt+1']
+  - commands: ['focus --workspace 2']
+    bindings: ['alt+2']
+  - commands: ['focus --workspace 3']
+    bindings: ['alt+3']
+  - commands: ['focus --workspace 4']
+    bindings: ['alt+4']
+  - commands: ['focus --workspace 5']
+    bindings: ['alt+5']
+  - commands: ['focus --workspace 6']
+    bindings: ['alt+6']
+  - commands: ['focus --workspace 7']
+    bindings: ['alt+7']
+  - commands: ['focus --workspace 8']
+    bindings: ['alt+8']
+  - commands: ['focus --workspace 9']
+    bindings: ['alt+9']
+
+  # =====================================================================
+  # Move Window to Workspace (Super + Shift + 1..9)
+  # =====================================================================
+  - commands: ['move --workspace 1']
+    bindings: ['alt+shift+1']
+  - commands: ['move --workspace 2']
+    bindings: ['alt+shift+2']
+  - commands: ['move --workspace 3']
+    bindings: ['alt+shift+3']
+  - commands: ['move --workspace 4']
+    bindings: ['alt+shift+4']
+  - commands: ['move --workspace 5']
+    bindings: ['alt+shift+5']
+  - commands: ['move --workspace 6']
+    bindings: ['alt+shift+6']
+  - commands: ['move --workspace 7']
+    bindings: ['alt+shift+7']
+  - commands: ['move --workspace 8']
+    bindings: ['alt+shift+8']
+  - commands: ['move --workspace 9']
+    bindings: ['alt+shift+9']
+
+  # =====================================================================
+  # Layout Toggling
+  # =====================================================================
+  - commands: ['toggle-tiling-direction']
+    bindings: ['alt+s']

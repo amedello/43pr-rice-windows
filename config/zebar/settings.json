@@ -1,0 +1,5 @@
+{
+  "$schema": "https://raw.githubusercontent.com/glzr-io/zebar/v3.0.0/resources/settings-schema.json",
+  "activePackage": "43pr-bar",
+  "activePreset": "default"
+}

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>43PR Bar</title>
+    <!-- Custom 43PR styles -->
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+
+    <!-- React and Babel setup for Zebar -->
+    <script
+      src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+      import React, { useState, useEffect } from 'https://esm.sh/react@18?dev';
+      import { createRoot } from 'https://esm.sh/react-dom@18/client?dev';
+      import * as zebar from 'https://esm.sh/zebar@3.0';
+
+      const providers = zebar.createProviderGroup({
+        glazewm: { type: 'glazewm' },
+        network: { type: 'network' },
+        cpu: { type: 'cpu' },
+        memory: { type: 'memory' },
+        battery: { type: 'battery' },
+        date: { type: 'date', formatting: 'EEE d MMM  •  HH:mm' },
+        media: { type: 'media' },
+      });
+
+      createRoot(document.getElementById('root')).render(<App />);
+
+      function App() {
+        const [output, setOutput] = useState(providers.outputMap);
+
+        useEffect(() => {
+          providers.onOutput(() => setOutput(providers.outputMap));
+        }, []);
+
+        const gwm = output.glazewm;
+        const currentWs = gwm?.currentWorkspaces || [];
+        const focusedWindow = gwm?.focusedWindow;
+
+        return (
+          <div className="bar-container">
+            {/* Left Section: Workspaces & Active Window Title */}
+            <div className="bar-left">
+              <div className="pill workspaces-pill">
+                {currentWs.map((ws) => (
+                  <button
+                    key={ws.name}
+                    className={`ws-btn ${ws.isFocused ? 'focused' : ''} ${ws.isDisplayed ? 'displayed' : ''}`}
+                    onClick={() => gwm.runCommand(`focus --workspace ${ws.name}`)}
+                    title={`Workspace ${ws.displayName || ws.name}`}
+                  >
+                    {ws.displayName || ws.name}
+                  </button>
+                ))}
+              </div>
+
+              {focusedWindow?.title && (
+                <div className="pill window-title-pill" title={focusedWindow.title}>
+                  <span>{focusedWindow.title}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Center Section: Playing Media / Clock */}
+            <div className="bar-center">
+              {output.media?.currentSession?.title ? (
+                <div className="pill media-pill">
+                  <span>♪ {output.media.currentSession.title} - {output.media.currentSession.artist}</span>
+                </div>
+              ) : null}
+
+              <div className="pill clock-pill">
+                <span>{output.date?.formatted || '...'}</span>
+              </div>
+            </div>
+
+            {/* Right Section: System Resources & Status */}
+            <div className="bar-right">
+              {output.cpu && (
+                <div className="pill sensor-pill" title="CPU Usage">
+                  <span className="cpu-icon"></span>
+                  <span>{Math.round(output.cpu.usage)}%</span>
+                </div>
+              )}
+
+              {output.memory && (
+                <div className="pill sensor-pill" title="RAM Usage">
+                  <span className="ram-icon"></span>
+                  <span>{Math.round(output.memory.usage)}%</span>
+                </div>
+              )}
+
+              {output.network && (
+                <div className="pill sensor-pill" title="Network">
+                  <span className="net-icon">󰤨</span>
+                  <span>{output.network.defaultInterface?.type === 'wifi' ? 'Wi-Fi' : 'Online'}</span>
+                </div>
+              )}
+
+              {output.battery && (
+                <div className="pill sensor-pill" title={`Battery: ${Math.round(output.battery.chargePercent)}%`}>
+                  <span className={`bat-icon ${output.battery.chargePercent <= 20 ? 'bat-warning' : ''}`}>
+                    {output.battery.isCharging ? '󰂄' : '󰁹'}
+                  </span>
+                  <span>{Math.round(output.battery.chargePercent)}%</span>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+    </script>
+  </body>
+</html>
