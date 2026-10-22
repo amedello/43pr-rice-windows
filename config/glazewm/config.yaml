@@ -85,7 +85,7 @@ keybindings:
     bindings: ['alt+q']
 
   # Application Launcher (Super + D)
-  - commands: ['shell-exec explorer shell:appsFolder\FlowLauncher_0.0.0.0_neutral__8wekyb3d8bbwe!App']
+  - commands: ['shell-exec %LOCALAPPDATA%/FlowLauncher/Flow.Launcher.exe']
     bindings: ['alt+d']
 
   # File Explorer (Super + E)
