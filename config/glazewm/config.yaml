@@ -6,7 +6,7 @@ general:
     on_focus_window: false
   show_floating_on_top: true
   startup_commands:
-    - 'shell-exec zebar open 43pr-bar'
+    - 'shell-exec "%LOCALAPPDATA%/Programs/glzr/bin/zebar.exe"'
   shutdown_commands:
     - 'shell-exec taskkill /IM zebar.exe /F'
 
@@ -191,3 +191,4 @@ keybindings:
   # =====================================================================
   - commands: ['toggle-tiling-direction']
     bindings: ['alt+s']
+
