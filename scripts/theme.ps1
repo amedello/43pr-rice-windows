@@ -11,7 +11,8 @@ $ErrorActionPreference = "Stop"
 $repoDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $themesDir = Join-Path $repoDir "config\43pr\themes"
 $glzrHome = Join-Path $HOME ".glzr"
-$zebarStyle = Join-Path $glzrHome "zebar\43pr-bar\style.css"
+$zebarStyle = Join-Path $glzrHome "zebar\starter\styles.css"
+$zebarStyleAlt = Join-Path $glzrHome "zebar\43pr-bar\style.css"
 $glazewmConfig = Join-Path $glzrHome "glazewm\config.yaml"
 
 # 1. List available themes
@@ -104,3 +105,4 @@ if ($Theme) {
 
     Write-Host "`nTheme '$Theme' applied successfully!" -ForegroundColor Green
 }
+

@@ -1,0 +1,133 @@
+/**
+ * 43PR Quickshell Style for Zebar (Windows)
+ */
+@import 'https://www.nerdfonts.com/assets/css/webfont.css';
+
+:root {
+  --text-size: 13px;
+  --icon-size: 14px;
+  --font-family: 'JetBrainsMono Nerd Font', 'Segoe UI Variable Text', monospace;
+
+  /* Theme color tokens - dynamically managed by theme.ps1 */
+  --accent: #89b4fa;
+  --fg-main: #cdd6f4;
+  --fg-dim: #9399b2;
+  --bg-pill: rgba(20, 24, 30, 0.75);
+  --bg-pill-hover: rgba(30, 36, 46, 0.85);
+  --border-pill: rgba(255, 255, 255, 0.1);
+  --shadow-pill: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --radius-pill: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--text-size);
+  color: var(--fg-main);
+  background: transparent !important;
+  overflow: hidden;
+}
+
+#root {
+  background: transparent !important;
+  border: none !important;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 14px;
+}
+
+.left, .center, .right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 43PR Floating Pill items */
+.workspaces, .center, .network, .memory, .cpu, .battery {
+  background: var(--bg-pill);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-pill);
+  box-shadow: var(--shadow-pill);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.center {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.center:hover, .network:hover, .memory:hover, .cpu:hover, .battery:hover {
+  background: var(--bg-pill-hover);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Workspaces Pill */
+.workspaces {
+  padding: 3px 5px;
+  gap: 3px;
+}
+
+.workspace {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-pill);
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg-dim);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.workspace:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--fg-main);
+}
+
+.workspace.focused {
+  background: var(--accent);
+  color: #11111b;
+  box-shadow: 0 2px 8px rgba(137, 180, 250, 0.4);
+}
+
+.workspace.displayed {
+  color: var(--fg-main);
+}
+
+/* Icons */
+i {
+  font-size: var(--icon-size);
+}
+
+.cpu i { color: #cba6f7; }
+.memory i { color: #f9e2af; }
+.network i { color: var(--accent); }
+.battery i { color: #a6e3a1; }

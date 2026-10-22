@@ -39,3 +39,4 @@ foreach ($dir in $profileDirs) {
 }
 
 Write-Host "`nTerminal environment successfully configured!" -ForegroundColor Green
+

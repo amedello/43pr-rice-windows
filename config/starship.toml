@@ -69,3 +69,4 @@ style = "bright-black"
 success_symbol = "[❯](white)"
 error_symbol = "[❯](bold white)"
 vimcmd_symbol = "[❮](white)"
+

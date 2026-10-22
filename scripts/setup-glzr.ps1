@@ -50,3 +50,4 @@ try {
 }
 
 Write-Host "`nGlazeWM & Zebar configurations are installed and ready!" -ForegroundColor Green
+

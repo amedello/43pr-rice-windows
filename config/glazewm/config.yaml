@@ -88,6 +88,18 @@ keybindings:
   - commands: ['shell-exec %LOCALAPPDATA%/FlowLauncher/Flow.Launcher.exe']
     bindings: ['alt+d']
 
+  # Cycle Wallpapers (Super + W)
+  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -File D:/Progetto/scripts/wallpaper-picker.ps1']
+    bindings: ['alt+w']
+
+  # Select Wallpaper from Dialog (Super + Shift + W)
+  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -File D:/Progetto/scripts/wallpaper-picker.ps1 -Select']
+    bindings: ['alt+shift+w']
+
+  # Power / Shutdown Menu (Super + Grave)
+  - commands: ['shell-exec powershell -Command "(New-Object -ComObject Shell.Application).ShutdownWindows()"']
+    bindings: ['alt+grave']
+
   # File Explorer (Super + E)
   - commands: ['shell-exec explorer.exe']
     bindings: ['alt+e']

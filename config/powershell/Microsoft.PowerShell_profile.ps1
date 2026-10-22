@@ -32,10 +32,22 @@ if (Get-Command starship -ErrorAction SilentlyContinue) {
     Invoke-Expression (&starship init powershell)
 }
 
-# 4. Aliases matching 43PR Linux setup
+# 4. Aliases & Functions matching 43PR Linux setup
 Set-Alias -Name ff -Value fastfetch -ErrorAction SilentlyContinue
 function c { Clear-Host }
 function reload-profile { . $PROFILE }
+
+# Modern Eza replacement for ls/dir
+if (Get-Command eza -ErrorAction SilentlyContinue) {
+    function ls { eza --icons $args }
+    function ll { eza -la --icons $args }
+    function tree { eza --tree --icons $args }
+}
+
+# Btop system monitor
+if (Get-Command btop -ErrorAction SilentlyContinue) {
+    Set-Alias -Name top -Value btop -ErrorAction SilentlyContinue
+}
 
 # 5. Fastfetch welcome banner (runs only in interactive user console)
 if ([Environment]::UserInteractive -and (-not $MyInvocation.Line) -and (Get-Command fastfetch -ErrorAction SilentlyContinue)) {

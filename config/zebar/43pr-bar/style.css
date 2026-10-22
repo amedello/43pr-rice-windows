@@ -1,4 +1,5 @@
 /* 43PR / Quickshell Aesthetic Bar Style for Windows (Zebar) */
+@import 'https://www.nerdfonts.com/assets/css/webfont.css';
 
 :root {
   --font-family: 'JetBrainsMono Nerd Font', 'Segoe UI Variable Text', -apple-system, sans-serif;
@@ -173,3 +174,4 @@ body {
 .net-icon { color: var(--accent); }
 .bat-icon { color: var(--accent-green); }
 .bat-warning { color: var(--accent-red); }
+
