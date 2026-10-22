@@ -6,7 +6,7 @@ general:
     on_focus_window: false
   show_floating_on_top: true
   startup_commands:
-    - 'shell-exec "%LOCALAPPDATA%/Programs/glzr/bin/zebar.exe"'
+    - 'shell-exec zebar'
   shutdown_commands:
     - 'shell-exec taskkill /IM zebar.exe /F'
 
