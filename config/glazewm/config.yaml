@@ -96,9 +96,9 @@ keybindings:
   - commands: ['shell-exec powershell -ExecutionPolicy Bypass -File D:/Progetto/scripts/wallpaper-picker.ps1 -Select']
     bindings: ['alt+shift+w']
 
-  # Power / Shutdown Menu (Super + Grave)
+  # Power / Shutdown Menu (Super + Grave on US, Alt + \ on ITA, Alt + P fallback)
   - commands: ['shell-exec powershell -Command "(New-Object -ComObject Shell.Application).ShutdownWindows()"']
-    bindings: ['alt+grave']
+    bindings: ['alt+oem_pipe', 'alt+p']
 
   # File Explorer (Super + E)
   - commands: ['shell-exec explorer.exe']
