@@ -76,6 +76,7 @@ body {
 .center {
   font-weight: 600;
   letter-spacing: 0.3px;
+  text-transform: capitalize;
 }
 
 .center:hover, .network:hover, .memory:hover, .cpu:hover, .battery:hover {
