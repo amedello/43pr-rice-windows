@@ -23,7 +23,8 @@ $syncItems = @(
     @{ Glzr = "$glzrDir\zebar\starter\vanilla.html"; Repo = "$repoDir\config\zebar\starter\vanilla.html" },
     @{ Glzr = "$glzrDir\zebar\starter\with-komorebi.html"; Repo = "$repoDir\config\zebar\starter\with-komorebi.html" },
     @{ Glzr = "$glzrDir\zebar\43pr-bar\style.css"; Repo = "$repoDir\config\zebar\43pr-bar\style.css" },
-    @{ Glzr = "$glzrDir\zebar\43pr-bar\bar.html"; Repo = "$repoDir\config\zebar\43pr-bar\bar.html" }
+    @{ Glzr = "$glzrDir\zebar\43pr-bar\index.html"; Repo = "$repoDir\config\zebar\43pr-bar\index.html" },
+    @{ Glzr = "$glzrDir\zebar\43pr-bar\zpack.json"; Repo = "$repoDir\config\zebar\43pr-bar\zpack.json" }
 )
 
 foreach ($item in $syncItems) {

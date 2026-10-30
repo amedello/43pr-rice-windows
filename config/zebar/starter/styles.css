@@ -71,9 +71,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   z-index: 2;
   white-space: nowrap;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
 /* Window Title Pill */
@@ -191,7 +195,7 @@ body {
 }
 
 /* 43PR Floating Pill items */
-.workspaces, .center, .network, .audio, .memory, .cpu, .battery {
+.workspaces, .date-text, .network, .audio, .memory, .cpu, .battery {
   background: var(--bg-pill);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -203,7 +207,16 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.date-text {
+  cursor: pointer;
+  padding: 4px 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  color: var(--accent);
 }
 
 /* Audio Pill */
@@ -261,16 +274,11 @@ body {
   color: var(--fg-main);
 }
 
-.center {
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  text-transform: capitalize;
-  color: var(--accent);
-}
-
-.center:hover, .network:hover, .audio:hover, .memory:hover, .cpu:hover, .battery:hover {
-  background: var(--bg-pill-hover);
-  border-color: var(--accent-glow);
+.center:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: translateX(-50%) !important;
 }
 
 /* Workspaces Pill */
@@ -422,8 +430,8 @@ body {
 .pomodoro-pill:hover {
   background: var(--bg-pill-hover);
   border-color: var(--accent-glow);
+  box-shadow: 0 4px 14px var(--accent-glow);
   color: var(--fg-main);
-  transform: translateY(-1px);
 }
 
 .pomodoro-pill.running {
@@ -477,7 +485,7 @@ i {
 .weather:hover {
   background: var(--bg-pill-hover);
   border-color: var(--accent-glow);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 14px var(--accent-glow);
 }
 
 .weather i {
@@ -547,31 +555,37 @@ i {
   background: rgba(247, 118, 142, 0.2);
 }
 
+/* Unified Pill Interaction & Hover Model */
 .clickable-pill {
   cursor: pointer;
   user-select: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.clickable-pill:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+.network:hover,
+.audio:hover,
+.memory:hover,
+.cpu:hover,
+.battery:hover,
+.weather:hover,
+.music-pill:hover,
+.clickable-pill:hover,
+.pomodoro-pill:hover,
+.date-text:hover {
+  background: var(--bg-pill-hover) !important;
+  border-color: var(--accent-glow) !important;
+  box-shadow: 0 4px 14px var(--accent-glow) !important;
+  color: var(--fg-main);
+  transform: none !important;
 }
 
-.clickable-pill:active {
-  transform: translateY(0);
-}
-
-/* Ensure absolute centered pills (like the clock) retain their horizontal centering */
-.center.clickable-pill:hover,
-.center:hover {
-  transform: translateX(-50%) translateY(-1px);
-}
-
-.center.clickable-pill:active,
-.center:active {
-  transform: translateX(-50%) translateY(0);
+.clickable-pill:active,
+.date-text:active,
+.pomodoro-pill:active,
+.audio:active,
+.music-pill:active,
+.weather:active {
+  transform: scale(0.97) !important;
 }
 
 

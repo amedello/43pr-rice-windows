@@ -227,6 +227,18 @@ class Program {
     static void LaunchZebarDirectly() {
         try {
             string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string gwmCli = Path.Combine(localAppData, @"Programs\glzr\bin\cli\glazewm.exe");
+            if (File.Exists(gwmCli)) {
+                ProcessStartInfo gwmPsi = new ProcessStartInfo(gwmCli, "command shell-exec zebar") {
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                using (var p = Process.Start(gwmPsi)) {
+                    if (p != null) p.WaitForExit(3000);
+                }
+                return;
+            }
+
             string binDir = Path.Combine(localAppData, @"Programs\glzr\bin");
             string zebarPath = Path.Combine(binDir, "zebar.exe");
             ProcessStartInfo startPsi = new ProcessStartInfo(File.Exists(zebarPath) ? zebarPath : "zebar.exe") {
@@ -241,9 +253,8 @@ class Program {
         // Allow Windows logon, DWM, and WebView2 runtime to initialize before launching Zebar
         System.Threading.Thread.Sleep(1500);
 
-        // Apply Day/Night theme first if configured so CSS is in sync
-        AutoDayNightTheme();
-        System.Threading.Thread.Sleep(500);
+        // Apply Day/Night theme first if configured so CSS is in sync (synchronous to avoid race condition)
+        AutoDayNightTheme(true);
 
         try {
             foreach (var p in Process.GetProcessesByName("zebar")) {
@@ -251,7 +262,7 @@ class Program {
             }
         } catch {}
 
-        System.Threading.Thread.Sleep(300);
+        System.Threading.Thread.Sleep(600);
         LaunchZebarDirectly();
 
         // Check for updates asynchronously in background (every 7 days, non-blocking)
@@ -345,7 +356,7 @@ class Program {
         } catch {}
 
         try {
-            System.Threading.Thread.Sleep(400);
+            System.Threading.Thread.Sleep(800);
             LaunchZebarDirectly();
         } catch {}
     }
@@ -475,13 +486,16 @@ class Program {
         } catch {}
     }
 
-    static void AutoDayNightTheme() {
+    static void AutoDayNightTheme(bool waitForExit = false) {
         try {
             ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", "-ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\Progetto\\scripts\\theme.ps1\" -Auto") {
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
-            Process.Start(psi);
+            var proc = Process.Start(psi);
+            if (waitForExit && proc != null) {
+                proc.WaitForExit(10000);
+            }
         } catch {}
     }
 
