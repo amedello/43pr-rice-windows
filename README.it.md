@@ -143,3 +143,4 @@ powershell -ExecutionPolicy Bypass -File .\uninstall.ps1 -Full
 ## 📄 Licenza
 
 Rilasciato sotto licenza MIT. Realizzato per offrire la migliore esperienza tiling su Windows.
+

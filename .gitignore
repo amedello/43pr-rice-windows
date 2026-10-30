@@ -15,4 +15,9 @@ desktop.ini
 AGENTS.md
 GEMINI.md
 
+# External / Local standalone projects
+junsun-ambient-light/
+*.apk
+
+
 
