@@ -9,17 +9,17 @@
   --font-family: 'JetBrainsMono Nerd Font', 'Segoe UI Variable Text', monospace;
 
   /* Theme color tokens - dynamically managed by theme.ps1 */
-  --accent: #8839ef;
-  --accent-glow: rgba(136, 57, 239, 0.4);
-  --fg-main: #4c4f69;
-  --fg-dim: #6c6f85;
-  --color-cpu: #e64553;
-  --color-mem: #e5a030;
-  --color-bat: #4fb03a;
-  --color-net: #8839ef;
-  --bg-pill: rgba(240, 243, 248, 0.88);
-  --bg-pill-hover: rgba(225, 230, 240, 0.96);
-  --border-pill: rgba(0, 0, 0, 0.12);
+  --accent: #7aa2f7;
+  --accent-glow: rgba(122, 162, 247, 0.4);
+  --fg-main: #c0caf5;
+  --fg-dim: #9aa5ce;
+  --color-cpu: #ff7a93;
+  --color-mem: #e0af68;
+  --color-bat: #73daca;
+  --color-net: #7aa2f7;
+  --bg-pill: rgba(20, 24, 30, 0.78);
+  --bg-pill-hover: rgba(30, 36, 46, 0.88);
+  --border-pill: rgba(255, 255, 255, 0.12);
   --shadow-pill: 0 4px 12px rgba(0, 0, 0, 0.35);
   --radius-pill: 9999px;
 }
@@ -591,6 +591,7 @@ i {
 .weather:active {
   transform: scale(0.97) !important;
 }
+
 
 
 

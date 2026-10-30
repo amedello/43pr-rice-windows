@@ -8,16 +8,16 @@
 
   /* Theme tokens (Can be overridden by 43pr theme engine) */
   --bg-bar: transparent;
-  --bg-pill: rgba(240, 243, 248, 0.88);
-  --bg-pill-hover: rgba(225, 230, 240, 0.96);
-  --border-pill: rgba(0, 0, 0, 0.12);
+  --bg-pill: rgba(20, 24, 30, 0.78);
+  --bg-pill-hover: rgba(30, 36, 46, 0.88);
+  --border-pill: rgba(255, 255, 255, 0.12);
   --border-pill-active: rgba(137, 180, 250, 0.4);
   
-  --fg-main: #4c4f69;
-  --fg-dim: #6c6f85;
+  --fg-main: #c0caf5;
+  --fg-dim: #9aa5ce;
   --fg-dark: #11111b;
   
-  --accent: #8839ef;
+  --accent: #7aa2f7;
   --accent-secondary: #cba6f7;
   --accent-green: #a6e3a1;
   --accent-yellow: #f9e2af;
@@ -174,6 +174,7 @@ body {
 .net-icon { color: var(--accent); }
 .bat-icon { color: var(--accent-green); }
 .bat-warning { color: var(--accent-red); }
+
 
 
 

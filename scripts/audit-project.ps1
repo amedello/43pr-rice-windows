@@ -112,10 +112,10 @@ foreach ($zp in $zpacks) {
         $json = Get-Content $zp -Raw | ConvertFrom-Json
         $withGlaze = $json.widgets | Where-Object { $_.name -eq "with-glazewm" }
         if ($withGlaze) {
-            if ($withGlaze.zOrder -eq "top_most") {
-                Write-Host "  [OK] $zp (zOrder is top_most)" -ForegroundColor Green
+            if ($withGlaze.zOrder -eq "normal" -or $withGlaze.zOrder -eq "top_most") {
+                Write-Host "  [OK] $zp (zOrder is $($withGlaze.zOrder))" -ForegroundColor Green
             } else {
-                Write-Host "  [WARN] $zp (zOrder is '$($withGlaze.zOrder)' - recommended: 'top_most')" -ForegroundColor Yellow
+                Write-Host "  [WARN] $zp (zOrder is '$($withGlaze.zOrder)' - recommended: 'normal')" -ForegroundColor Yellow
                 $issuesFound++
             }
         }

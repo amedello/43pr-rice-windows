@@ -45,7 +45,7 @@
     {
       "name": "with-glazewm",
       "htmlPath": "./with-glazewm.html",
-      "zOrder": "top_most",
+      "zOrder": "normal",
       "shownInTaskbar": false,
       "focused": false,
       "resizable": true,

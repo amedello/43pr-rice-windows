@@ -65,7 +65,7 @@ Queste regole sono vincolanti per qualsiasi modifica, aggiunta, script o manuten
 ---
 
 ## 5. Gestione Processi, Startup e Offline Resiliency
-- In `zpack.json`, la proprietà `"zOrder"` della barra deve rimanere `"top_most"` per evitare che finisca dietro altre finestre applicative.
+- In `zpack.json`, la proprietà `"zOrder"` della barra deve rimanere `"normal"` (standard ufficiale Glzr per GlazeWM): lo spazio della barra in tiling è protetto da `outer_gap.top: 46px`, consentendo al contempo a qualsiasi app a tutto schermo (video, giochi, F11) di coprire la barra in modo deterministico e senza conflitti Win32 TopMost.
 - Nell'inizializzazione di avvio (`StartupZebar`):
   - Applicare il tema / aggiornamento CSS **prima** di avviare il processo grafico.
   - Pulire preventivamente eventuali istanze zombie prima dello spawn di una nuova barra per evitare il lock della porta socket `10048` o conflitti WebView2 `0x800700AA`.
