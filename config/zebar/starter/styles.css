@@ -537,6 +537,10 @@ i {
   color: var(--fg-main);
 }
 
+.power-btn.theme:hover {
+  color: var(--accent);
+}
+
 .power-btn.reload:hover {
   color: var(--accent);
   transform: rotate(90deg);

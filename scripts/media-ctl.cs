@@ -499,10 +499,13 @@ class Program {
         } catch {}
     }
 
-    static void RunScript(string scriptName) {
+    static void RunScript(string scriptName, string args = "") {
         try {
             string scriptPath = Path.Combine(@"D:\Progetto\scripts", scriptName);
-            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", string.Format("-ExecutionPolicy Bypass -WindowStyle Hidden -File \"{0}\"", scriptPath)) {
+            string cmdArgs = string.IsNullOrEmpty(args)
+                ? string.Format("-ExecutionPolicy Bypass -WindowStyle Hidden -File \"{0}\"", scriptPath)
+                : string.Format("-ExecutionPolicy Bypass -WindowStyle Hidden -File \"{0}\" {1}", scriptPath, args);
+            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", cmdArgs) {
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
@@ -700,6 +703,25 @@ class Program {
             case "gaming_mode":
             case "toggle_zen":
                 ToggleZenMode();
+                break;
+            case "theme_picker":
+            case "theme":
+            case "themes":
+                RunScript("theme-picker.ps1");
+                break;
+            case "day":
+            case "set_day":
+            case "day_theme":
+                RunScript("theme.ps1", "-Day");
+                break;
+            case "night":
+            case "set_night":
+            case "night_theme":
+                RunScript("theme.ps1", "-Night");
+                break;
+            case "toggle_auto_theme":
+            case "toggle_auto":
+                RunScript("theme.ps1", "-ToggleAuto");
                 break;
             case "auto_theme":
             case "day_night":

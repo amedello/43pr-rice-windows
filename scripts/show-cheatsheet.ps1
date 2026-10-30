@@ -43,6 +43,7 @@ if ($Cli) {
     Write-Host "  Alt + P / Alt + \     " -NoNewline -ForegroundColor White; Write-Host "Wlogout Power Menu (Blocca/Sospendi/Riavvia/Spegni)" -ForegroundColor Gray
 
     Write-Host "`n  -- TEMI, SFONDI E BARRA -----------------------------------------------" -ForegroundColor Yellow
+    Write-Host "  Alt + Shift + T       " -NoNewline -ForegroundColor White; Write-Host "Theme Switcher & Giorno/Notte (GUI)" -ForegroundColor Cyan
     Write-Host "  Alt + W               " -NoNewline -ForegroundColor White; Write-Host "Cicla al prossimo sfondo coordinato" -ForegroundColor Gray
     Write-Host "  Alt + Shift + W       " -NoNewline -ForegroundColor White; Write-Host "Apri finestra selettore sfondi" -ForegroundColor Gray
     Write-Host "  Alt + Shift + Z       " -NoNewline -ForegroundColor White; Write-Host "Riavvia / Mostra la Barra Zebar" -ForegroundColor Gray
@@ -209,6 +210,10 @@ $xamlText = @'
                     </DockPanel>
 
                     <TextBlock Text="PERSONALIZZAZIONE &amp; BARRA" FontWeight="Bold" Foreground="#BB9AF7" FontSize="13" Margin="0,16,0,8"/>
+                    <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + Shift + T" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Theme Switcher &amp; Giorno/Notte" Foreground="#CDD6F4"/>
+                    </DockPanel>
                     <DockPanel Margin="0,3">
                         <TextBlock Text="Alt + W" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
                         <TextBlock Text="Cicla al prossimo sfondo" Foreground="#9AA5CE"/>

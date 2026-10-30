@@ -97,6 +97,7 @@ window_rules:
       - window_title: { regex: '(?i)43pr color picker' }
       - window_title: { regex: '(?i)43pr calculator' }
       - window_title: { regex: '(?i)43pr hardware hud' }
+      - window_title: { regex: '(?i)43pr theme switcher' }
 
   # Dedicated Workspaces for background apps
   - commands: ['move --workspace 9']
@@ -144,6 +145,10 @@ keybindings:
   # Color Picker Pipette Eyedropper (Super + Shift + C)
   - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe color_picker']
     bindings: ['alt+shift+c']
+
+  # 43PR Theme Switcher & Auto Day/Night (Super + Shift + T)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe theme_picker']
+    bindings: ['alt+shift+t']
 
   # Hardware Telemetry & Sensors HUD (Super + Shift + M)
   - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe sensors']

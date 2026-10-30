@@ -7,6 +7,12 @@ param (
     [switch]$NoWallpaper,
     [switch]$List,
     [switch]$Auto,
+    [switch]$Day,
+    [switch]$Night,
+    [switch]$ToggleAuto,
+    [switch]$EnableAuto,
+    [switch]$DisableAuto,
+    [switch]$Status,
     [string]$DayTheme = "catppuccin-latte",
     [string]$NightTheme = "tokyo-night"
 )
@@ -15,22 +21,89 @@ $ErrorActionPreference = "Stop"
 $repoDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $themesDir = Join-Path $repoDir "config\43pr\themes"
 $currentThemeFile = Join-Path $HOME ".43pr_current_theme"
+$autoThemeFile = Join-Path $HOME ".43pr_auto_theme"
+
+# Handle Toggle/Enable/Disable Auto Switch
+if ($ToggleAuto) {
+    $isCurrentlyEnabled = $true
+    if (Test-Path $autoThemeFile) {
+        $val = (Get-Content $autoThemeFile -Raw -ErrorAction SilentlyContinue).Trim()
+        if ($val -eq "0" -or $val -eq "false" -or $val -eq "disabled") {
+            $isCurrentlyEnabled = $false
+        }
+    }
+    $newState = -not $isCurrentlyEnabled
+    $saveVal = if ($newState) { "1" } else { "0" }
+    Set-Content -Path $autoThemeFile -Value $saveVal -Force
+    $statusMsg = if ($newState) { "ATTIVATO (Switch automatico alle 07:00 e 19:00)" } else { "DISATTIVATO / IN PAUSA (Modalita manuale fissa)" }
+    Write-Host "Auto Day/Night Mode: $statusMsg" -ForegroundColor Cyan
+    return
+}
+
+if ($EnableAuto) {
+    Set-Content -Path $autoThemeFile -Value "1" -Force
+    Write-Host "Auto Day/Night Mode: ATTIVATO" -ForegroundColor Green
+    return
+}
+
+if ($DisableAuto) {
+    Set-Content -Path $autoThemeFile -Value "0" -Force
+    Write-Host "Auto Day/Night Mode: DISATTIVATO (In pausa)" -ForegroundColor Yellow
+    return
+}
+
+if ($Status) {
+    $autoStatus = "ATTIVATO"
+    if (Test-Path $autoThemeFile) {
+        $val = (Get-Content $autoThemeFile -Raw -ErrorAction SilentlyContinue).Trim()
+        if ($val -eq "0" -or $val -eq "false" -or $val -eq "disabled") {
+            $autoStatus = "DISATTIVATO"
+        }
+    }
+    $curr = "default"
+    if (Test-Path $currentThemeFile) {
+        $curr = (Get-Content $currentThemeFile -Raw -ErrorAction SilentlyContinue).Trim()
+    }
+    Write-Host "`n=== 43PR Theme Status ===" -ForegroundColor Cyan
+    Write-Host "  Tema Attuale:    $curr" -ForegroundColor White
+    Write-Host "  Switch Auto:     $autoStatus" -ForegroundColor White
+    Write-Host "  Tema Giorno:     $DayTheme (07:00 - 19:00)" -ForegroundColor DarkGray
+    Write-Host "  Tema Notte:      $NightTheme (19:00 - 07:00)`n" -ForegroundColor DarkGray
+    return
+}
+
+# Handle Manual Day / Night request
+if ($Day) {
+    $Theme = $DayTheme
+    Write-Host "Modalita Giorno manuale: selezionato '$Theme'..." -ForegroundColor Cyan
+} elseif ($Night) {
+    $Theme = $NightTheme
+    Write-Host "Modalita Notte manuale: selezionato '$Theme'..." -ForegroundColor Cyan
+}
 
 # Handle Auto Day/Night Mode
 if ($Auto) {
+    if (Test-Path $autoThemeFile) {
+        $val = (Get-Content $autoThemeFile -Raw -ErrorAction SilentlyContinue).Trim()
+        if ($val -eq "0" -or $val -eq "false" -or $val -eq "disabled") {
+            Write-Host "Auto Day/Night Mode e disattivato dall'utente (modalita manuale)." -ForegroundColor DarkGray
+            return
+        }
+    }
+
     $hour = (Get-Date).Hour
     $targetTheme = if ($hour -ge 7 -and $hour -lt 19) { $DayTheme } else { $NightTheme }
     
     # Check if already applied to avoid redundant reloads
     if (Test-Path $currentThemeFile) {
-        $lastTheme = (Get-Content $currentThemeFile -Raw).Trim()
+        $lastTheme = (Get-Content $currentThemeFile -Raw -ErrorAction SilentlyContinue).Trim()
         if ($lastTheme -eq $targetTheme) {
-            Write-Host "Auto Day/Night Mode: '$targetTheme' is already active (${hour}:00)." -ForegroundColor DarkGray
+            Write-Host "Auto Day/Night Mode: '$targetTheme' e gia attivo (${hour}:00)." -ForegroundColor DarkGray
             return
         }
     }
     $Theme = $targetTheme
-    Write-Host "Auto Day/Night Mode: Switching to '$Theme' (${hour}:00)..." -ForegroundColor Cyan
+    Write-Host "Auto Day/Night Mode: Cambio tema a '$Theme' (${hour}:00)..." -ForegroundColor Cyan
 }
 $wallpapersDir = Join-Path $repoDir "wallpapers"
 $glzrHome = Join-Path $HOME ".glzr"

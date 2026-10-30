@@ -664,6 +664,17 @@
               {/* Power / System Control Pill */}
               <div className="power-group">
                 <button
+                  className="power-btn theme"
+                  title="43PR Theme Switcher (Alt + Shift + T)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe theme_picker',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-palette"></i>
+                </button>
+                <button
                   className="power-btn reload"
                   title="Ricarica Barra Zebar (Alt + Shift + Z)"
                   onClick={() =>
