@@ -66,8 +66,47 @@ foreach ($sf in $stateFiles) {
 $explorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 if (Test-Path $explorerAdvanced) {
     Set-ItemProperty -Path $explorerAdvanced -Name "HideIcons" -Value 0 -Type DWord
+    
+    # Notify Windows Shell to refresh desktop view immediately
+    try {
+        $refreshCode = @'
+        using System;
+        using System.Runtime.InteropServices;
+        public class ShellNotify {
+            [DllImport("shell32.dll")]
+            public static extern void SHChangeNotify(int wEventId, int uFlags, IntPtr dwItem1, IntPtr dwItem2);
+        }
+'@
+        if (-not ([System.Management.Automation.PSTypeName]'ShellNotify').Type) {
+            Add-Type -TypeDefinition $refreshCode
+        }
+        [ShellNotify]::SHChangeNotify(0x08000000, 0, [IntPtr]::Zero, [IntPtr]::Zero)
+    } catch {}
+
     Write-Host "  [+] Restored Desktop Icons to Visible." -ForegroundColor Green
 }
+
+# Ensure Windows Taskbar is visible
+try {
+    $trayCode = @'
+    using System;
+    using System.Runtime.InteropServices;
+    public class TrayRestore {
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+    }
+'@
+    if (-not ([System.Management.Automation.PSTypeName]'TrayRestore').Type) {
+        Add-Type -TypeDefinition $trayCode
+    }
+    $hTray = [TrayRestore]::FindWindow("Shell_TrayWnd", $null)
+    if ($hTray -ne [IntPtr]::Zero) {
+        [TrayRestore]::ShowWindow($hTray, 5) | Out-Null
+    }
+    Write-Host "  [+] Restored Windows Taskbar visibility." -ForegroundColor Green
+} catch {}
 
 # 4. Optional Package Removal via Winget
 if ($Full) {
