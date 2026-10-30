@@ -76,7 +76,7 @@ Queste regole sono vincolanti per qualsiasi modifica, aggiunta, script o manuten
 ## 6. Sicurezza, Credenziali e Confini del Repository
 - **Mai salvare token segreti o PAT nei file di codice o nella cronologia Git**:
   - L'autenticazione remota deve appoggiarsi al Windows Credential Manager (`git credential approve`).
-- **Separazione dei repository**:
-  - `D:\Progetto` traccia esclusivamente la configurazione del desktop Windows (`43pr-rice-windows`).
-  - La cartella `junsun-ambient-light/` è un progetto Android separato con il suo repository Git dedicato (`amedello/junsun-ambient-light`). Non mescolare mai i file tra i due progetti.
+- **Repository Indipendente e Portabile**:
+  - Questo repository traccia esclusivamente la configurazione del desktop Windows (`43pr-rice-windows`).
+  - Tutti i percorsi devono essere relativi e dinamici per garantire l'installazione su qualsiasi PC.
 

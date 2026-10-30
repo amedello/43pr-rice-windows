@@ -1,11 +1,12 @@
-# Windows / User files
+# Logs & Errors
 *.log
+errors.log
+
+# Temporary & system caches
 *.tmp
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Junsun Ambient Light (separate project)
-junsun-ambient-light/
-AmbientLight-Junsun.apk
-healt/
-
+# User dynamic theme cache
+.43pr_*

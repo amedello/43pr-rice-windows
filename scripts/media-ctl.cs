@@ -214,13 +214,20 @@ class Program {
         } catch {}
     }
 
+    static string GetScriptsDirectory() {
+        string baseDir = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\', '/');
+        if (File.Exists(Path.Combine(baseDir, "theme.ps1"))) return baseDir;
+        string subDir = Path.Combine(baseDir, "scripts");
+        if (File.Exists(Path.Combine(subDir, "theme.ps1"))) return subDir;
+        string userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string glzrScripts = Path.Combine(userHome, @".glzr\scripts");
+        if (Directory.Exists(glzrScripts)) return glzrScripts;
+        return baseDir;
+    }
+
     static void OpenCheatsheet() {
         try {
-            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", "-ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\Progetto\\scripts\\show-cheatsheet.ps1\"") {
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            Process.Start(psi);
+            RunScript("show-cheatsheet.ps1");
         } catch {}
     }
 
@@ -304,9 +311,10 @@ class Program {
                         if (File.Exists(babelDst)) File.Delete(babelDst);
                         File.Move(babelTmp, babelDst);
 
-                        string repoBabel = @"D:\Progetto\config\zebar\starter\babel.min.js";
+                        string userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                        string starterBabel = Path.Combine(userHome, @".glzr\zebar\starter\babel.min.js");
                         try {
-                            if (File.Exists(repoBabel)) File.Copy(babelDst, repoBabel, true);
+                            if (!File.Exists(starterBabel)) File.Copy(babelDst, starterBabel, true);
                         } catch {}
                     } else {
                         try { File.Delete(babelTmp); } catch {}
@@ -327,9 +335,10 @@ class Program {
                             File.WriteAllText(cssDst, cssContent);
                             try { File.Delete(cssTmp); } catch {}
 
-                            string repoCss = @"D:\Progetto\config\zebar\starter\fonts\webfont.css";
+                            string userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            string starterCss = Path.Combine(userHome, @".glzr\zebar\starter\fonts\webfont.css");
                             try {
-                                if (File.Exists(repoCss)) File.Copy(cssDst, repoCss, true);
+                                if (!File.Exists(starterCss)) File.Copy(cssDst, starterCss, true);
                             } catch {}
                         } else {
                             try { File.Delete(cssTmp); } catch {}
@@ -400,11 +409,7 @@ class Program {
 
     static void OpenPowerMenu() {
         try {
-            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", "-ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\Progetto\\scripts\\power-menu.ps1\"") {
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            Process.Start(psi);
+            RunScript("power-menu.ps1");
         } catch {
             OpenShutdownDialog();
         }
@@ -488,7 +493,8 @@ class Program {
 
     static void AutoDayNightTheme(bool waitForExit = false) {
         try {
-            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", "-ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\Progetto\\scripts\\theme.ps1\" -Auto") {
+            string scriptPath = Path.Combine(GetScriptsDirectory(), "theme.ps1");
+            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", string.Format("-ExecutionPolicy Bypass -WindowStyle Hidden -File \"{0}\" -Auto", scriptPath)) {
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
@@ -501,7 +507,7 @@ class Program {
 
     static void RunScript(string scriptName, string args = "") {
         try {
-            string scriptPath = Path.Combine(@"D:\Progetto\scripts", scriptName);
+            string scriptPath = Path.Combine(GetScriptsDirectory(), scriptName);
             string cmdArgs = string.IsNullOrEmpty(args)
                 ? string.Format("-ExecutionPolicy Bypass -WindowStyle Hidden -File \"{0}\"", scriptPath)
                 : string.Format("-ExecutionPolicy Bypass -WindowStyle Hidden -File \"{0}\" {1}", scriptPath, args);
@@ -788,6 +794,14 @@ class Program {
             case "weather":
             case "meteo":
                 OpenWeather();
+                break;
+            case "wallpaper":
+            case "next_wallpaper":
+                RunScript("wallpaper-picker.ps1");
+                break;
+            case "wallpaper_select":
+            case "pick_wallpaper":
+                RunScript("wallpaper-picker.ps1", "-Select");
                 break;
         }
     }

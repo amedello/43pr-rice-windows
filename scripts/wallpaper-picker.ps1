@@ -9,6 +9,11 @@ param (
 $ErrorActionPreference = "Stop"
 $repoDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $wpDir = Join-Path $repoDir "wallpapers"
+if (-not (Test-Path $wpDir) -or (Get-ChildItem -Path $wpDir -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -match '\.(jpg|jpeg|png|webp|bmp)$' }).Count -eq 0) {
+    if (Test-Path (Join-Path $HOME ".glzr\wallpapers")) {
+        $wpDir = Join-Path $HOME ".glzr\wallpapers"
+    }
+}
 $stateFile = Join-Path $HOME ".glzr\wallpaper-index.txt"
 
 # Ensure wallpapers folder exists
@@ -54,6 +59,10 @@ if ($Select) {
 
 if ($targetWallpaper -and (Test-Path $targetWallpaper)) {
     Write-Host "Applying wallpaper: $targetWallpaper" -ForegroundColor Cyan
-    & "$repoDir\scripts\theme.ps1" -Wallpaper $targetWallpaper
+    $themeScript = Join-Path $repoDir "scripts\theme.ps1"
+    if (-not (Test-Path $themeScript)) {
+        $themeScript = Join-Path $HOME ".glzr\scripts\theme.ps1"
+    }
+    & $themeScript -Wallpaper $targetWallpaper
 }
 

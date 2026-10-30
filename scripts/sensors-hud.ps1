@@ -5,7 +5,10 @@
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 
 $accentColor = "#7AA2F7"
-$styleFile = "D:\Progetto\config\zebar\starter\styles.css"
+$styleFile = Join-Path $HOME ".glzr\zebar\starter\styles.css"
+if (-not (Test-Path $styleFile)) {
+    $styleFile = Join-Path (Split-Path -Parent $PSScriptRoot) "config\zebar\starter\styles.css"
+}
 if (Test-Path $styleFile) {
     $content = Get-Content $styleFile -Raw
     if ($content -match '--accent:\s*(#[0-9a-fA-F]{6})') {
@@ -97,7 +100,7 @@ $xaml = @"
                         <!-- D: -->
                         <DockPanel Margin="0,2,0,4">
                             <TextBlock x:Name="TxtDiskD" DockPanel.Dock="Right" Text="-- GB liberi" FontSize="11" Foreground="#9AA5CE" FontFamily="Consolas"/>
-                            <TextBlock Text="Disco D: [Dati / Progetto]" FontSize="11" Foreground="#CDD6F4" Width="130"/>
+                            <TextBlock Text="Disco D: [Dati / Secondario]" FontSize="11" Foreground="#CDD6F4" Width="130"/>
                         </DockPanel>
                         <ProgressBar x:Name="ProgDiskD" Height="4" Maximum="100" Value="0" Foreground="#9ECE6A" Background="#2B3448" BorderThickness="0"/>
                     </StackPanel>

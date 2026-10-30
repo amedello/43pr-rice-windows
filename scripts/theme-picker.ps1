@@ -6,9 +6,22 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 
 $repoDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $themesDir = Join-Path $repoDir "config\43pr\themes"
+$glzrHome = Join-Path $HOME ".glzr"
+if (-not (Test-Path $themesDir)) {
+    if (Test-Path (Join-Path $glzrHome "43pr\themes")) {
+        $themesDir = Join-Path $glzrHome "43pr\themes"
+    } elseif (Test-Path (Join-Path $glzrHome "themes")) {
+        $themesDir = Join-Path $glzrHome "themes"
+    }
+}
 $currentThemeFile = Join-Path $HOME ".43pr_current_theme"
 $autoThemeFile = Join-Path $HOME ".43pr_auto_theme"
 $themeScript = Join-Path $repoDir "scripts\theme.ps1"
+if (-not (Test-Path $themeScript)) {
+    if (Test-Path (Join-Path $glzrHome "scripts\theme.ps1")) {
+        $themeScript = Join-Path $glzrHome "scripts\theme.ps1"
+    }
+}
 
 # 1. Read Current Active Theme
 $currentTheme = "tokyo-night"
@@ -32,7 +45,10 @@ if (Test-Path $autoThemeFile) {
 
 # 3. Read Current Accent Color from CSS
 $accentColor = "#7AA2F7"
-$styleFile = Join-Path $repoDir "config\zebar\starter\styles.css"
+$styleFile = Join-Path $glzrHome "zebar\starter\styles.css"
+if (-not (Test-Path $styleFile)) {
+    $styleFile = Join-Path $repoDir "config\zebar\starter\styles.css"
+}
 if (Test-Path $styleFile) {
     try {
         $css = Get-Content $styleFile -Raw -ErrorAction SilentlyContinue

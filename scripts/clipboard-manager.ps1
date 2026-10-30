@@ -6,7 +6,10 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 
 $historyFile = Join-Path $env:TEMP "43pr_clip_history.json"
 $accentColor = "#7AA2F7"
-$styleFile = "D:\Progetto\config\zebar\starter\styles.css"
+$styleFile = Join-Path $HOME ".glzr\zebar\starter\styles.css"
+if (-not (Test-Path $styleFile)) {
+    $styleFile = Join-Path (Split-Path -Parent $PSScriptRoot) "config\zebar\starter\styles.css"
+}
 if (Test-Path $styleFile) {
     $content = Get-Content $styleFile -Raw
     if ($content -match '--accent:\s*(#[0-9a-fA-F]{6})') {

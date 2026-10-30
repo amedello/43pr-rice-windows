@@ -107,6 +107,18 @@ if ($Auto) {
 }
 $wallpapersDir = Join-Path $repoDir "wallpapers"
 $glzrHome = Join-Path $HOME ".glzr"
+if (-not (Test-Path $themesDir)) {
+    if (Test-Path (Join-Path $glzrHome "43pr\themes")) {
+        $themesDir = Join-Path $glzrHome "43pr\themes"
+    } elseif (Test-Path (Join-Path $glzrHome "themes")) {
+        $themesDir = Join-Path $glzrHome "themes"
+    }
+}
+if (-not (Test-Path $wallpapersDir)) {
+    if (Test-Path (Join-Path $glzrHome "wallpapers")) {
+        $wallpapersDir = Join-Path $glzrHome "wallpapers"
+    }
+}
 $zebarStyles = @(
     (Join-Path $glzrHome "zebar\starter\styles.css"),
     (Join-Path $repoDir "config\zebar\starter\styles.css"),

@@ -5,14 +5,20 @@ Write-Host "==========================================================" -Foregro
 Write-Host "             43PR PROJECT HEALTH & RULES AUDIT            " -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 
-$repoDir = "D:\Progetto"
+$repoDir = Split-Path -Parent $PSScriptRoot
+if (-not $repoDir -or -not (Test-Path "$repoDir\config")) {
+    $repoDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+}
+if (-not $repoDir -or -not (Test-Path "$repoDir\config")) {
+    $repoDir = (Get-Location).Path
+}
 $glzrDir = "$env:USERPROFILE\.glzr"
 $issuesFound = 0
 
 # -----------------------------------------------------------------------------
-# 1. SYNC CHECK: .glzr vs D:\Progetto\config
+# 1. SYNC CHECK: .glzr vs Repo config
 # -----------------------------------------------------------------------------
-Write-Host "`n[1] Checking Synchronization (.glzr <-> D:\Progetto\config)..." -ForegroundColor Yellow
+Write-Host "`n[1] Checking Synchronization (.glzr <-> config)..." -ForegroundColor Yellow
 
 $syncItems = @(
     @{ Glzr = "$glzrDir\glazewm\config.yaml"; Repo = "$repoDir\config\glazewm\config.yaml" },
@@ -158,27 +164,9 @@ if ($cdnFound -eq 0) {
 }
 
 # -----------------------------------------------------------------------------
-# 6. REPOSITORY BOUNDARIES & SECRETS
+# 6. REPOSITORY SECURITY & CREDENTIALS
 # -----------------------------------------------------------------------------
-Write-Host "`n[6] Checking Secrets and Repository Boundaries..." -ForegroundColor Yellow
-
-if (Test-Path "$repoDir\junsun-ambient-light\.git") {
-    Write-Host "  [OK] junsun-ambient-light has its own isolated repository" -ForegroundColor Green
-} else {
-    Write-Host "  [WARN] junsun-ambient-light is missing its dedicated .git folder" -ForegroundColor Yellow
-    $issuesFound++
-}
-
-$gitIgn = "$repoDir\.gitignore"
-if (Test-Path $gitIgn) {
-    $ignContent = Get-Content $gitIgn -Raw
-    if ($ignContent -match 'junsun-ambient-light') {
-        Write-Host "  [OK] .gitignore properly excludes junsun-ambient-light" -ForegroundColor Green
-    } else {
-        Write-Host "  [WARN] .gitignore does not explicitly exclude junsun-ambient-light" -ForegroundColor Yellow
-        $issuesFound++
-    }
-}
+Write-Host "`n[6] Checking Secrets and Security..." -ForegroundColor Yellow
 
 # Check for hardcoded GitHub PAT tokens
 $allFiles = Get-ChildItem -Path $repoDir -Recurse -File -Exclude "*.dll", "*.exe", "*.png", "*.jpg", "*.apk" | Where-Object { $_.FullName -notmatch '\\\.git\\' }

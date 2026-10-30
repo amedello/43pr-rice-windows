@@ -1,130 +1,142 @@
-<div align="center">
+# 43PR Rice for Windows 10 / 11
 
-# 43PR Desktop for Windows
+A minimalist, highly performant tiling window manager and desktop environment for Windows, powered by **GlazeWM**, **Zebar**, and native **WPF / C#** utilities.
 
-**A simple, aesthetic, lightweight tiling desktop setup for Windows, replicated and adapted from [43PR/dotfiles](https://github.com/43PR/dotfiles).**
-
-![Windows 10 / 11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4?style=for-the-badge&logo=windows)
-![GlazeWM](https://img.shields.io/badge/GlazeWM-3.10-8b9aaf?style=for-the-badge)
-![Zebar](https://img.shields.io/badge/Zebar-3.3-7289a8?style=for-the-badge)
-![Starship](https://img.shields.io/badge/Starship-1.27-b05a63?style=for-the-badge)
-![Flow Launcher](https://img.shields.io/badge/Flow%20Launcher-2.1-4c1?style=for-the-badge)
-
-</div>
+Designed for productivity, keyboard navigation, and pure aesthetics with 27 harmonized themes, an automatic day/night circadian switcher, a native HUD suite, and zero terminal popup latency.
 
 ---
 
-## 🌟 Panoramica
+## Quick Install (One-Liner)
 
-Questo progetto replica al 100% l'esperienza, l'estetica minimalista e il workflow orientato alla produttività della configurazione Linux **43PR Desktop** (originariamente basata su Hyprland e Quickshell) portandola su **Windows 10 / 11**:
-
-- 🪟 **Tiling Window Manager (GlazeWM)**: Gestione delle finestre a piastrelle, workspace multipli, gaps personalizzati e bordi colorati.
-- 🏝️ **Floating Island Status Bar (Zebar)**: Barra superiore a pillole flottanti con indicatori interattivi di workspace, titolo finestra attiva, orologio/data e sensori hardware (CPU, RAM, Rete, Batteria).
-- 🔍 **App Launcher & Clipboard (Flow Launcher)**: Ricerca rapida app, file, calcoli e appunti (`Alt + D`).
-- 🎨 **Motore Temi Dinamico (`theme.ps1`)**: 27 preset tematici integrati (Tokyo Night, Catppuccin Mocha/Latte, Nord, Gruvbox, Dracula, Everforest, ecc.) con ricarica a caldo e selettore wallpaper nativo Windows.
-- ⚡ **Shell & Prompt (PowerShell + Starship + Fastfetch + Eza + Btop)**: Prompt Starship minimal identico a 43PR Linux, autosuggestioni Zsh con PSReadLine, icone con Eza e monitoraggio con btop.
-- 🖼️ **Selettore Sfondi (`Alt + W`)**: Rotazione sfondi o selezione da finestra di dialogo.
-- 🕶️ **Trasparenza Taskbar (TranslucentTB)**: Barra di Windows trasparente per un look minimale a barra singola.
-
----
-
-## ⌨️ Scorciatoie da Tastiera (Keybinds)
-
-Su Windows, il tasto `Alt` agisce come tasto principale `Super/Mod`:
-
-| Scorciatoia | Azione | Equivalente 43PR Linux |
-| :--- | :--- | :--- |
-| **`Alt + D`** | **Flow Launcher (App, File, Calcoli)** | `Super + D` (Rofi) |
-| **`Alt + T`** | **Terminale Trasparente (Starship)** | `Super + T` (Kitty) |
-| **`Alt + Q`** | **Chiudi Finestra Attiva** | `Super + Q` |
-| **`Alt + Space`** | **Alterna Finestra Flottante / Tiling** | `Super + Space` |
-| **`Alt + F`** | **Alterna Schermo Intero** | `Super + F` |
-| **`Alt + 1 .. 9`** | **Cambia Workspace** | `Super + 1 .. 9` |
-| **`Alt + Shift + 1 .. 9`** | **Sposta Finestra nel Workspace** | `Super + Shift + 1 .. 9` |
-| **`Alt + H / J / K / L`** | **Sposta il Focus (Vim keys)** | Tasti direzionali |
-| **`Alt + Shift + H/J/K/L`** | **Sposta Finestra nella Direzione** | `Super + Shift + Arrows` |
-| **`Alt + E`** | **Esplora Risorse (File Manager)** | `Super + E` |
-| **`Alt + B`** | **Browser Web Predefinito** | `Super + B` |
-| **`Alt + Shift + S`** | **Cattura Schermo (Ritagli / Snipping Tool)** | `Super + Shift + S` |
-| **`Alt + Shift + B`** | **Nascondi / Mostra Barra Inferiore Windows** | `Super + Shift + B` |
-| **`Alt + Shift + A`** | **Cambia Uscita Audio (Cuffie / Casse / Monitor)** | `Super + Shift + A` |
-| **`Alt + Shift + Esc`** | **Blocca Sessione Windows (Lock Workstation)** | `Super + L` |
-| **`Alt + Shift + Z`** | **Riavvia / Mostra la Barra Zebar** | `Super + Shift + B` |
-| **`Alt + F1` o `Alt + Shift + ?`** | **Pannello Rapido Scorciatoie (Cheatsheet Popup)** | `Super + /` |
-| **`Alt + S`** | **Alterna Direzione Tiling (Orizzontale/Verticale)** | `Super + X` |
-| **`Alt + W`** | **Prossimo Wallpaper (Cicla Sfondo)** | `Super + W` |
-| **`Alt + Shift + W`** | **Scegli Wallpaper dalla Finestra di Dialogo** | `Super + W` (Picker) |
-| **`Alt + Grave`** | **Menu Spegnimento / Sospensione** | `Super + Grave` (Power) |
-| **`Alt + Shift + R`** | **Ricarica Configurazione GlazeWM** | `Super + Shift + W` |
-| **`Alt + Shift + Q`** | **Chiudi GlazeWM** | `Super + Grave` |
-
----
-
-## 🚀 Comandi Terminale Disponibili
-
-Nel tuo terminale PowerShell sono ora attivi i comandi moderni:
-- `ls` / `ll` / `tree`: Usa **Eza** con icone a colori e gerarchia cartelle.
-- `top`: Apre **Btop** (monitor di sistema con grafici CPU/GPU/RAM).
-- `ff`: Mostra la schermata **Fastfetch**.
-- `theme -Theme <nome>`: Cambia tema al volo tra i 27 disponibili (es. `theme -List`).
-- `wallpaper`: Cambia o seleziona lo sfondo (es. `wallpaper -Select`).
-- `toggle-taskbar`: Mostra o nasconde automaticamente la barra delle applicazioni di Windows.
-- `switch-audio`: Alterna istantaneamente l'uscita audio (Cuffie / Altoparlanti).
-- `keys`: Mostra la guida riassuntiva di tutti i tasti e comandi nel terminale.
-
----
-
-## 🎨 Personalizzazione Temi e Wallpaper
-
-Il comando `theme` e `wallpaper` permettono di cambiare al volo palette e sfondo tra i 17 wallpaper inclusi (Catppuccin, Tokyo Night, Gruvbox, Nord):
+Open **PowerShell** (no admin required) and run:
 
 ```powershell
-# Mostra tutti i 27 temi disponibili
-theme -List
+irm https://raw.githubusercontent.com/amedello/43pr-rice-windows/master/install.ps1 | iex
+```
 
-# Applica un tema: imposta automaticamente colori Terminale, Windows, Zebar, bordi GlazeWM e wallpaper abbinato!
-theme -Theme gruvbox-dark
-theme -Theme tokyo-night
-theme -Theme catppuccin-mocha
-theme -Theme nord
+The installer will:
+1. Verify and automatically install prerequisites via `winget` (GlazeWM, Zebar, Starship, Fastfetch, JetBrains Mono Nerd Font).
+2. Compile the high-performance native controller (`media-ctl.exe`) using Windows' built-in .NET compiler.
+3. Deploy GlazeWM and Zebar configurations and custom widgets to `~/.glzr`.
+4. Configure Windows Terminal, PowerShell profiles, system dark mode, and Tokyo Night accent.
+5. Create an optional autostart shortcut in `shell:startup`.
 
-# Cambia tema mantenendo lo sfondo attuale
-theme -Theme dracula -NoWallpaper
+---
 
-# Cicla o seleziona uno sfondo specifico (tra i 17 disponibili)
-wallpaper          # Passa al prossimo sfondo
-wallpaper -Select  # Apri finestra per scegliere l'immagine
+## Manual Installation (Local Clone)
+
+If you prefer to clone the repository manually:
+
+```powershell
+# Clone the repository
+git clone https://github.com/amedello/43pr-rice-windows.git
+cd 43pr-rice-windows
+
+# Run the installer
+powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
 ---
 
-## 📁 Struttura del Progetto
+## Features
 
+- **Tiling Window Management**: Powered by [GlazeWM](https://github.com/glzr-io/glazewm) (i3/bspwm-like workflow for Windows).
+- **Zebar Top Bar**: Clean status bar displaying workspaces, current window title, interactive media player controls, CPU/RAM meters, battery/network, and clock.
+- **27 Harmonized Themes**: Tokyo Night, Catppuccin (Mocha & Latte), Nord, Gruvbox, Dracula, Everforest, Kanagawa, Rose Pine, One Dark, Monokai, Matrix, Solarized, and more.
+- **Circadian Day / Night Switcher**: Automatically switches between day theme (e.g. Catppuccin Latte) at 07:00 and night theme (Tokyo Night) at 19:00, or switch manually via <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>.
+- **Zero Console Popups**: Every launcher and helper compiles to a native Windows subsystem (`winexe`) or runs with `-WindowStyle Hidden`, preventing annoying black terminal flashes.
+- **Native Fluent HUD Suite**:
+  - **Cheatsheet HUD** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>/</kbd>): Interactive keyboard shortcut reference.
+  - **Theme Selector** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>): Visual theme switcher with live preview and auto day/night toggle.
+  - **Window Switcher** (<kbd>Alt</kbd> + <kbd>Tab</kbd> or <kbd>Alt</kbd> + <kbd>J</kbd>): Search and jump between active windows instantly.
+  - **Clipboard Manager** (<kbd>Alt</kbd> + <kbd>V</kbd>): Searchable clipboard history.
+  - **Sensors HUD** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>): Real-time hardware telemetry (CPU, RAM, Disks, Battery, Uptime).
+  - **Quick Calculator** (<kbd>Alt</kbd> + <kbd>C</kbd>): Instant mathematical evaluator with inline history.
+  - **Color Picker** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>): Screen pixel eyedropper with HEX auto-copy.
+  - **Power Menu** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>): Lock, sleep, restart, shutdown, or sign out.
+
+---
+
+## Keyboard Shortcuts
+
+### Window & Tiling Management
+
+| Shortcut | Action |
+| :--- | :--- |
+| <kbd>Alt</kbd> + <kbd>Q</kbd> | Close focused window |
+| <kbd>Alt</kbd> + <kbd>F</kbd> | Toggle fullscreen mode |
+| <kbd>Alt</kbd> + <kbd>Space</kbd> | Toggle floating / tiling mode |
+| <kbd>Alt</kbd> + <kbd>S</kbd> | Toggle split direction (Horizontal / Vertical) |
+| <kbd>Alt</kbd> + <kbd>H</kbd> / <kbd>J</kbd> / <kbd>K</kbd> / <kbd>L</kbd> | Focus window Left / Down / Up / Right |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd> / <kbd>J</kbd> / <kbd>K</kbd> / <kbd>L</kbd> | Move window Left / Down / Up / Right |
+| <kbd>Alt</kbd> + <kbd>R</kbd> | Enter window resize mode (<kbd>Esc</kbd> to exit) |
+
+### Workspaces
+
+| Shortcut | Action |
+| :--- | :--- |
+| <kbd>Alt</kbd> + <kbd>1</kbd> .. <kbd>9</kbd> | Switch to Workspace 1 .. 9 |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>1</kbd> .. <kbd>9</kbd> | Move focused window to Workspace 1 .. 9 |
+
+### Launchers & Tools
+
+| Shortcut | Action |
+| :--- | :--- |
+| <kbd>Alt</kbd> + <kbd>T</kbd> | Open Windows Terminal |
+| <kbd>Alt</kbd> + <kbd>U</kbd> | Quake Scratchpad Terminal (Dropdown dropdown toggle) |
+| <kbd>Alt</kbd> + <kbd>D</kbd> | Open Flow Launcher / App search |
+| <kbd>Alt</kbd> + <kbd>E</kbd> | Open File Explorer |
+| <kbd>Alt</kbd> + <kbd>B</kbd> | Open Default Web Browser |
+| <kbd>Alt</kbd> + <kbd>V</kbd> | Open Clipboard History Manager |
+| <kbd>Alt</kbd> + <kbd>Tab</kbd> / <kbd>Alt</kbd> + <kbd>J</kbd> | Open Window Switcher |
+| <kbd>Alt</kbd> + <kbd>C</kbd> | Open Quick Calculator & Unit Converter |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> | Eyedropper Color Picker (HEX) |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> | Hardware Sensors HUD |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Snipping Tool (Screen capture) |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> | Toggle Windows Taskbar visibility |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd> | Switch Audio Output Device |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> | Power Menu (Lock, Sleep, Restart, Shutdown) |
+
+### Themes & Customization
+
+| Shortcut | Action |
+| :--- | :--- |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> | Open Interactive Theme Selector |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd> | Cycle next wallpaper |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>W</kbd> | Open Wallpaper Selector Dialog |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>/</kbd> | Open Shortcuts Cheatsheet |
+
+---
+
+## Starting & Stopping
+
+You can start or stop the rice manually anytime:
+
+- **Start**: Run `start-43pr.bat` or press <kbd>Win</kbd> + <kbd>R</kbd> and type `glazewm`.
+- **Stop**: Run `stop-43pr.bat` or run:
+  ```powershell
+  taskkill /IM glazewm.exe /F
+  taskkill /IM zebar.exe /F
+  ```
+
+---
+
+## Uninstallation
+
+To cleanly remove 43PR Rice:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\uninstall.ps1
 ```
-D:\Progetto/
-├── config/
-│   ├── glazewm/
-│   │   └── config.yaml            # Configurazione Tiling WM e keybinds
-│   ├── zebar/
-│   │   ├── starter/styles.css     # Stile pillole e blur Quickshell
-│   │   └── settings.json
-│   ├── 43pr/
-│   │   └── themes/*.toml          # 27 palette colori sincronizzate
-│   ├── fastfetch/
-│   │   └── config.jsonc           # Layout hardware/software Fastfetch
-│   ├── powershell/
-│   │   └── Microsoft.PowerShell_profile.ps1
-│   └── starship.toml              # Configurazione Starship prompt
-├── scripts/
-│   ├── setup-glzr.ps1             # Symlink e sync per GlazeWM e Zebar
-│   ├── setup-terminal.ps1         # Configurazione prompt, fastfetch e shell
-│   ├── setup-terminal-theme.ps1   # Trasparenza acrilica e palette Terminal
-│   ├── wallpaper-picker.ps1       # Rotazione e selezione sfondi
-│   ├── setup-spicetify.ps1        # Theming Spotify
-│   └── theme.ps1                  # Motore di cambio tema e wallpaper live
-├── wallpapers/                    # Galleria sfondi
-├── install.ps1                    # Installer one-click
-├── start-43pr.bat                 # Script avvio desktop
-├── stop-43pr.bat                  # Script arresto desktop
-└── README.md
+
+To remove all configuration files and uninstall GlazeWM and Zebar via winget:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\uninstall.ps1 -Full
 ```
+
+---
+
+## License
+
+MIT License. Crafted with precision for the modern Windows desktop.

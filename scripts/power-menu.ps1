@@ -5,7 +5,10 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 
 # Read accent color from Zebar styles if available
 $accentColor = "#7AA2F7"
-$styleFile = "D:\Progetto\config\zebar\starter\styles.css"
+$styleFile = Join-Path $HOME ".glzr\zebar\starter\styles.css"
+if (-not (Test-Path $styleFile)) {
+    $styleFile = Join-Path (Split-Path -Parent $PSScriptRoot) "config\zebar\starter\styles.css"
+}
 if (Test-Path $styleFile) {
     $content = Get-Content $styleFile -Raw
     if ($content -match '--accent:\s*(#[0-9a-fA-F]{6})') {
@@ -147,7 +150,10 @@ $btnShutdown = $window.FindName("BtnShutdown")
 $btnLogoff = $window.FindName("BtnLogoff")
 $rootGrid = $window.FindName("RootGrid")
 
-$ctl = "D:\Progetto\scripts\media-ctl.exe"
+$ctl = Join-Path $PSScriptRoot "media-ctl.exe"
+if (-not (Test-Path $ctl)) {
+    $ctl = "media-ctl.exe"
+}
 
 $actLock = {
     $window.Close()

@@ -5,7 +5,7 @@ general:
   cursor_jump:
     on_focus_window: false
   startup_commands:
-    - 'shell-exec D:/Progetto/scripts/media-ctl.exe startup'
+    - 'shell-exec media-ctl.exe startup'
   shutdown_commands:
     - 'shell-exec taskkill /IM zebar.exe /F'
 
@@ -32,7 +32,7 @@ window_effects:
   focused_window:
     border:
       enabled: true
-      color: "#8839ef"   # Accent color (updated by theme engine)
+      color: "#7aa2f7"   # Accent color (updated by theme engine)
     transparency:
       enabled: true
       opacity: "92%"
@@ -124,47 +124,47 @@ keybindings:
   # Application Launcher (Super + D handled natively by Flow Launcher with toggle support)
 
   # Cycle Wallpapers (Super + W)
-  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File D:/Progetto/scripts/wallpaper-picker.ps1']
+  - commands: ['shell-exec media-ctl.exe wallpaper']
     bindings: ['alt+w']
 
   # Select Wallpaper from Dialog (Super + Shift + W)
-  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File D:/Progetto/scripts/wallpaper-picker.ps1 -Select']
+  - commands: ['shell-exec media-ctl.exe wallpaper_select']
     bindings: ['alt+shift+w']
 
   # Quake-style Dropdown Terminal / Scratchpad (Super + U)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe toggle_scratchpad']
+  - commands: ['shell-exec media-ctl.exe toggle_scratchpad']
     bindings: ['alt+u']
 
   # Clipboard History Manager (Super + V)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe clipboard']
+  - commands: ['shell-exec media-ctl.exe clipboard']
     bindings: ['alt+v']
 
   # Global Window Switcher & Jump (Super + Tab, Super + J)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe window_switcher']
+  - commands: ['shell-exec media-ctl.exe window_switcher']
     bindings: ['alt+tab', 'alt+j']
 
   # Instant Math & Unit Calculator (Super + C)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe calc']
+  - commands: ['shell-exec media-ctl.exe calc']
     bindings: ['alt+c']
 
   # Color Picker Pipette Eyedropper (Super + Shift + C)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe color_picker']
+  - commands: ['shell-exec media-ctl.exe color_picker']
     bindings: ['alt+shift+c']
 
   # 43PR Theme Switcher & Auto Day/Night (Super + Shift + T)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe theme_picker']
+  - commands: ['shell-exec media-ctl.exe theme_picker']
     bindings: ['alt+shift+t']
 
   # Hardware Telemetry & Sensors HUD (Super + Shift + M)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe sensors']
+  - commands: ['shell-exec media-ctl.exe sensors']
     bindings: ['alt+shift+m']
 
   # Zen Mode / Gaming Mode toggle (Super + Shift + G)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe zen_mode']
+  - commands: ['shell-exec media-ctl.exe zen_mode']
     bindings: ['alt+shift+g']
 
   # Power / Shutdown Menu (Super + Grave on US, Alt + \ on ITA, Alt + P fallback)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe power_menu']
+  - commands: ['shell-exec media-ctl.exe power_menu']
     bindings: ['alt+oem_pipe', 'alt+p']
 
   # File Explorer (Super + E)
@@ -176,27 +176,27 @@ keybindings:
     bindings: ['alt+b']
 
   # Toggle Windows Taskbar Auto-Hide (Super + Shift + B)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe toggle_taskbar']
+  - commands: ['shell-exec media-ctl.exe toggle_taskbar']
     bindings: ['alt+shift+b']
 
   # Switch Audio Output Device (Super + Shift + A)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe switch_audio']
+  - commands: ['shell-exec media-ctl.exe switch_audio']
     bindings: ['alt+shift+a']
 
   # Cheatsheet & Shortcuts Helper (Alt + F1 or Alt + Shift + ?)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe cheatsheet']
+  - commands: ['shell-exec media-ctl.exe cheatsheet']
     bindings: ['alt+shift+oem_question', 'alt+f1', 'alt+shift+f1']
 
   # Restart Zebar Bar (Super + Shift + Z)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe restart_bar']
+  - commands: ['shell-exec media-ctl.exe restart_bar']
     bindings: ['alt+shift+z']
 
   # Screenshot / Snipping Tool (Super + Shift + S)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe screenshot']
+  - commands: ['shell-exec media-ctl.exe screenshot']
     bindings: ['alt+shift+s']
 
   # Lock Workstation (Super + Shift + Esc)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe lock']
+  - commands: ['shell-exec media-ctl.exe lock']
     bindings: ['alt+shift+escape']
 
   # Toggle Floating Window (Super + Space)
@@ -294,6 +294,7 @@ keybindings:
   # =====================================================================
   - commands: ['toggle-tiling-direction']
     bindings: ['alt+s']
+
 
 
 
