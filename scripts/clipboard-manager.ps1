@@ -59,21 +59,14 @@ try {
     $clips | ConvertTo-Json -Depth 5 | Set-Content -Path $historyFile -Force
 } catch {}
 
-if ($clips.Count -eq 0) {
-    $clips.Add([PSCustomObject]@{
-        Text = ""
-        Time = "--:--"
-        Type = "Vuoto"
-        Preview = "Nessun elemento presente negli appunti."
-    })
-}
-
 # 2. Build WPF UI
 $xaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="43PR Clipboard Manager"
-        Width="580" Height="460"
+        Title="43PR Clipboard"
+        Width="580"
+        SizeToContent="Height"
+        MinHeight="220" MaxHeight="520"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -97,75 +90,114 @@ $xaml = @"
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <DockPanel Grid.Row="0" Margin="0,0,0,12">
+            <DockPanel Grid.Row="0" Margin="0,0,0,14">
                 <Button x:Name="BtnClose" DockPanel.Dock="Right" Content="&#xE711;"
                         FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                         FontSize="12" Foreground="#9AA5CE" Background="Transparent"
-                        BorderThickness="0" Cursor="Hand" Width="26" Height="26"/>
+                        BorderThickness="0" Cursor="Hand" Width="26" Height="26">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="6">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="b" Property="Background" Value="#33FFFFFF"/>
+                                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE77F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="18" Foreground="$accentColor" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <TextBlock Text="43PR Clipboard" FontSize="16" FontWeight="Bold" Foreground="#CDD6F4" FontFamily="Segoe UI Variable Display, Consolas" VerticalAlignment="Center"/>
                 </StackPanel>
             </DockPanel>
 
-            <!-- Search Box -->
-            <Border Grid.Row="1" Background="#222838" CornerRadius="8" Padding="10,6" Margin="0,0,0,12" BorderThickness="1" BorderBrush="#33FFFFFF">
-                <DockPanel>
-                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="#9AA5CE" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <TextBox x:Name="TxtSearch" Background="Transparent" Foreground="#CDD6F4"
-                             BorderThickness="0" FontSize="14" FontFamily="Segoe UI Variable Text, Consolas"
-                             CaretBrush="$accentColor" VerticalAlignment="Center"/>
-                </DockPanel>
+            <!-- Search Box with Placeholder -->
+            <Border Grid.Row="1" Background="#1C2333" CornerRadius="10" Padding="12,8" Margin="0,0,0,12" BorderThickness="1" BorderBrush="#33FFFFFF">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="&#xE721;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="#9AA5CE" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <Grid Grid.Column="1">
+                        <TextBlock x:Name="TxtSearchPlaceholder" Text="Cerca negli appunti..." FontSize="14" Foreground="#556488" FontFamily="Segoe UI Variable Text, Consolas" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                        <TextBox x:Name="TxtSearch" Background="Transparent" Foreground="#CDD6F4"
+                                 BorderThickness="0" FontSize="14" FontFamily="Segoe UI Variable Text, Consolas"
+                                 CaretBrush="$accentColor" VerticalAlignment="Center"
+                                 FocusVisualStyle="{x:Null}"/>
+                    </Grid>
+                </Grid>
             </Border>
 
-            <!-- List of clips -->
-            <ListBox x:Name="ListClips" Grid.Row="2" Background="Transparent" BorderThickness="0"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Margin" Value="0,2"/>
-                        <Setter Property="Padding" Value="10,8"/>
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="itemBorder" Background="Transparent" CornerRadius="8" Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="itemBorder" Property="Background" Value="#252F42"/>
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="itemBorder" Property="Background" Value="#313E56"/>
-                                            <Setter TargetName="itemBorder" Property="BorderBrush" Value="$accentColor"/>
-                                            <Setter TargetName="itemBorder" Property="BorderThickness" Value="1"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel LastChildFill="True">
-                            <Border DockPanel.Dock="Right" Background="#182030" CornerRadius="4" Padding="6,2" Margin="8,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Time}" FontSize="11" Foreground="#7AA2F7" FontFamily="Consolas"/>
-                            </Border>
-                            <Border DockPanel.Dock="Right" Background="#263044" CornerRadius="4" Padding="6,2" Margin="6,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Type}" FontSize="11" Foreground="#9AA5CE"/>
-                            </Border>
-                            <TextBlock Text="{Binding Preview}" FontSize="13" Foreground="#CDD6F4" FontFamily="Segoe UI Variable Text, Consolas" TextTrimming="CharacterEllipsis"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <!-- List or Empty View -->
+            <Grid Grid.Row="2" MinHeight="100" MaxHeight="340">
+                <!-- Empty Message -->
+                <StackPanel x:Name="EmptyView" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Margin="0,20">
+                    <TextBlock Text="&#xE77F;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="36" Foreground="#445577" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    <TextBlock Text="Nessun elemento negli appunti" FontSize="14" FontWeight="SemiBold" Foreground="#9AA5CE" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Copia del testo o link (Ctrl + C) per iniziare" FontSize="12" Foreground="#627294" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                </StackPanel>
 
-            <!-- Footer Hint -->
-            <TextBlock Grid.Row="3" Text="[Invio] Copia e Chiudi  •  [Canc] Elimina elemento  •  [Esc] Chiudi"
-                       FontSize="11" Foreground="#7982A9" FontFamily="Consolas" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                <!-- List of clips -->
+                <ListBox x:Name="ListClips" Background="Transparent" BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Margin" Value="0,2"/>
+                            <Setter Property="Padding" Value="10,8"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="itemBorder" Background="#182030" BorderThickness="1" BorderBrush="#20FFFFFF" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="itemBorder" Property="Background" Value="#253044"/>
+                                                <Setter TargetName="itemBorder" Property="BorderBrush" Value="$accentColor"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="itemBorder" Property="Background" Value="#2A3850"/>
+                                                <Setter TargetName="itemBorder" Property="BorderBrush" Value="$accentColor"/>
+                                                <Setter TargetName="itemBorder" Property="BorderThickness" Value="1.5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Border DockPanel.Dock="Right" Background="#141A26" CornerRadius="4" Padding="6,2" Margin="8,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Time}" FontSize="11" Foreground="#7AA2F7" FontFamily="Consolas"/>
+                                </Border>
+                                <Border DockPanel.Dock="Right" Background="#26334A" CornerRadius="4" Padding="6,2" Margin="6,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Type}" FontSize="11" Foreground="#9AA5CE"/>
+                                </Border>
+                                <TextBlock Text="{Binding Preview}" FontSize="13" Foreground="#CDD6F4" FontFamily="Segoe UI Variable Text, Consolas" TextTrimming="CharacterEllipsis"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <!-- Footer Hint with XML bullet entities -->
+            <TextBlock Grid.Row="3" Text="[Invio] Copia e Chiudi  &#x2022;  [Canc] Elimina elemento  &#x2022;  [Esc] Chiudi"
+                       FontSize="11" Foreground="#7982A9" FontFamily="Segoe UI Variable Text, Consolas" Margin="0,14,0,0" HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>
@@ -176,30 +208,45 @@ $window = [System.Windows.Markup.XamlReader]::Load($reader)
 
 $btnClose = $window.FindName("BtnClose")
 $txtSearch = $window.FindName("TxtSearch")
+$txtPlaceholder = $window.FindName("TxtSearchPlaceholder")
 $listClips = $window.FindName("ListClips")
+$emptyView = $window.FindName("EmptyView")
 
-$allClips = [System.Collections.ObjectModel.ObservableCollection[PSCustomObject]]::new($clips)
-$listClips.ItemsSource = $allClips
-
-if ($allClips.Count -gt 0) {
-    $listClips.SelectedIndex = 0
+$refreshList = {
+    param($items)
+    if ($items.Count -eq 0) {
+        $emptyView.Visibility = [System.Windows.Visibility]::Visible
+        $listClips.Visibility = [System.Windows.Visibility]::Collapsed
+    } else {
+        $emptyView.Visibility = [System.Windows.Visibility]::Collapsed
+        $listClips.Visibility = [System.Windows.Visibility]::Visible
+        $listClips.ItemsSource = [System.Collections.ObjectModel.ObservableCollection[PSCustomObject]]::new($items)
+        if ($listClips.SelectedIndex -lt 0) {
+            $listClips.SelectedIndex = 0
+        }
+    }
 }
+
+& $refreshList $clips
 
 # Close button
 $btnClose.Add_Click({ $window.Close() })
 
-# Search filtering
+# Search filtering & placeholder toggle
 $txtSearch.Add_TextChanged({
     $q = $txtSearch.Text.Trim().ToLower()
+    $txtPlaceholder.Visibility = if ([string]::IsNullOrEmpty($txtSearch.Text)) {
+        [System.Windows.Visibility]::Visible
+    } else {
+        [System.Windows.Visibility]::Collapsed
+    }
+
     $filtered = if ([string]::IsNullOrEmpty($q)) {
         $clips
     } else {
         $clips | Where-Object { $_.Text -and $_.Text.ToLower().Contains($q) }
     }
-    $listClips.ItemsSource = [System.Collections.ObjectModel.ObservableCollection[PSCustomObject]]::new($filtered)
-    if ($listClips.Items.Count -gt 0) {
-        $listClips.SelectedIndex = 0
-    }
+    & $refreshList $filtered
 })
 
 # Copy action
@@ -224,7 +271,7 @@ $deleteSelected = {
         try {
             $clips | ConvertTo-Json -Depth 5 | Set-Content -Path $historyFile -Force
         } catch {}
-        $listClips.ItemsSource = [System.Collections.ObjectModel.ObservableCollection[PSCustomObject]]::new($clips)
+        & $refreshList $clips
     }
 }
 

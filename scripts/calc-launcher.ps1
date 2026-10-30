@@ -45,13 +45,18 @@ $xaml = @"
                        FontSize="18" Foreground="$accentColor"
                        VerticalAlignment="Center" Margin="0,0,12,0"/>
 
-            <!-- Input Box -->
-            <TextBox x:Name="TxtInput" Grid.Column="1"
-                     Background="Transparent" Foreground="#CDD6F4"
-                     BorderThickness="0" FontSize="18"
-                     FontFamily="Segoe UI Variable Text, Consolas"
-                     CaretBrush="$accentColor"
-                     VerticalAlignment="Center"/>
+            <!-- Input Box with Placeholder -->
+            <Grid Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock x:Name="TxtInputPlaceholder" Text="Scrivi un calcolo (es. 15% of 250, 45*1.22, 1024 MB in GB)..."
+                           FontSize="14" Foreground="#556488" FontFamily="Segoe UI Variable Text, Consolas" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                <TextBox x:Name="TxtInput"
+                         Background="Transparent" Foreground="#CDD6F4"
+                         BorderThickness="0" FontSize="17"
+                         FontFamily="Segoe UI Variable Text, Consolas"
+                         CaretBrush="$accentColor"
+                         VerticalAlignment="Center"
+                         FocusVisualStyle="{x:Null}"/>
+            </Grid>
 
             <!-- Result -->
             <Border Grid.Column="2" Background="#1F283C" CornerRadius="8" Padding="10,4" Margin="10,0,0,0" VerticalAlignment="Center">
@@ -68,6 +73,7 @@ $reader = [System.Xml.XmlReader]::Create([System.IO.StringReader]::new($xaml))
 $window = [System.Windows.Markup.XamlReader]::Load($reader)
 
 $txtInput = $window.FindName("TxtInput")
+$txtPlaceholder = $window.FindName("TxtInputPlaceholder")
 $txtResult = $window.FindName("TxtResult")
 
 $evalMath = {
@@ -130,6 +136,11 @@ $evalMath = {
 }
 
 $txtInput.Add_TextChanged({
+    $txtPlaceholder.Visibility = if ([string]::IsNullOrEmpty($txtInput.Text)) {
+        [System.Windows.Visibility]::Visible
+    } else {
+        [System.Windows.Visibility]::Collapsed
+    }
     $res = & $evalMath $txtInput.Text
     $txtResult.Text = "= $res"
 })
@@ -154,3 +165,4 @@ $window.Add_Loaded({
 })
 
 $window.ShowDialog() | Out-Null
+

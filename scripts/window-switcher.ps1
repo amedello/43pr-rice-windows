@@ -144,7 +144,9 @@ $xaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="43PR Window Switcher"
-        Width="640" Height="480"
+        Width="640"
+        SizeToContent="Height"
+        MinHeight="220" MaxHeight="520"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -179,14 +181,22 @@ $xaml = @"
                 </StackPanel>
             </DockPanel>
 
-            <!-- Search Box -->
-            <Border Grid.Row="1" Background="#222838" CornerRadius="8" Padding="10,6" Margin="0,0,0,12" BorderThickness="1" BorderBrush="#33FFFFFF">
-                <DockPanel>
-                    <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="#9AA5CE" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <TextBox x:Name="TxtSearch" Background="Transparent" Foreground="#CDD6F4"
-                             BorderThickness="0" FontSize="14" FontFamily="Segoe UI Variable Text, Consolas"
-                             CaretBrush="$accentColor" VerticalAlignment="Center"/>
-                </DockPanel>
+            <!-- Search Box with Placeholder -->
+            <Border Grid.Row="1" Background="#1C2333" CornerRadius="10" Padding="12,8" Margin="0,0,0,12" BorderThickness="1" BorderBrush="#33FFFFFF">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="&#xE721;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="#9AA5CE" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <Grid Grid.Column="1">
+                        <TextBlock x:Name="TxtSearchPlaceholder" Text="Cerca finestra o applicazione..." FontSize="14" Foreground="#556488" FontFamily="Segoe UI Variable Text, Consolas" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                        <TextBox x:Name="TxtSearch" Background="Transparent" Foreground="#CDD6F4"
+                                 BorderThickness="0" FontSize="14" FontFamily="Segoe UI Variable Text, Consolas"
+                                 CaretBrush="$accentColor" VerticalAlignment="Center"
+                                 FocusVisualStyle="{x:Null}"/>
+                    </Grid>
+                </Grid>
             </Border>
 
             <!-- Windows List -->
@@ -232,8 +242,8 @@ $xaml = @"
             </ListBox>
 
             <!-- Footer Hint -->
-            <TextBlock Grid.Row="3" Text="[Invio] Metti a fuoco finestra  •  [Frecce Su/Giu] Scorri  •  [Esc] Chiudi"
-                       FontSize="11" Foreground="#7982A9" FontFamily="Consolas" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Text="[Invio] Metti a fuoco finestra  &#x2022;  [Frecce Su/Giu] Scorri  &#x2022;  [Esc] Chiudi"
+                       FontSize="11" Foreground="#7982A9" FontFamily="Segoe UI Variable Text, Consolas" Margin="0,14,0,0" HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>
@@ -244,6 +254,7 @@ $window = [System.Windows.Markup.XamlReader]::Load($reader)
 
 $btnClose = $window.FindName("BtnClose")
 $txtSearch = $window.FindName("TxtSearch")
+$txtPlaceholder = $window.FindName("TxtSearchPlaceholder")
 $listWindows = $window.FindName("ListWindows")
 
 $listWindows.ItemsSource = [System.Collections.ObjectModel.ObservableCollection[PSCustomObject]]::new($winList)
@@ -254,6 +265,12 @@ if ($winList.Count -gt 0) {
 $btnClose.Add_Click({ $window.Close() })
 
 $txtSearch.Add_TextChanged({
+    $txtPlaceholder.Visibility = if ([string]::IsNullOrEmpty($txtSearch.Text)) {
+        [System.Windows.Visibility]::Visible
+    } else {
+        [System.Windows.Visibility]::Collapsed
+    }
+
     $q = $txtSearch.Text.Trim().ToLower()
     $filtered = if ([string]::IsNullOrEmpty($q)) {
         $winList
@@ -306,3 +323,4 @@ $window.Add_Loaded({
 })
 
 $window.ShowDialog() | Out-Null
+

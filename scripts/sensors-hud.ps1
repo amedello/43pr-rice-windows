@@ -123,8 +123,8 @@ $xaml = @"
             </StackPanel>
 
             <!-- Footer -->
-            <TextBlock Grid.Row="2" Text="Aggiornamento in tempo reale (1.5s) • [Esc] Chiudi"
-                       FontSize="11" Foreground="#7982A9" FontFamily="Consolas" Margin="0,12,0,0" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="2" Text="Aggiornamento in tempo reale (1.5s)  &#x2022;  [Esc] Chiudi"
+                       FontSize="11" Foreground="#7982A9" FontFamily="Segoe UI Variable Text, Consolas" Margin="0,14,0,0" HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>
@@ -231,3 +231,4 @@ $window.Add_Closed({
 })
 
 $window.ShowDialog() | Out-Null
+
