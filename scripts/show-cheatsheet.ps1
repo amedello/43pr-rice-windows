@@ -85,12 +85,13 @@ $xamlText = @'
             </Grid.RowDefinitions>
 
             <DockPanel Grid.Row="0" Margin="0,0,0,16">
-                <Button Name="CloseBtn" DockPanel.Dock="Right" Content="X" 
+                <Button Name="CloseBtn" DockPanel.Dock="Right" Content="&#xE711;"
+                        FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                         Background="Transparent" Foreground="#9AA5CE" BorderThickness="0"
-                        FontSize="16" Cursor="Hand" Width="28" Height="28"/>
+                        FontSize="12" Cursor="Hand" Width="28" Height="28"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="43PR" FontSize="20" FontWeight="Bold" Foreground="#7AA2F7" FontFamily="JetBrainsMono Nerd Font, Consolas" VerticalAlignment="Center"/>
-                    <TextBlock Text=" Desktop Cheatsheet" FontSize="18" FontWeight="SemiBold" Foreground="#CDD6F4" FontFamily="JetBrainsMono Nerd Font, Consolas" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                    <TextBlock Text="43PR" FontSize="20" FontWeight="Bold" Foreground="#7AA2F7" FontFamily="Segoe UI Variable Display, JetBrainsMono Nerd Font, Consolas" VerticalAlignment="Center"/>
+                    <TextBlock Text=" Desktop Cheatsheet" FontSize="18" FontWeight="SemiBold" Foreground="#CDD6F4" FontFamily="Segoe UI Variable Text, JetBrainsMono Nerd Font, Consolas" VerticalAlignment="Center" Margin="6,0,0,0"/>
                 </StackPanel>
             </DockPanel>
 

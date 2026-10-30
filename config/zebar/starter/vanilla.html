@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Custom styles. -->
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+
+    <!-- Allows React to be run buildless via "text/babel" script below. -->
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+      import React, {
+        useState,
+        useEffect,
+        Component,
+      } from './react.bundle.mjs';
+      import * as zebar from 'npm:zebar@2';
+
+      class ErrorBoundary extends Component {
+        constructor(props) {
+          super(props);
+          this.state = { hasError: false, error: null };
+        }
+        static getDerivedStateFromError(error) {
+          return { hasError: true, error };
+        }
+        componentDidCatch(error, errorInfo) {
+          console.error('Zebar Error:', error, errorInfo);
+        }
+        render() {
+          if (this.state.hasError) {
+            return (
+              <div style={{ color: '#f38ba8', padding: '6px 14px', fontSize: '12px', background: '#1e1e2e', borderRadius: '12px' }}>
+                Zebar Notice: {String(this.state.error?.message || this.state.error)}
+              </div>
+            );
+          }
+          return this.props.children;
+        }
+      }
+
+      const providers = zebar.createProviderGroup({
+        network: { type: 'network' },
+        glazewm: { type: 'glazewm' },
+        cpu: { type: 'cpu' },
+        date: { type: 'date', formatting: 'EEE d MMM • HH:mm', locale: 'it-IT' },
+        battery: { type: 'battery' },
+        memory: { type: 'memory' },
+        media: { type: 'media' },
+        audio: { type: 'audio' },
+      });
+
+      createRoot(document.getElementById('root')).render(
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      );
+
+      function App() {
+        const [output, setOutput] = useState(providers.outputMap);
+
+        useEffect(() => {
+          providers.onOutput(() => setOutput(providers.outputMap));
+        }, []);
+
+        // Get icon to show for current network status.
+        function getNetworkIcon(networkOutput) {
+          if (!networkOutput) return <i className="nf nf-md-wifi_strength_off_outline"></i>;
+          switch (networkOutput.defaultInterface?.type) {
+            case 'ethernet':
+              return <i className="nf nf-md-ethernet_cable"></i>;
+            case 'proprietary_virtual':
+              return <i className="nf nf-md-shield_lock_outline"></i>;
+            case 'wifi':
+              if (networkOutput.defaultGateway?.signalStrength >= 80) {
+                return <i className="nf nf-md-wifi_strength_4"></i>;
+              } else if (networkOutput.defaultGateway?.signalStrength >= 65) {
+                return <i className="nf nf-md-wifi_strength_3"></i>;
+              } else if (networkOutput.defaultGateway?.signalStrength >= 40) {
+                return <i className="nf nf-md-wifi_strength_2"></i>;
+              } else if (networkOutput.defaultGateway?.signalStrength >= 25) {
+                return <i className="nf nf-md-wifi_strength_1"></i>;
+              } else {
+                return <i className="nf nf-md-wifi_strength_outline"></i>;
+              }
+            default:
+              return <i className="nf nf-md-wifi_strength_off_outline"></i>;
+          }
+        }
+
+        // Get icon to show for how much of the battery is charged.
+        function getBatteryIcon(batteryOutput) {
+          if (!batteryOutput) return <i className="nf nf-fa-battery_0"></i>;
+          const charge = batteryOutput.chargePercent || 0;
+          if (charge > 90) return <i className="nf nf-fa-battery_4"></i>;
+          if (charge > 70) return <i className="nf nf-fa-battery_3"></i>;
+          if (charge > 40) return <i className="nf nf-fa-battery_2"></i>;
+          if (charge > 20) return <i className="nf nf-fa-battery_1"></i>;
+          return <i className="nf nf-fa-battery_0"></i>;
+        }
+
+        const currentWorkspaces = output.glazewm?.currentWorkspaces || [];
+        const currentSession = output.media?.currentSession;
+        const defaultAudio = output.audio?.defaultPlaybackDevice;
+
+        return (
+          <div className="app">
+            <div className="left">
+              {output.glazewm && (
+                <div className="workspaces">
+                  {currentWorkspaces.map(workspace => (
+                    <button
+                      className={`workspace ${workspace.hasFocus && 'focused'} ${workspace.isDisplayed && 'displayed'}`}
+                      onClick={() =>
+                        output.glazewm?.runCommand(
+                          `focus --workspace ${workspace.name}`,
+                        )
+                      }
+                      key={workspace.name}
+                    >
+                      {workspace.displayName ?? workspace.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Music Player Pill with Play/Pause and Next/Prev Controls */}
+              <div
+                className={`music-pill ${currentSession?.title ? 'active' : 'idle'}`}
+                title={
+                  currentSession?.title
+                    ? `${currentSession.title} - ${currentSession.artist || ''}`
+                    : 'Nessun brano attivo'
+                }
+              >
+                <i className="nf nf-md-music music-icon"></i>
+
+                <span className="music-text">
+                  {currentSession?.title ? (
+                    <>
+                      {currentSession.title}
+                      {currentSession.artist && (
+                        <span className="music-artist"> • {currentSession.artist}</span>
+                      )}
+                    </>
+                  ) : (
+                    'Musica'
+                  )}
+                </span>
+
+                <div className="music-controls">
+                  <button
+                    className="media-btn"
+                    title="Traccia precedente"
+                    onClick={() =>
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe prev',
+                      )
+                    }
+                  >
+                    <i className="nf nf-md-skip_previous"></i>
+                  </button>
+
+                  <button
+                    className="media-btn play-pause"
+                    title={
+                      currentSession?.status === 'playing'
+                        ? 'Pausa'
+                        : 'Riproduci'
+                    }
+                    onClick={() =>
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe toggle',
+                      )
+                    }
+                  >
+                    <i
+                      className={`nf ${
+                        currentSession?.status === 'playing'
+                          ? 'nf-md-pause'
+                          : 'nf-md-play'
+                      }`}
+                    ></i>
+                  </button>
+
+                  <button
+                    className="media-btn"
+                    title="Traccia successiva"
+                    onClick={() =>
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe next',
+                      )
+                    }
+                  >
+                    <i className="nf nf-md-skip_next"></i>
+                  </button>
+                </div>
+              </div>
+
+              {output.glazewm?.focusedWindow?.title && (
+                <div className="window-title">
+                  <span>{output.glazewm.focusedWindow.title}</span>
+                </div>
+              )}
+            </div>
+
+            <div
+              className="center clickable-pill"
+              title="Click: apri Orologio e Sveglie"
+              onClick={() =>
+                output.glazewm?.runCommand(
+                  'shell-exec D:/Progetto/scripts/media-ctl.exe calendar',
+                )
+              }
+            >
+              {output.date?.formatted}
+            </div>
+
+            <div className="right">
+              {output.glazewm && (
+                <>
+                  {output.glazewm.isPaused && (
+                    <button
+                      className="paused-button"
+                      onClick={() =>
+                        output.glazewm?.runCommand('wm-toggle-pause')
+                      }
+                    >
+                      PAUSED
+                    </button>
+                  )}
+                  {output.glazewm.bindingModes?.map(bindingMode => (
+                    <button
+                      className="binding-mode"
+                      key={bindingMode.name}
+                      onClick={() =>
+                        output.glazewm?.runCommand(
+                          `wm-disable-binding-mode --name ${bindingMode.name}`,
+                        )
+                      }
+                    >
+                      {bindingMode.displayName ?? bindingMode.name}
+                    </button>
+                  ))}
+                </>
+              )}
+
+              {/* Audio Volume & Output Device Selector */}
+              {defaultAudio && (
+                <div
+                  className="audio"
+                  title={`${defaultAudio.name || 'Dispositivo Audio'} • Click: scambia dispositivo (Cuffie/Casse) • Click destro: impostazioni • Rotellina: volume`}
+                  onWheel={(e) => {
+                    if (e.deltaY < 0) {
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe vol_up',
+                      );
+                    } else {
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe vol_down',
+                      );
+                    }
+                  }}
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe switch_audio',
+                    )
+                  }
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe sound_panel',
+                    );
+                  }}
+                >
+                  <button
+                    className="vol-icon-btn"
+                    title="Muto / Riattiva"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe mute',
+                      );
+                    }}
+                  >
+                    <i
+                      className={`nf ${
+                        defaultAudio.isMuted
+                          ? 'nf-md-volume_off'
+                          : defaultAudio.volume > 50
+                            ? 'nf-md-volume_high'
+                            : defaultAudio.volume > 0
+                              ? 'nf-md-volume_medium'
+                              : 'nf-md-volume_low'
+                      }`}
+                    ></i>
+                  </button>
+                  <span
+                    className="vol-text"
+                    title="Click: scambia dispositivo (Cuffie/Casse) • Click destro: impostazioni"
+                  >
+                    {defaultAudio.isMuted
+                      ? 'Muto'
+                      : `${Math.round(defaultAudio.volume || 0)}%`}
+                  </span>
+                </div>
+              )}
+
+              {output.network && (
+                <div
+                  className="network clickable-pill"
+                  title="Stato Rete • Click: impostazioni connessione"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe network',
+                    )
+                  }
+                >
+                  {getNetworkIcon(output.network)}
+                  {output.network.defaultGateway?.ssid ||
+                    (output.network.defaultInterface?.type === 'ethernet'
+                      ? 'Ethernet'
+                      : '')}
+                </div>
+              )}
+
+              {output.memory && (
+                <div
+                  className="memory clickable-pill"
+                  title="Uso RAM • Click: Gestione Attività (Task Manager)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe taskmgr',
+                    )
+                  }
+                >
+                  <i className="nf nf-fae-chip"></i>
+                  {Math.round(output.memory.usage || 0)}%
+                </div>
+              )}
+
+              {output.cpu && (
+                <div
+                  className="cpu clickable-pill"
+                  title="Uso CPU • Click: Gestione Attività (Task Manager)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe taskmgr',
+                    )
+                  }
+                >
+                  <i className="nf nf-oct-cpu"></i>
+                  <span
+                    className={(output.cpu.usage || 0) > 85 ? 'high-usage' : ''}
+                  >
+                    {Math.round(output.cpu.usage || 0)}%
+                  </span>
+                </div>
+              )}
+
+              {output.battery && (
+                <div className="battery">
+                  {output.battery.isCharging && (
+                    <i className="nf nf-md-power_plug charging-icon"></i>
+                  )}
+                  {getBatteryIcon(output.battery)}
+                  {Math.round(output.battery.chargePercent || 0)}%
+                </div>
+              )}
+
+              {/* Power / System Control Pill */}
+              <div className="power-group">
+                <button
+                  className="power-btn reload"
+                  title="Ricarica Barra Zebar (Alt + Shift + Z)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe restart_bar',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-refresh"></i>
+                </button>
+                <button
+                  className="power-btn lock"
+                  title="Blocca sessione (Alt + Shift + Esc)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe lock',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-lock_outline"></i>
+                </button>
+                <button
+                  className="power-btn sleep"
+                  title="Sospendi PC"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec rundll32.exe powrprof.dll,SetSuspendState 0,1,0',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-power_sleep"></i>
+                </button>
+                <button
+                  className="power-btn power"
+                  title="Menu Spegnimento Windows (Alt + \)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe shutdown_dialog',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-power"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+    </script>
+  </body>
+</html>

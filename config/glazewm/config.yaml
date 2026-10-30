@@ -23,7 +23,7 @@ window_effects:
   focused_window:
     border:
       enabled: true
-      color: "#7aa2f7"   # Accent color (updated by theme engine)
+      color: "#8839ef"   # Accent color (updated by theme engine)
     transparency:
       enabled: true
       opacity: "92%"
@@ -106,16 +106,14 @@ keybindings:
   - commands: ['close']
     bindings: ['alt+q']
 
-  # Application Launcher (Super + D)
-  - commands: ['shell-exec %LOCALAPPDATA%/FlowLauncher/Flow.Launcher.exe']
-    bindings: ['alt+d']
+  # Application Launcher (Super + D handled natively by Flow Launcher with toggle support)
 
   # Cycle Wallpapers (Super + W)
-  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -File D:/Progetto/scripts/wallpaper-picker.ps1']
+  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File D:/Progetto/scripts/wallpaper-picker.ps1']
     bindings: ['alt+w']
 
   # Select Wallpaper from Dialog (Super + Shift + W)
-  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -File D:/Progetto/scripts/wallpaper-picker.ps1 -Select']
+  - commands: ['shell-exec powershell -ExecutionPolicy Bypass -WindowStyle Hidden -File D:/Progetto/scripts/wallpaper-picker.ps1 -Select']
     bindings: ['alt+shift+w']
 
   # Quake-style Dropdown Terminal / Scratchpad (Super + U)
@@ -277,6 +275,7 @@ keybindings:
   # =====================================================================
   - commands: ['toggle-tiling-direction']
     bindings: ['alt+s']
+
 
 
 

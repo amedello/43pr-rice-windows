@@ -79,3 +79,4 @@ Queste regole sono vincolanti per qualsiasi modifica, aggiunta, script o manuten
 - **Separazione dei repository**:
   - `D:\Progetto` traccia esclusivamente la configurazione del desktop Windows (`43pr-rice-windows`).
   - La cartella `junsun-ambient-light/` è un progetto Android separato con il suo repository Git dedicato (`amedello/junsun-ambient-light`). Non mescolare mai i file tra i due progetti.
+
