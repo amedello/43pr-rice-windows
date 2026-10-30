@@ -160,50 +160,53 @@ $xaml = @"
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <!-- Day Button -->
                     <Button x:Name="BtnDay"
-                            Content="&#xE706; Giorno"
-                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Variable Text"
-                            FontSize="11" FontWeight="SemiBold"
                             Foreground="#E0AF68" Background="#26E0AF68"
                             BorderBrush="#44E0AF68" BorderThickness="1"
-                            Padding="10,4" Margin="0,0,6,0" Cursor="Hand"
+                            Padding="8,4" Margin="0,0,6,0" Cursor="Hand"
                             FocusVisualStyle="{x:Null}">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>
                             </Style>
                         </Button.Resources>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE706;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Giorno" FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
                     <!-- Night Button -->
                     <Button x:Name="BtnNight"
-                            Content="&#xE708; Notte"
-                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Variable Text"
-                            FontSize="11" FontWeight="SemiBold"
                             Foreground="#7AA2F7" Background="#267AA2F7"
                             BorderBrush="#447AA2F7" BorderThickness="1"
-                            Padding="10,4" Margin="0,0,6,0" Cursor="Hand"
+                            Padding="8,4" Margin="0,0,6,0" Cursor="Hand"
                             FocusVisualStyle="{x:Null}">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>
                             </Style>
                         </Button.Resources>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE708;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Notte" FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
                     <!-- Auto Day/Night Toggle Button -->
                     <Button x:Name="BtnAuto"
-                            Content="&#xE777; $autoStatusText"
-                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Variable Text"
-                            FontSize="11" FontWeight="SemiBold"
                             Foreground="$autoStatusColor" Background="$autoStatusBorder"
                             BorderBrush="$autoStatusColor" BorderThickness="1"
-                            Padding="10,4" Margin="0,0,8,0" Cursor="Hand"
+                            Padding="8,4" Margin="0,0,8,0" Cursor="Hand"
                             FocusVisualStyle="{x:Null}">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>
                             </Style>
                         </Button.Resources>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtAutoText" Text="$autoStatusText" FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
                     <!-- Close Button -->
@@ -447,11 +450,12 @@ $toggleAutoAction = {
     Set-Content -Path $autoThemeFile -Value $saveVal -Force
 
     # Update Button Visuals
-    $newText = if ($newOn) { [char]0xE777 + " Auto: ATTIVO" } else { [char]0xE777 + " Auto: SOSPESO" }
+    $newText = if ($newOn) { "Auto: ATTIVO" } else { "Auto: SOSPESO" }
     $newColorHex = if ($newOn) { "#9ECE6A" } else { "#E0AF68" }
     $newBgHex = if ($newOn) { "#269ECE6A" } else { "#26E0AF68" }
 
-    $btnAuto.Content = $newText
+    $txtAuto = $window.FindName("TxtAutoText")
+    if ($txtAuto) { $txtAuto.Text = $newText }
     $btnAuto.Foreground = [System.Windows.Media.BrushConverter]::new().ConvertFromString($newColorHex)
     $btnAuto.Background = [System.Windows.Media.BrushConverter]::new().ConvertFromString($newBgHex)
     $btnAuto.BorderBrush = [System.Windows.Media.BrushConverter]::new().ConvertFromString($newColorHex)
