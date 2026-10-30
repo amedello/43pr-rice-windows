@@ -252,6 +252,9 @@ class Program {
 
         // Check for updates asynchronously in background (every 7 days, non-blocking)
         CheckAndRefreshDependenciesAsync();
+
+        // Apply Day/Night theme automatically if configured
+        AutoDayNightTheme();
     }
 
     static void UpdateDependencies(bool force = false) {
@@ -356,6 +359,128 @@ class Program {
     static void LockScreen() {
         try {
             Process.Start("rundll32.exe", "user32.dll,LockWorkStation");
+        } catch {}
+    }
+
+    static void SleepPC() {
+        try {
+            Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
+        } catch {}
+    }
+
+    static void RestartPC() {
+        try {
+            Process.Start(new ProcessStartInfo("shutdown.exe", "/r /t 0") { CreateNoWindow = true, UseShellExecute = false });
+        } catch {}
+    }
+
+    static void ShutdownPC() {
+        try {
+            Process.Start(new ProcessStartInfo("shutdown.exe", "/s /t 0") { CreateNoWindow = true, UseShellExecute = false });
+        } catch {}
+    }
+
+    static void LogoffUser() {
+        try {
+            Process.Start(new ProcessStartInfo("shutdown.exe", "/l") { CreateNoWindow = true, UseShellExecute = false });
+        } catch {}
+    }
+
+    static void OpenPowerMenu() {
+        try {
+            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", "-ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\Progetto\\scripts\\power-menu.ps1\"") {
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            Process.Start(psi);
+        } catch {
+            OpenShutdownDialog();
+        }
+    }
+
+    static void ToggleScratchpad() {
+        try {
+            IntPtr targetHwnd = IntPtr.Zero;
+            EnumWindows((hWnd, lParam) => {
+                if (!IsWindowVisible(hWnd)) return true;
+                int len = GetWindowTextLength(hWnd);
+                if (len == 0) return true;
+                var sb = new System.Text.StringBuilder(len + 1);
+                GetWindowText(hWnd, sb, sb.Capacity);
+                string title = sb.ToString();
+                if (title.IndexOf("43PR Scratchpad", StringComparison.OrdinalIgnoreCase) >= 0) {
+                    targetHwnd = hWnd;
+                    return false;
+                }
+                return true;
+            }, IntPtr.Zero);
+
+            if (targetHwnd != IntPtr.Zero) {
+                IntPtr fore = GetForegroundWindow();
+                if (fore == targetHwnd) {
+                    ShowWindow(targetHwnd, 6); // SW_MINIMIZE
+                } else {
+                    BringWindowToFront(targetHwnd);
+                }
+            } else {
+                string localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string wtPath = Path.Combine(localApp, @"Microsoft\WindowsApps\wt.exe");
+                ProcessStartInfo psi;
+                if (File.Exists(wtPath)) {
+                    psi = new ProcessStartInfo(wtPath, "--title \"43PR Scratchpad\" -p \"PowerShell\"") {
+                        UseShellExecute = false
+                    };
+                } else {
+                    psi = new ProcessStartInfo("powershell.exe", "-NoExit -Command \"$host.UI.RawUI.WindowTitle='43PR Scratchpad'\"") {
+                        UseShellExecute = true
+                    };
+                }
+                Process.Start(psi);
+            }
+        } catch {}
+    }
+
+    static void ToggleZenMode() {
+        try {
+            string flagPath = Path.Combine(Path.GetTempPath(), "43pr_zen_mode.flag");
+            bool isZenMode = File.Exists(flagPath);
+
+            string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string gwmCli = Path.Combine(localAppData, @"Programs\glzr\bin\cli\glazewm.exe");
+
+            if (isZenMode) {
+                try { File.Delete(flagPath); } catch {}
+                if (File.Exists(gwmCli)) {
+                    ProcessStartInfo gwmPsi = new ProcessStartInfo(gwmCli, "command wm-toggle-pause") {
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    };
+                    using (Process p = Process.Start(gwmPsi)) { if (p != null) p.WaitForExit(1500); }
+                }
+                LaunchZebarDirectly();
+            } else {
+                try { File.WriteAllText(flagPath, DateTime.UtcNow.ToString("o")); } catch {}
+                if (File.Exists(gwmCli)) {
+                    ProcessStartInfo gwmPsi = new ProcessStartInfo(gwmCli, "command wm-toggle-pause") {
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    };
+                    using (Process p = Process.Start(gwmPsi)) { if (p != null) p.WaitForExit(1500); }
+                }
+                foreach (var p in Process.GetProcessesByName("zebar")) {
+                    try { p.Kill(); } catch {}
+                }
+            }
+        } catch {}
+    }
+
+    static void AutoDayNightTheme() {
+        try {
+            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", "-ExecutionPolicy Bypass -WindowStyle Hidden -File \"D:\\Progetto\\scripts\\theme.ps1\" -Auto") {
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            Process.Start(psi);
         } catch {}
     }
 
@@ -520,6 +645,39 @@ class Program {
             case "shutdown_dialog":
             case "power":
                 OpenShutdownDialog();
+                break;
+            case "power_menu":
+            case "wlogout":
+                OpenPowerMenu();
+                break;
+            case "sleep":
+            case "suspend":
+                SleepPC();
+                break;
+            case "restart_pc":
+            case "reboot":
+                RestartPC();
+                break;
+            case "shutdown_pc":
+            case "poweroff":
+                ShutdownPC();
+                break;
+            case "logoff":
+            case "signout":
+                LogoffUser();
+                break;
+            case "toggle_scratchpad":
+            case "scratchpad":
+                ToggleScratchpad();
+                break;
+            case "zen_mode":
+            case "gaming_mode":
+            case "toggle_zen":
+                ToggleZenMode();
+                break;
+            case "auto_theme":
+            case "day_night":
+                AutoDayNightTheme();
                 break;
             case "cheatsheet":
                 OpenCheatsheet();

@@ -5,12 +5,33 @@ param (
     [string]$Theme,
     [string]$Wallpaper,
     [switch]$NoWallpaper,
-    [switch]$List
+    [switch]$List,
+    [switch]$Auto,
+    [string]$DayTheme = "catppuccin-latte",
+    [string]$NightTheme = "tokyo-night"
 )
 
 $ErrorActionPreference = "Stop"
 $repoDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $themesDir = Join-Path $repoDir "config\43pr\themes"
+$currentThemeFile = Join-Path $HOME ".43pr_current_theme"
+
+# Handle Auto Day/Night Mode
+if ($Auto) {
+    $hour = (Get-Date).Hour
+    $targetTheme = if ($hour -ge 7 -and $hour -lt 19) { $DayTheme } else { $NightTheme }
+    
+    # Check if already applied to avoid redundant reloads
+    if (Test-Path $currentThemeFile) {
+        $lastTheme = (Get-Content $currentThemeFile -Raw).Trim()
+        if ($lastTheme -eq $targetTheme) {
+            Write-Host "Auto Day/Night Mode: '$targetTheme' is already active (${hour}:00)." -ForegroundColor DarkGray
+            return
+        }
+    }
+    $Theme = $targetTheme
+    Write-Host "Auto Day/Night Mode: Switching to '$Theme' (${hour}:00)..." -ForegroundColor Cyan
+}
 $wallpapersDir = Join-Path $repoDir "wallpapers"
 $glzrHome = Join-Path $HOME ".glzr"
 $zebarStyles = @(
@@ -286,6 +307,8 @@ if ($Theme) {
         & $gwmCli command wm-reload-config 2>$null
         Write-Host "  [+] Reloaded running GlazeWM instance!" -ForegroundColor Green
     }
+
+    try { Set-Content -Path $currentThemeFile -Value $Theme -Force } catch {}
 
     Write-Host "`n>> Theme '$Theme' successfully applied across the entire system!`n" -ForegroundColor Cyan
 }

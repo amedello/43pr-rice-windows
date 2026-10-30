@@ -168,29 +168,113 @@
           return null;
         }
 
+        // Mappa automatica processo Windows -> Icona Nerd Font
+        function getProcessIcon(processName) {
+          if (!processName) return null;
+          const p = processName.toLowerCase();
+
+          if (p.includes('edge') || p.includes('chrome') || p.includes('firefox') || p.includes('brave') || p.includes('duckduckgo') || p.includes('zen') || p.includes('opera') || p.includes('vivaldi')) {
+            return 'nf-fa-globe';
+          }
+          if (p.includes('code') || p.includes('cursor') || p.includes('idea') || p.includes('devenv') || p.includes('antigravity') || p.includes('sublime') || p.includes('notepad')) {
+            return 'nf-md-code_tags';
+          }
+          if (p.includes('terminal') || p.includes('powershell') || p.includes('cmd') || p.includes('wezterm') || p.includes('alacritty') || p.includes('kitty') || p.includes('bash')) {
+            return 'nf-oct-terminal';
+          }
+          if (p.includes('spotify') || p.includes('music') || p.includes('tidal') || p.includes('foobar') || p.includes('vlc')) {
+            return 'nf-fa-spotify';
+          }
+          if (p.includes('discord') || p.includes('telegram') || p.includes('slack') || p.includes('teams') || p.includes('whatsapp') || p.includes('signal')) {
+            return 'nf-fa-comments';
+          }
+          if (p.includes('explorer')) {
+            return 'nf-md-folder';
+          }
+          if (p.includes('steam') || p.includes('game') || p.includes('epic') || p.includes('gog') || p.includes('retroarch')) {
+            return 'nf-md-gamepad_variant';
+          }
+          if (p.includes('taskmgr') || p.includes('settings') || p.includes('control') || p.includes('flow.launcher')) {
+            return 'nf-md-cog';
+          }
+          if (p.includes('photoshop') || p.includes('gimp') || p.includes('figma') || p.includes('blender') || p.includes('obs')) {
+            return 'nf-md-palette';
+          }
+
+          return 'nf-md-application';
+        }
+
+        function getWorkspaceIcons(workspace) {
+          if (!workspace || !workspace.children) return [];
+          const seen = new Set();
+          const icons = [];
+          for (const child of workspace.children) {
+            const proc = child.processName;
+            if (proc && !seen.has(proc.toLowerCase())) {
+              seen.add(proc.toLowerCase());
+              const icon = getProcessIcon(proc);
+              if (icon) icons.push({ icon, name: proc });
+            }
+          }
+          return icons;
+        }
+
         const currentWorkspaces = output.glazewm?.currentWorkspaces || [];
         const currentSession = getActiveMediaSession(output.media);
         const isPlaying = Boolean(currentSession?.isPlaying || currentSession?.status === 'playing');
         const defaultAudio = output.audio?.defaultPlaybackDevice;
+
+        const [osdInfo, setOsdInfo] = useState(null);
+        const lastOsdVal = React.useRef(null);
+
+        // OSD trigger su variazione volume o dispositivo audio
+        useEffect(() => {
+          if (!defaultAudio) return;
+          const currentKey = `${defaultAudio.name}_${Math.round(defaultAudio.volume || 0)}_${defaultAudio.isMuted}`;
+          if (lastOsdVal.current && lastOsdVal.current !== currentKey) {
+            setOsdInfo({
+              title: getAudioDeviceShortName(defaultAudio),
+              value: Math.round(defaultAudio.volume || 0),
+              isMuted: defaultAudio.isMuted,
+              icon: getAudioDeviceIcon(defaultAudio)
+            });
+            const timer = setTimeout(() => setOsdInfo(null), 1800);
+            return () => clearTimeout(timer);
+          }
+          lastOsdVal.current = currentKey;
+        }, [defaultAudio?.volume, defaultAudio?.name, defaultAudio?.isMuted]);
 
         return (
           <div className="app">
             <div className="left">
               {output.glazewm && (
                 <div className="workspaces">
-                  {currentWorkspaces.map(workspace => (
-                    <button
-                      className={`workspace ${workspace.hasFocus && 'focused'} ${workspace.isDisplayed && 'displayed'}`}
-                      onClick={() =>
-                        output.glazewm?.runCommand(
-                          `focus --workspace ${workspace.name}`,
-                        )
-                      }
-                      key={workspace.name}
-                    >
-                      {workspace.displayName ?? workspace.name}
-                    </button>
-                  ))}
+                  {currentWorkspaces.map(workspace => {
+                    const wsIcons = getWorkspaceIcons(workspace);
+                    const isFoc = Boolean(workspace.hasFocus);
+                    const isDisp = Boolean(workspace.isDisplayed);
+                    return (
+                      <button
+                        className={`workspace ${isFoc ? 'focused' : ''} ${isDisp ? 'displayed' : ''} ${wsIcons.length > 0 ? 'has-apps' : ''}`}
+                        onClick={() =>
+                          output.glazewm?.runCommand(
+                            `focus --workspace ${workspace.name}`,
+                          )
+                        }
+                        key={workspace.name}
+                        title={`Workspace ${workspace.displayName ?? workspace.name}${wsIcons.length > 0 ? ': ' + wsIcons.map(a => a.name).join(', ') : ''}`}
+                      >
+                        <span className="ws-number">{workspace.displayName ?? workspace.name}</span>
+                        {wsIcons.length > 0 && (
+                          <span className="ws-icons">
+                            {wsIcons.slice(0, 3).map((app, idx) => (
+                              <i key={idx} className={`nf ${app.icon} ws-app-icon`}></i>
+                            ))}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
 
@@ -378,16 +462,32 @@
               )}
             </div>
 
-            <div
-              className="center clickable-pill"
-              title="Click: apri Orologio e Sveglie"
-              onClick={() =>
-                output.glazewm?.runCommand(
-                  'shell-exec D:/Progetto/scripts/media-ctl.exe calendar',
-                )
-              }
-            >
-              {output.date?.formatted}
+            <div className="center">
+              {osdInfo ? (
+                <div className="osd-pill">
+                  <i className={`nf ${osdInfo.isMuted ? 'nf-md-volume_off' : osdInfo.icon} osd-icon`}></i>
+                  <span className="osd-title">{osdInfo.title}</span>
+                  <div className="osd-track">
+                    <div
+                      className={`osd-fill ${osdInfo.isMuted ? 'muted' : ''}`}
+                      style={{ width: `${osdInfo.isMuted ? 0 : osdInfo.value}%` }}
+                    />
+                  </div>
+                  <span className="osd-val">{osdInfo.isMuted ? 'MUTO' : `${osdInfo.value}%`}</span>
+                </div>
+              ) : (
+                <div
+                  className="clickable-pill date-text"
+                  title="Click: apri Orologio e Sveglie"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe calendar',
+                    )
+                  }
+                >
+                  {output.date?.formatted}
+                </div>
+              )}
             </div>
 
             <div className="right">
@@ -534,10 +634,10 @@
                 </button>
                 <button
                   className="power-btn power"
-                  title="Menu Spegnimento Windows (Alt + \)"
+                  title="Menu Spegnimento 43PR (Alt + \)"
                   onClick={() =>
                     output.glazewm?.runCommand(
-                      'shell-exec D:/Progetto/scripts/media-ctl.exe shutdown_dialog',
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe power_menu',
                     )
                   }
                 >

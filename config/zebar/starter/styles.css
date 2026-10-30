@@ -13,9 +13,9 @@
   --accent-glow: rgba(122, 162, 247, 0.4);
   --fg-main: #c0caf5;
   --fg-dim: #9aa5ce;
-  --color-cpu: #f7768e;
+  --color-cpu: #ff7a93;
   --color-mem: #e0af68;
-  --color-bat: #9ece6a;
+  --color-bat: #73daca;
   --color-net: #7aa2f7;
   --bg-pill: rgba(20, 24, 30, 0.78);
   --bg-pill-hover: rgba(30, 36, 46, 0.88);
@@ -312,6 +312,94 @@ body {
   color: var(--fg-main);
 }
 
+/* Workspace Dynamic App Icons */
+.ws-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 5px;
+}
+
+.ws-app-icon {
+  font-size: 11px !important;
+  opacity: 0.75;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.workspace:hover .ws-app-icon {
+  opacity: 1;
+}
+
+.workspace.focused .ws-app-icon {
+  opacity: 0.9;
+  color: #11111b;
+}
+
+/* Minimal Floating OSD Pill */
+.osd-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-pill);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--accent);
+  box-shadow: 0 4px 16px var(--accent-glow);
+  border-radius: var(--radius-pill);
+  padding: 4px 14px;
+  height: 32px;
+  animation: osdPopIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes osdPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.osd-icon {
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.osd-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-main);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.osd-track {
+  width: 70px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.osd-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.15s ease;
+}
+
+.osd-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--fg-dim);
+  min-width: 28px;
+  text-align: right;
+}
+
 /* Icons */
 i {
   font-size: var(--icon-size);
@@ -434,3 +522,5 @@ i {
 .center:active {
   transform: translateX(-50%) translateY(0);
 }
+
+

@@ -82,6 +82,7 @@ window_rules:
       - window_process: { equals: 'control' }
       - window_process: { equals: 'SoundVolumeView' }
       - window_class: { equals: '#32770' }
+      - window_title: { regex: '(?i)43pr scratchpad' }
 
   # Dedicated Workspaces for background apps
   - commands: ['move --workspace 9']
@@ -112,8 +113,16 @@ keybindings:
   - commands: ['shell-exec powershell -ExecutionPolicy Bypass -File D:/Progetto/scripts/wallpaper-picker.ps1 -Select']
     bindings: ['alt+shift+w']
 
+  # Quake-style Dropdown Terminal / Scratchpad (Super + U)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe toggle_scratchpad']
+    bindings: ['alt+u']
+
+  # Zen Mode / Gaming Mode toggle (Super + Shift + G)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe zen_mode']
+    bindings: ['alt+shift+g']
+
   # Power / Shutdown Menu (Super + Grave on US, Alt + \ on ITA, Alt + P fallback)
-  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe shutdown_dialog']
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe power_menu']
     bindings: ['alt+oem_pipe', 'alt+p']
 
   # File Explorer (Super + E)
@@ -243,6 +252,8 @@ keybindings:
   # =====================================================================
   - commands: ['toggle-tiling-direction']
     bindings: ['alt+s']
+
+
 
 
 

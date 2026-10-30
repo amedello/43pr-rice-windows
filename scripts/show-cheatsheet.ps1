@@ -26,14 +26,16 @@ if ($Cli) {
 
     Write-Host "`n  -- APPLICAZIONI E SISTEMA ---------------------------------------------" -ForegroundColor Yellow
     Write-Host "  Alt + T               " -NoNewline -ForegroundColor White; Write-Host "Apri Terminale (Windows Terminal)" -ForegroundColor Gray
+    Write-Host "  Alt + U               " -NoNewline -ForegroundColor White; Write-Host "Quake Scratchpad Terminal (Mostra / Nascondi al volo)" -ForegroundColor Cyan
     Write-Host "  Alt + D               " -NoNewline -ForegroundColor White; Write-Host "Flow Launcher (Cerca app, file, comandi)" -ForegroundColor Gray
     Write-Host "  Alt + E               " -NoNewline -ForegroundColor White; Write-Host "Esplora Risorse (File Manager)" -ForegroundColor Gray
     Write-Host "  Alt + B               " -NoNewline -ForegroundColor White; Write-Host "Browser Web predefinito" -ForegroundColor Gray
     Write-Host "  Alt + Shift + S       " -NoNewline -ForegroundColor White; Write-Host "Cattura Schermo (Ritagli / Snipping Tool)" -ForegroundColor Gray
     Write-Host "  Alt + Shift + B       " -NoNewline -ForegroundColor White; Write-Host "Mostra / Nascondi barra inferiore Windows" -ForegroundColor Gray
     Write-Host "  Alt + Shift + A       " -NoNewline -ForegroundColor White; Write-Host "Cambia uscita audio (Cuffie / Casse / Monitor)" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + G       " -NoNewline -ForegroundColor White; Write-Host "Zen Mode / Gaming Mode (Toggle Tiling & Barra)" -ForegroundColor Cyan
     Write-Host "  Alt + Shift + Esc     " -NoNewline -ForegroundColor White; Write-Host "Blocca sessione Windows" -ForegroundColor Gray
-    Write-Host "  Alt + Grave / Alt + P " -NoNewline -ForegroundColor White; Write-Host "Menu Spegnimento / Sospensione Windows" -ForegroundColor Gray
+    Write-Host "  Alt + P / Alt + \     " -NoNewline -ForegroundColor White; Write-Host "Wlogout Power Menu (Blocca/Sospendi/Riavvia/Spegni)" -ForegroundColor Gray
 
     Write-Host "`n  -- TEMI, SFONDI E BARRA -----------------------------------------------" -ForegroundColor Yellow
     Write-Host "  Alt + W               " -NoNewline -ForegroundColor White; Write-Host "Cicla al prossimo sfondo coordinato" -ForegroundColor Gray
@@ -140,6 +142,10 @@ $xamlText = @'
                         <TextBlock Text="Terminale (Windows Terminal)" Foreground="#9AA5CE"/>
                     </DockPanel>
                     <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + U" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Quake Scratchpad Terminal" Foreground="#CDD6F4"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,3">
                         <TextBlock Text="Alt + D" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
                         <TextBlock Text="Flow Launcher (Cerca app/file)" Foreground="#9AA5CE"/>
                     </DockPanel>
@@ -164,12 +170,16 @@ $xamlText = @'
                         <TextBlock Text="Cambia uscita audio (Cuffie/Casse)" Foreground="#9AA5CE"/>
                     </DockPanel>
                     <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + Shift + G" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Zen Mode / Gaming Mode" Foreground="#CDD6F4"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,3">
                         <TextBlock Text="Alt + Shift + Esc" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
                         <TextBlock Text="Blocca sessione Windows" Foreground="#9AA5CE"/>
                     </DockPanel>
                     <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Grave / Alt + P" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Menu Spegnimento Windows" Foreground="#9AA5CE"/>
+                        <TextBlock Text="Alt + P / Alt + \" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
+                        <TextBlock Text="Wlogout Power Menu" Foreground="#9AA5CE"/>
                     </DockPanel>
 
                     <TextBlock Text="PERSONALIZZAZIONE &amp; BARRA" FontWeight="Bold" Foreground="#BB9AF7" FontSize="13" Margin="0,16,0,8"/>
