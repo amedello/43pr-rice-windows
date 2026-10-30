@@ -15,9 +15,6 @@ window_behavior:
     floating:
       centered: true
       shown_on_top: false
-    fullscreen:
-      maximized: false
-      shown_on_top: true
 
 gaps:
   scale_with_dpi: true
@@ -199,7 +196,7 @@ keybindings:
     bindings: ['alt+space']
 
   # Toggle Fullscreen (Super + F)
-  - commands: ['toggle-fullscreen --shown-on-top']
+  - commands: ['toggle-fullscreen']
     bindings: ['alt+f']
 
   # Reload GlazeWM Configuration (Super + Shift + R)
