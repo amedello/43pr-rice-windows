@@ -80,6 +80,11 @@ window_rules:
       - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
         window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
 
+  # Automatically tile development editors and core applications
+  - commands: ['set-tiling']
+    match:
+      - window_process: { equals: 'Code' }
+
   # Automatically float small popups, dialogs, and utility apps
   - commands: ['set-floating']
     match:
