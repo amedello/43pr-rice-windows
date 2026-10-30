@@ -27,6 +27,11 @@ if ($Cli) {
     Write-Host "`n  -- APPLICAZIONI E SISTEMA ---------------------------------------------" -ForegroundColor Yellow
     Write-Host "  Alt + T               " -NoNewline -ForegroundColor White; Write-Host "Apri Terminale (Windows Terminal)" -ForegroundColor Gray
     Write-Host "  Alt + U               " -NoNewline -ForegroundColor White; Write-Host "Quake Scratchpad Terminal (Mostra / Nascondi al volo)" -ForegroundColor Cyan
+    Write-Host "  Alt + V               " -NoNewline -ForegroundColor White; Write-Host "Clipboard History Manager (Cronologia appunti)" -ForegroundColor Cyan
+    Write-Host "  Alt + Tab / Alt + J   " -NoNewline -ForegroundColor White; Write-Host "Window Switcher (Cerca e salta tra finestre)" -ForegroundColor Cyan
+    Write-Host "  Alt + C               " -NoNewline -ForegroundColor White; Write-Host "Calcolatrice Rapida & Convertitore al volo" -ForegroundColor Cyan
+    Write-Host "  Alt + Shift + C       " -NoNewline -ForegroundColor White; Write-Host "Pipetta Color Picker (Copia HEX pixel schermo)" -ForegroundColor Cyan
+    Write-Host "  Alt + Shift + M       " -NoNewline -ForegroundColor White; Write-Host "Hardware Sensors HUD (CPU/RAM/Dischi in tempo reale)" -ForegroundColor Cyan
     Write-Host "  Alt + D               " -NoNewline -ForegroundColor White; Write-Host "Flow Launcher (Cerca app, file, comandi)" -ForegroundColor Gray
     Write-Host "  Alt + E               " -NoNewline -ForegroundColor White; Write-Host "Esplora Risorse (File Manager)" -ForegroundColor Gray
     Write-Host "  Alt + B               " -NoNewline -ForegroundColor White; Write-Host "Browser Web predefinito" -ForegroundColor Gray
@@ -144,6 +149,26 @@ $xamlText = @'
                     <DockPanel Margin="0,3">
                         <TextBlock Text="Alt + U" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
                         <TextBlock Text="Quake Scratchpad Terminal" Foreground="#CDD6F4"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + V" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Clipboard History Manager" Foreground="#CDD6F4"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + Tab / Alt + J" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Global Window Switcher" Foreground="#CDD6F4"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + C" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Calcolatrice Rapida &amp; Unita" Foreground="#CDD6F4"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + Shift + C" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Color Picker Pipetta" Foreground="#CDD6F4"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,3">
+                        <TextBlock Text="Alt + Shift + M" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
+                        <TextBlock Text="Hardware Sensors HUD" Foreground="#CDD6F4"/>
                     </DockPanel>
                     <DockPanel Margin="0,3">
                         <TextBlock Text="Alt + D" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>

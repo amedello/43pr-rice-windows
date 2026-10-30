@@ -83,6 +83,11 @@ window_rules:
       - window_process: { equals: 'SoundVolumeView' }
       - window_class: { equals: '#32770' }
       - window_title: { regex: '(?i)43pr scratchpad' }
+      - window_title: { regex: '(?i)43pr clipboard' }
+      - window_title: { regex: '(?i)43pr window switcher' }
+      - window_title: { regex: '(?i)43pr color picker' }
+      - window_title: { regex: '(?i)43pr calculator' }
+      - window_title: { regex: '(?i)43pr hardware hud' }
 
   # Dedicated Workspaces for background apps
   - commands: ['move --workspace 9']
@@ -116,6 +121,26 @@ keybindings:
   # Quake-style Dropdown Terminal / Scratchpad (Super + U)
   - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe toggle_scratchpad']
     bindings: ['alt+u']
+
+  # Clipboard History Manager (Super + V)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe clipboard']
+    bindings: ['alt+v']
+
+  # Global Window Switcher & Jump (Super + Tab, Super + J)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe window_switcher']
+    bindings: ['alt+tab', 'alt+j']
+
+  # Instant Math & Unit Calculator (Super + C)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe calc']
+    bindings: ['alt+c']
+
+  # Color Picker Pipette Eyedropper (Super + Shift + C)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe color_picker']
+    bindings: ['alt+shift+c']
+
+  # Hardware Telemetry & Sensors HUD (Super + Shift + M)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe sensors']
+    bindings: ['alt+shift+m']
 
   # Zen Mode / Gaming Mode toggle (Super + Shift + G)
   - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe zen_mode']

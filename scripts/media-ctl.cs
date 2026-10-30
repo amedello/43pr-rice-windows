@@ -241,6 +241,10 @@ class Program {
         // Allow Windows logon, DWM, and WebView2 runtime to initialize before launching Zebar
         System.Threading.Thread.Sleep(1500);
 
+        // Apply Day/Night theme first if configured so CSS is in sync
+        AutoDayNightTheme();
+        System.Threading.Thread.Sleep(500);
+
         try {
             foreach (var p in Process.GetProcessesByName("zebar")) {
                 try { p.Kill(); } catch {}
@@ -252,9 +256,6 @@ class Program {
 
         // Check for updates asynchronously in background (every 7 days, non-blocking)
         CheckAndRefreshDependenciesAsync();
-
-        // Apply Day/Night theme automatically if configured
-        AutoDayNightTheme();
     }
 
     static void UpdateDependencies(bool force = false) {
@@ -484,6 +485,17 @@ class Program {
         } catch {}
     }
 
+    static void RunScript(string scriptName) {
+        try {
+            string scriptPath = Path.Combine(@"D:\Progetto\scripts", scriptName);
+            ProcessStartInfo psi = new ProcessStartInfo("powershell.exe", string.Format("-ExecutionPolicy Bypass -WindowStyle Hidden -File \"{0}\"", scriptPath)) {
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            Process.Start(psi);
+        } catch {}
+    }
+
     static void OpenTaskManager() {
         try {
             ProcessStartInfo psi = new ProcessStartInfo("taskmgr.exe") { UseShellExecute = true };
@@ -678,6 +690,28 @@ class Program {
             case "auto_theme":
             case "day_night":
                 AutoDayNightTheme();
+                break;
+            case "clipboard":
+            case "clip":
+                RunScript("clipboard-manager.ps1");
+                break;
+            case "window_switcher":
+            case "windows":
+            case "switcher":
+                RunScript("window-switcher.ps1");
+                break;
+            case "color_picker":
+            case "picker":
+            case "eyedropper":
+                RunScript("color-picker.ps1");
+                break;
+            case "calc":
+            case "calculator":
+                RunScript("calc-launcher.ps1");
+                break;
+            case "sensors":
+            case "hud":
+                RunScript("sensors-hud.ps1");
                 break;
             case "cheatsheet":
                 OpenCheatsheet();

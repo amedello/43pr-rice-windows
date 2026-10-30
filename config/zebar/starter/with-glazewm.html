@@ -227,6 +227,53 @@
         const [osdInfo, setOsdInfo] = useState(null);
         const lastOsdVal = React.useRef(null);
 
+        // Pomodoro Focus Timer State
+        const [pomoState, setPomoState] = useState('idle'); // 'idle' | 'running' | 'paused'
+        const [pomoMode, setPomoMode] = useState('work'); // 'work' (25m) | 'break' (5m)
+        const [pomoSec, setPomoSec] = useState(25 * 60);
+
+        useEffect(() => {
+          if (pomoState !== 'running') return;
+          const interval = setInterval(() => {
+            setPomoSec((prev) => {
+              if (prev <= 1) {
+                const nextMode = pomoMode === 'work' ? 'break' : 'work';
+                setPomoMode(nextMode);
+                const nextSec = nextMode === 'work' ? 25 * 60 : 5 * 60;
+                output.glazewm?.runCommand('shell-exec powershell -Command "[System.Media.SystemSounds]::Exclamation.Play()"');
+                return nextSec;
+              }
+              return prev - 1;
+            });
+          }, 1000);
+          return () => clearInterval(interval);
+        }, [pomoState, pomoMode]);
+
+        function togglePomodoro() {
+          if (pomoState === 'idle') {
+            setPomoMode('work');
+            setPomoSec(25 * 60);
+            setPomoState('running');
+          } else if (pomoState === 'running') {
+            setPomoState('paused');
+          } else if (pomoState === 'paused') {
+            setPomoState('running');
+          }
+        }
+
+        function resetPomodoro(e) {
+          if (e) e.preventDefault();
+          setPomoState('idle');
+          setPomoMode('work');
+          setPomoSec(25 * 60);
+        }
+
+        function formatPomoTime(seconds) {
+          const m = Math.floor(seconds / 60);
+          const s = seconds % 60;
+          return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
         // OSD trigger su variazione volume o dispositivo audio
         useEffect(() => {
           if (!defaultAudio) return;
@@ -476,17 +523,34 @@
                   <span className="osd-val">{osdInfo.isMuted ? 'MUTO' : `${osdInfo.value}%`}</span>
                 </div>
               ) : (
-                <div
-                  className="clickable-pill date-text"
-                  title="Click: apri Orologio e Sveglie"
-                  onClick={() =>
-                    output.glazewm?.runCommand(
-                      'shell-exec D:/Progetto/scripts/media-ctl.exe calendar',
-                    )
-                  }
-                >
-                  {output.date?.formatted}
-                </div>
+                <>
+                  <div
+                    className="clickable-pill date-text"
+                    title="Click: apri Orologio e Sveglie"
+                    onClick={() =>
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe calendar',
+                      )
+                    }
+                  >
+                    {output.date?.formatted}
+                  </div>
+                  <div
+                    className={`pomodoro-pill ${pomoState} ${pomoMode}`}
+                    onClick={togglePomodoro}
+                    onContextMenu={resetPomodoro}
+                    title={
+                      pomoState === 'idle'
+                        ? 'Pomodoro Focus Timer (Click: Avvia 25min)'
+                        : `${pomoMode === 'work' ? 'Lavoro' : 'Pausa'}: ${formatPomoTime(pomoSec)}\n• Click: ${pomoState === 'running' ? 'Pausa' : 'Riprendi'}\n• Click Destro: Azzera`
+                    }
+                  >
+                    <i className={`nf ${pomoMode === 'work' ? 'nf-md-timer_sand' : 'nf-md-coffee'} pomo-icon`}></i>
+                    {pomoState !== 'idle' && (
+                      <span className="pomo-text">{formatPomoTime(pomoSec)}</span>
+                    )}
+                  </div>
+                </>
               )}
             </div>
 
