@@ -23,7 +23,7 @@ gaps:
   scale_with_dpi: true
   inner_gap: "8px"
   outer_gap:
-    top: "8px"    # Clearance below Zebar (bar space is natively reserved by Zebar dockToEdge)
+    top: "46px"    # Clearance for the floating 43PR Zebar top bar
     bottom: "8px"
     left: "8px"
     right: "8px"

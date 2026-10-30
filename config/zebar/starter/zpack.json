@@ -35,8 +35,8 @@
             "type": "all"
           },
           "dockToEdge": {
-            "enabled": true,
-            "edge": "top",
+            "enabled": false,
+            "edge": null,
             "windowMargin": "0px"
           }
         }
@@ -70,8 +70,8 @@
             "type": "all"
           },
           "dockToEdge": {
-            "enabled": true,
-            "edge": "top",
+            "enabled": false,
+            "edge": null,
             "windowMargin": "0px"
           }
         }
@@ -105,8 +105,8 @@
             "type": "all"
           },
           "dockToEdge": {
-            "enabled": true,
-            "edge": "top",
+            "enabled": false,
+            "edge": null,
             "windowMargin": "0px"
           }
         }
