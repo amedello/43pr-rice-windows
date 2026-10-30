@@ -140,3 +140,4 @@ powershell -ExecutionPolicy Bypass -File .\uninstall.ps1 -Full
 ## License
 
 MIT License. Crafted with precision for the modern Windows desktop.
+

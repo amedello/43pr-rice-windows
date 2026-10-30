@@ -20,6 +20,9 @@ class Program {
     [DllImport("shell32.dll")]
     static extern uint SHAppBarMessage(uint dwMessage, ref APPBARDATA pData);
 
+    [DllImport("shell32.dll")]
+    static extern void SHChangeNotify(int wEventId, int uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
     [DllImport("user32.dll", SetLastError = true)]
     static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
@@ -114,6 +117,19 @@ class Program {
                         abd.lParam = (!isAuto) ? 1 : 2; // 1 = ABS_AUTOHIDE, 2 = ABS_ALWAYSONTOP
                         SHAppBarMessage(10, ref abd);
                     }
+                }
+            }
+        } catch {}
+    }
+
+    static void ToggleDesktopIcons() {
+        try {
+            using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", true)) {
+                if (key != null) {
+                    int current = Convert.ToInt32(key.GetValue("HideIcons", 0));
+                    int newVal = (current == 1) ? 0 : 1;
+                    key.SetValue("HideIcons", newVal, Microsoft.Win32.RegistryValueKind.DWord);
+                    SHChangeNotify(0x08000000, 0, IntPtr.Zero, IntPtr.Zero);
                 }
             }
         } catch {}
@@ -676,6 +692,11 @@ class Program {
                 break;
             case "toggle_taskbar":
                 ToggleTaskbar();
+                break;
+            case "toggle_icons":
+            case "icons":
+            case "desktop_icons":
+                ToggleDesktopIcons();
                 break;
             case "shutdown_dialog":
             case "power":

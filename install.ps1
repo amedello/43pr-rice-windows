@@ -234,3 +234,4 @@ if ($StartAfterInstall) {
         & (Join-Path $repoDir "start-43pr.bat")
     }
 }
+

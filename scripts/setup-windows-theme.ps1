@@ -75,6 +75,16 @@ if (Test-Path $bibataSource) {
 }
 
 # =========================================================================
+# 4. Hide Desktop Icons for Clean Minimalist Rice Desktop
+# =========================================================================
+$explorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+if (-not (Test-Path $explorerAdvanced)) {
+    New-Item -Path $explorerAdvanced -Force | Out-Null
+}
+Set-ItemProperty -Path $explorerAdvanced -Name "HideIcons" -Value 1 -Type DWord
+Write-Host "  [+] Configured Desktop Icons to Hidden (Clean Rice)" -ForegroundColor Green
+
+# =========================================================================
 # 4. Broadcast Live Settings & Cursor Change
 # =========================================================================
 $code = @'

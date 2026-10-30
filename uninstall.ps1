@@ -62,6 +62,13 @@ foreach ($sf in $stateFiles) {
     }
 }
 
+# Restore Desktop Icons
+$explorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+if (Test-Path $explorerAdvanced) {
+    Set-ItemProperty -Path $explorerAdvanced -Name "HideIcons" -Value 0 -Type DWord
+    Write-Host "  [+] Restored Desktop Icons to Visible." -ForegroundColor Green
+}
+
 # 4. Optional Package Removal via Winget
 if ($Full) {
     Write-Host "`n[*] Removing Winget packages (--Full requested)..." -ForegroundColor Cyan
@@ -77,3 +84,4 @@ Write-Host "====================================================================
 Write-Host "            43PR Rice has been successfully removed from this system.           " -ForegroundColor Green
 Write-Host "================================================================================" -ForegroundColor Green
 Write-Host ""
+
