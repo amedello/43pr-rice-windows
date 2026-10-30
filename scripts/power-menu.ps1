@@ -1,5 +1,5 @@
 # 43PR Wlogout-style Frosted Power Menu for Windows
-# High performance, keyboard-driven WPF overlay
+# High performance, keyboard-driven WPF overlay using native Windows Segoe MDL2 / Fluent icons
 
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 
@@ -75,12 +75,12 @@ $xaml = @"
                            FontSize="24"
                            FontWeight="Bold"
                            Foreground="$accentColor"
-                           FontFamily="JetBrainsMono Nerd Font, Segoe UI Variable Display, Consolas"
+                           FontFamily="Segoe UI Variable Display, JetBrainsMono Nerd Font, Consolas"
                            HorizontalAlignment="Center"/>
                 <TextBlock Text="Seleziona un'azione o premi il tasto rapido (Esc per uscire)"
                            FontSize="13"
                            Foreground="#9AA5CE"
-                           FontFamily="JetBrainsMono Nerd Font, Segoe UI Variable Text, Consolas"
+                           FontFamily="Segoe UI Variable Text, JetBrainsMono Nerd Font, Consolas"
                            HorizontalAlignment="Center"
                            Margin="0,6,0,0"/>
             </StackPanel>
@@ -90,7 +90,7 @@ $xaml = @"
                 <!-- Lock -->
                 <Button x:Name="BtnLock" Style="{StaticResource PowerCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="" FontFamily="JetBrainsMono Nerd Font, Segoe UI Symbol" FontSize="44" Foreground="#E0AF68" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                        <TextBlock Text="&#xE72E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" FontSize="44" Foreground="#E0AF68" HorizontalAlignment="Center" Margin="0,0,0,12"/>
                         <TextBlock Text="Blocca" FontSize="15" FontWeight="SemiBold" Foreground="#CDD6F4" HorizontalAlignment="Center"/>
                         <TextBlock Text="[ L ]" FontSize="11" FontWeight="Bold" Foreground="#7982A9" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
@@ -99,7 +99,7 @@ $xaml = @"
                 <!-- Sleep -->
                 <Button x:Name="BtnSleep" Style="{StaticResource PowerCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="" FontFamily="JetBrainsMono Nerd Font, Segoe UI Symbol" FontSize="44" Foreground="#7AA2F7" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                        <TextBlock Text="&#xE708;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" FontSize="44" Foreground="#7AA2F7" HorizontalAlignment="Center" Margin="0,0,0,12"/>
                         <TextBlock Text="Sospendi" FontSize="15" FontWeight="SemiBold" Foreground="#CDD6F4" HorizontalAlignment="Center"/>
                         <TextBlock Text="[ S ]" FontSize="11" FontWeight="Bold" Foreground="#7982A9" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
@@ -108,7 +108,7 @@ $xaml = @"
                 <!-- Restart -->
                 <Button x:Name="BtnRestart" Style="{StaticResource PowerCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="" FontFamily="JetBrainsMono Nerd Font, Segoe UI Symbol" FontSize="44" Foreground="#9ECE6A" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                        <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" FontSize="44" Foreground="#9ECE6A" HorizontalAlignment="Center" Margin="0,0,0,12"/>
                         <TextBlock Text="Riavvia" FontSize="15" FontWeight="SemiBold" Foreground="#CDD6F4" HorizontalAlignment="Center"/>
                         <TextBlock Text="[ R ]" FontSize="11" FontWeight="Bold" Foreground="#7982A9" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
@@ -117,7 +117,7 @@ $xaml = @"
                 <!-- Shutdown -->
                 <Button x:Name="BtnShutdown" Style="{StaticResource PowerCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="" FontFamily="JetBrainsMono Nerd Font, Segoe UI Symbol" FontSize="44" Foreground="#F7768E" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                        <TextBlock Text="&#xE7E8;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" FontSize="44" Foreground="#F7768E" HorizontalAlignment="Center" Margin="0,0,0,12"/>
                         <TextBlock Text="Spegni" FontSize="15" FontWeight="SemiBold" Foreground="#CDD6F4" HorizontalAlignment="Center"/>
                         <TextBlock Text="[ P ]" FontSize="11" FontWeight="Bold" Foreground="#7982A9" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
@@ -126,7 +126,7 @@ $xaml = @"
                 <!-- Sign Out -->
                 <Button x:Name="BtnLogoff" Style="{StaticResource PowerCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="" FontFamily="JetBrainsMono Nerd Font, Segoe UI Symbol" FontSize="44" Foreground="#BB9AF7" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                        <TextBlock Text="&#xE8F8;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" FontSize="44" Foreground="#BB9AF7" HorizontalAlignment="Center" Margin="0,0,0,12"/>
                         <TextBlock Text="Disconnetti" FontSize="15" FontWeight="SemiBold" Foreground="#CDD6F4" HorizontalAlignment="Center"/>
                         <TextBlock Text="[ O ]" FontSize="11" FontWeight="Bold" Foreground="#7982A9" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
