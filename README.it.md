@@ -2,6 +2,8 @@
 
 > 🇬🇧 **Available in English:** [English Documentation](README.md)
 
+![43PR Desktop Showcase](assets/desktop-showcase.png)
+
 Un ambiente desktop tiling minimalista, fluido e performante per Windows, basato su **GlazeWM**, **Zebar** e utilità native **WPF / C#**.
 
 Progettato per la massima produttività, navigazione totale da tastiera ed estetica moderna. Include 27 temi colore integrati, sincronizzazione giorno/notte circadiana, una suite completa di finestre HUD native e latenza zero senza popup o finestre nere di console.
@@ -57,6 +59,22 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
   - **Calcolatrice Rapida** (<kbd>Alt</kbd> + <kbd>C</kbd>): Valutatore di espressioni matematiche al volo con cronologia.
   - **Pipetta Colore (Color Picker)** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>): Cattura il colore di qualsiasi pixel dello schermo e copia il codice HEX.
   - **Menu Spegnimento (Power Menu)** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>): Blocca, sospendi, riavvia, spegni o disconnetti.
+
+---
+
+## 🖼️ Galleria HUD e Anteprime Visive
+
+| Cheatsheet Scorciatoie (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>/</kbd>) | Selettore Temi (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>) |
+| :---: | :---: |
+| ![Cheatsheet HUD](assets/hud-cheatsheet.png) | ![Selettore Temi](assets/hud-theme-picker.png) |
+
+| HUD Sensori Hardware (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>) | Calcolatrice Rapida (<kbd>Alt</kbd> + <kbd>C</kbd>) |
+| :---: | :---: |
+| ![HUD Sensori](assets/hud-sensors.png) | ![Calcolatrice Rapida](assets/hud-calc.png) |
+
+| Menu Spegnimento (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>) |
+| :---: |
+| ![Menu Spegnimento](assets/hud-power-menu.png) |
 
 ---
 

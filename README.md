@@ -2,6 +2,8 @@
 
 > 🇮🇹 **Disponibile in Italiano:** [Documentazione in Italiano](README.it.md)
 
+![43PR Desktop Showcase](assets/desktop-showcase.png)
+
 A minimalist, highly performant tiling window manager and desktop environment for Windows, powered by **GlazeWM**, **Zebar**, and native **WPF / C#** utilities.
 
 Designed for productivity, keyboard navigation, and pure aesthetics with 27 harmonized themes, an automatic day/night circadian switcher, a native HUD suite, and zero terminal popup latency.
@@ -56,6 +58,22 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
   - **Quick Calculator** (<kbd>Alt</kbd> + <kbd>C</kbd>): Instant mathematical evaluator with inline history.
   - **Color Picker** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>): Screen pixel eyedropper with HEX auto-copy.
   - **Power Menu** (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>): Lock, sleep, restart, shutdown, or sign out.
+
+---
+
+## Native HUD Suite & Visual Showcase
+
+| Shortcuts Cheatsheet (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>/</kbd>) | Theme Selector (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>) |
+| :---: | :---: |
+| ![Cheatsheet HUD](assets/hud-cheatsheet.png) | ![Theme Selector](assets/hud-theme-picker.png) |
+
+| Hardware Sensors HUD (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd>) | Quick Calculator (<kbd>Alt</kbd> + <kbd>C</kbd>) |
+| :---: | :---: |
+| ![Sensors HUD](assets/hud-sensors.png) | ![Quick Calculator](assets/hud-calc.png) |
+
+| Power Menu (<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd>) |
+| :---: |
+| ![Power Menu](assets/hud-power-menu.png) |
 
 ---
 
