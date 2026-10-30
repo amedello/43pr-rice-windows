@@ -11,3 +11,8 @@ desktop.ini
 # User dynamic theme cache
 .43pr_*
 
+# AI Agent Instructions & Guidelines (Local only)
+AGENTS.md
+GEMINI.md
+
+
