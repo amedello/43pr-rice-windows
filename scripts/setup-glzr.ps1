@@ -49,5 +49,16 @@ try {
     Write-Host "Copied bar pack to: $zebarBarDst" -ForegroundColor Yellow
 }
 
+# Sync starter pack styles and template
+$zebarStarterSrc = Join-Path $repoDir "config\zebar\starter"
+$zebarStarterDst = Join-Path $zebarTarget "starter"
+if (Test-Path $zebarStarterSrc) {
+    if (-not (Test-Path $zebarStarterDst)) {
+        New-Item -ItemType Directory -Force -Path $zebarStarterDst | Out-Null
+    }
+    Copy-Item -Force -Recurse (Join-Path $zebarStarterSrc "*") $zebarStarterDst
+    Write-Host "Synced starter pack to: $zebarStarterDst" -ForegroundColor Green
+}
+
 Write-Host "`nGlazeWM & Zebar configurations are installed and ready!" -ForegroundColor Green
 

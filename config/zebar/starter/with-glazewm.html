@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,11 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./styles.css" />
 
     <!-- Allows React to be run buildless via "text/babel" script below. -->
-    <script
-      src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"
-      integrity="sha256-aS0B0wnsaDByLfE16h4MDCP1fQFccysd1YWOcV+gbBo="
-      crossorigin="anonymous"
-    ></script>
+    <script src="./babel.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
@@ -32,7 +28,9 @@
         date: { type: 'date', formatting: 'EEE d MMM • HH:mm', locale: 'it-IT' },
         battery: { type: 'battery' },
         memory: { type: 'memory' },
-        weather: { type: 'weather' },
+        media: { type: 'media' },
+        audio: { type: 'audio' },
+        weather: { type: 'weather',  latitude: 41.277486,   longitude: 16.417833 }
       });
 
       createRoot(document.getElementById('root')).render(<App />);
@@ -46,6 +44,7 @@
 
         // Get icon to show for current network status.
         function getNetworkIcon(networkOutput) {
+          if (!networkOutput) return <i className="nf nf-md-wifi_strength_off_outline"></i>;
           switch (networkOutput.defaultInterface?.type) {
             case 'ethernet':
               return <i className="nf nf-md-ethernet_cable"></i>;
@@ -54,43 +53,75 @@
             case 'wifi':
               if (networkOutput.defaultGateway?.signalStrength >= 80) {
                 return <i className="nf nf-md-wifi_strength_4"></i>;
-              } else if (
-                networkOutput.defaultGateway?.signalStrength >= 65
-              ) {
+              } else if (networkOutput.defaultGateway?.signalStrength >= 65) {
                 return <i className="nf nf-md-wifi_strength_3"></i>;
-              } else if (
-                networkOutput.defaultGateway?.signalStrength >= 40
-              ) {
+              } else if (networkOutput.defaultGateway?.signalStrength >= 40) {
                 return <i className="nf nf-md-wifi_strength_2"></i>;
-              } else if (
-                networkOutput.defaultGateway?.signalStrength >= 25
-              ) {
+              } else if (networkOutput.defaultGateway?.signalStrength >= 25) {
                 return <i className="nf nf-md-wifi_strength_1"></i>;
               } else {
                 return <i className="nf nf-md-wifi_strength_outline"></i>;
               }
             default:
-              return (
-                <i className="nf nf-md-wifi_strength_off_outline"></i>
-              );
+              return <i className="nf nf-md-wifi_strength_off_outline"></i>;
           }
         }
 
         // Get icon to show for how much of the battery is charged.
         function getBatteryIcon(batteryOutput) {
-          if (batteryOutput.chargePercent > 90)
-            return <i className="nf nf-fa-battery_4"></i>;
-          if (batteryOutput.chargePercent > 70)
-            return <i className="nf nf-fa-battery_3"></i>;
-          if (batteryOutput.chargePercent > 40)
-            return <i className="nf nf-fa-battery_2"></i>;
-          if (batteryOutput.chargePercent > 20)
-            return <i className="nf nf-fa-battery_1"></i>;
+          if (!batteryOutput) return <i className="nf nf-fa-battery_0"></i>;
+          const charge = batteryOutput.chargePercent || 0;
+          if (charge > 90) return <i className="nf nf-fa-battery_4"></i>;
+          if (charge > 70) return <i className="nf nf-fa-battery_3"></i>;
+          if (charge > 40) return <i className="nf nf-fa-battery_2"></i>;
+          if (charge > 20) return <i className="nf nf-fa-battery_1"></i>;
           return <i className="nf nf-fa-battery_0"></i>;
         }
 
-        // Get icon to show for current weather status.
+        function getAudioDeviceShortName(device) {
+          if (!device || !device.name) return 'Audio';
+          const name = device.name;
+          const lower = name.toLowerCase();
+
+          // Specific hardware branding / identifiers
+          if (lower.includes('jabra')) return 'Jabra';
+          if (lower.includes('wireless controller') || lower.includes('dualsense') || lower.includes('dualshock') || lower.includes('gamepad')) return 'Controller';
+          if (lower.includes('p24') || lower.includes('thinkvision')) return 'P24h-30';
+          if (lower.includes('s/pdif') || lower.includes('digital audio') || lower.includes('optical')) return 'S/PDIF';
+          if (lower.includes('altoparlanti') || lower.includes('speakers')) return 'Altoparlanti';
+          if (lower.includes('headset') || lower.includes('cuffie') || lower.includes('earphone') || lower.includes('headphones')) return 'Cuffie';
+
+          // Clean up generic Windows driver suffixes for any other dynamic device
+          let cleaned = name
+            .replace(/\s*\((?:High Definition Audio Device|NVIDIA High Definition Audio|Realtek.*?|USB Audio.*?)\)/gi, '')
+            .trim();
+
+          if (cleaned.length > 14) {
+            return cleaned.substring(0, 12) + '…';
+          }
+          return cleaned || name;
+        }
+
+        function getAudioDeviceIcon(device) {
+          if (!device || !device.name) return 'nf-md-volume_high';
+          const name = device.name.toLowerCase();
+          if (name.includes('controller') || name.includes('gamepad') || name.includes('dualsense') || name.includes('dualshock')) {
+            return 'nf-md-gamepad_variant';
+          }
+          if (name.includes('headset') || name.includes('cuffie') || name.includes('earphone') || name.includes('headphones') || name.includes('jabra') || name.includes('airpods') || name.includes('buds')) {
+            return 'nf-md-headphones';
+          }
+          if (name.includes('digital') || name.includes('s/pdif') || name.includes('optical')) {
+            return 'nf-md-audio_video';
+          }
+          if (name.includes('p24') || name.includes('monitor') || name.includes('hdmi') || name.includes('tv') || name.includes('display')) {
+            return 'nf-md-monitor_speaker';
+          }
+          return 'nf-md-speaker';
+        }
+
         function getWeatherIcon(weatherOutput) {
+          if (!weatherOutput || !weatherOutput.status) return <i className="nf nf-weather-cloudy"></i>;
           switch (weatherOutput.status) {
             case 'clear_day':
               return <i className="nf nf-weather-day_sunny"></i>;
@@ -101,35 +132,57 @@
             case 'cloudy_night':
               return <i className="nf nf-weather-night_alt_cloudy"></i>;
             case 'light_rain_day':
-              return <i className="nf nf-weather-day_sprinkle"></i>;
-            case 'light_rain_night':
-              return <i className="nf nf-weather-night_alt_sprinkle"></i>;
             case 'heavy_rain_day':
               return <i className="nf nf-weather-day_rain"></i>;
+            case 'light_rain_night':
             case 'heavy_rain_night':
               return <i className="nf nf-weather-night_alt_rain"></i>;
             case 'snow_day':
+            case 'snow_night':
               return <i className="nf nf-weather-day_snow"></i>;
             case 'snow_night':
               return <i className="nf nf-weather-night_alt_snow"></i>;
             case 'thunder_day':
-              return <i className="nf nf-weather-day_lightning"></i>;
             case 'thunder_night':
-              return <i className="nf nf-weather-night_alt_lightning"></i>;
+              return <i className="nf nf-weather-thunderstorm"></i>;
+            default:
+              return <i className="nf nf-weather-cloudy"></i>;
           }
         }
+
+        function getActiveMediaSession(mediaOutput) {
+          if (!mediaOutput) return null;
+          const allSessions = mediaOutput.allSessions || [];
+
+          // 1. Priorità assoluta: la sessione che sta attivamente suonando
+          const playingSession = allSessions.find(s => s.isPlaying && s.title);
+          if (playingSession) return playingSession;
+
+          // 2. Seconda priorità: la sessione corrente indicata da Windows se ha un titolo valido
+          if (mediaOutput.currentSession?.title) return mediaOutput.currentSession;
+
+          // 3. Terza priorità: qualsiasi sessione rilevata con un titolo valido
+          const anySession = allSessions.find(s => s.title);
+          if (anySession) return anySession;
+
+          return null;
+        }
+
+        const currentWorkspaces = output.glazewm?.currentWorkspaces || [];
+        const currentSession = getActiveMediaSession(output.media);
+        const isPlaying = Boolean(currentSession?.isPlaying || currentSession?.status === 'playing');
+        const defaultAudio = output.audio?.defaultPlaybackDevice;
 
         return (
           <div className="app">
             <div className="left">
-              <i className="logo nf nf-fa-windows"></i>
               {output.glazewm && (
                 <div className="workspaces">
-                  {output.glazewm.currentWorkspaces.map(workspace => (
+                  {currentWorkspaces.map(workspace => (
                     <button
                       className={`workspace ${workspace.hasFocus && 'focused'} ${workspace.isDisplayed && 'displayed'}`}
                       onClick={() =>
-                        output.glazewm.runCommand(
+                        output.glazewm?.runCommand(
                           `focus --workspace ${workspace.name}`,
                         )
                       }
@@ -140,9 +193,202 @@
                   ))}
                 </div>
               )}
+
+              {/* Audio Volume & Output Device Selector (after Workspaces, before Player) */}
+              {defaultAudio && (
+                <div
+                  className="audio"
+                  title={
+                    `${defaultAudio.name || 'Dispositivo Audio'}\n` +
+                    `Click: alterna uscita audio\n` +
+                    (output.audio?.playbackDevices && output.audio.playbackDevices.length > 0
+                      ? `\nDispositivi rilevati:\n` +
+                        output.audio.playbackDevices
+                          .map(d => `${d.name === defaultAudio.name ? '● ' : '○ '}${d.name}`)
+                          .join('\n')
+                      : '') +
+                    `\n\nClick destro: impostazioni audio\nRotellina: alza / abbassa volume`
+                  }
+                  onWheel={(e) => {
+                    if (e.deltaY < 0) {
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe vol_up',
+                      );
+                    } else {
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe vol_down',
+                      );
+                    }
+                  }}
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe switch_audio',
+                    )
+                  }
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe sound_panel',
+                    );
+                  }}
+                >
+                  <span className="audio-device-name">
+                    <i className={`nf ${getAudioDeviceIcon(defaultAudio)}`}></i>
+                    <span>{getAudioDeviceShortName(defaultAudio)}</span>
+                  </span>
+
+                  <span className="vol-separator">•</span>
+
+                  <button
+                    className="vol-icon-btn"
+                    title="Muto / Riattiva"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe mute',
+                      );
+                    }}
+                  >
+                    <i
+                      className={`nf ${
+                        defaultAudio.isMuted
+                          ? 'nf-md-volume_off'
+                          : defaultAudio.volume > 50
+                            ? 'nf-md-volume_high'
+                            : defaultAudio.volume > 0
+                              ? 'nf-md-volume_medium'
+                              : 'nf-md-volume_low'
+                      }`}
+                    ></i>
+                  </button>
+                  <span
+                    className="vol-text"
+                    title="Click: scambia dispositivo (Cuffie/Casse) • Click destro: impostazioni"
+                  >
+                    {defaultAudio.isMuted
+                      ? 'Muto'
+                      : `${Math.round(defaultAudio.volume || 0)}%`}
+                  </span>
+                </div>
+              )}
+
+              {/* Music Player Pill with Play/Pause, Next/Prev, Wheel and Focus Player */}
+              <div
+                className={`music-pill ${currentSession?.title ? 'active' : 'idle'}`}
+                title={
+                  currentSession?.title
+                    ? `${currentSession.title} - ${currentSession.artist || ''}\n• Click: porta applicazione in primo piano\n• Rotellina: traccia succ / prec`
+                    : 'Nessun brano attivo'
+                }
+                onWheel={(e) => {
+                  if (e.deltaY > 0) {
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe next',
+                    );
+                  } else {
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe prev',
+                    );
+                  }
+                }}
+              >
+                <i
+                  className="nf nf-md-music music-icon"
+                  style={{ cursor: 'pointer' }}
+                  title="Click: porta applicazione in primo piano"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      currentSession?.title
+                        ? `shell-exec D:/Progetto/scripts/media-ctl.exe focus_media "${encodeURIComponent(currentSession.title)}"`
+                        : 'shell-exec D:/Progetto/scripts/media-ctl.exe focus_media',
+                    )
+                  }
+                ></i>
+
+                <span
+                  className="music-text"
+                  title="Click: porta applicazione in primo piano"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      currentSession?.title
+                        ? `shell-exec D:/Progetto/scripts/media-ctl.exe focus_media "${encodeURIComponent(currentSession.title)}"`
+                        : 'shell-exec D:/Progetto/scripts/media-ctl.exe focus_media',
+                    )
+                  }
+                >
+                  {currentSession?.title ? (
+                    <>
+                      {currentSession.title}
+                      {currentSession.artist && (
+                        <span className="music-artist"> • {currentSession.artist}</span>
+                      )}
+                    </>
+                  ) : (
+                    'Musica'
+                  )}
+                </span>
+
+                <div className="music-controls">
+                  <button
+                    className="media-btn"
+                    title="Traccia precedente"
+                    onClick={() =>
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe prev',
+                      )
+                    }
+                  >
+                    <i className="nf nf-md-skip_previous"></i>
+                  </button>
+
+                  <button
+                    className={`media-btn play-pause ${isPlaying ? 'playing' : ''}`}
+                    title={isPlaying ? 'Pausa' : 'Riproduci'}
+                    onClick={() =>
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe toggle',
+                      )
+                    }
+                  >
+                    <i
+                      className={`nf ${
+                        isPlaying ? 'nf-md-pause' : 'nf-md-play'
+                      }`}
+                    ></i>
+                  </button>
+
+                  <button
+                    className="media-btn"
+                    title="Traccia successiva"
+                    onClick={() =>
+                      output.glazewm?.runCommand(
+                        'shell-exec D:/Progetto/scripts/media-ctl.exe next',
+                      )
+                    }
+                  >
+                    <i className="nf nf-md-skip_next"></i>
+                  </button>
+                </div>
+              </div>
+
+              {output.glazewm?.focusedWindow?.title && (
+                <div className="window-title">
+                  <span>{output.glazewm.focusedWindow.title}</span>
+                </div>
+              )}
             </div>
 
-            <div className="center">{output.date?.formatted}</div>
+            <div
+              className="center clickable-pill"
+              title="Click: apri Orologio e Sveglie"
+              onClick={() =>
+                output.glazewm?.runCommand(
+                  'shell-exec D:/Progetto/scripts/media-ctl.exe calendar',
+                )
+              }
+            >
+              {output.date?.formatted}
+            </div>
 
             <div className="right">
               {output.glazewm && (
@@ -151,18 +397,18 @@
                     <button
                       className="paused-button"
                       onClick={() =>
-                        output.glazewm.runCommand('wm-toggle-pause')
+                        output.glazewm?.runCommand('wm-toggle-pause')
                       }
                     >
                       PAUSED
                     </button>
                   )}
-                  {output.glazewm.bindingModes.map(bindingMode => (
+                  {output.glazewm.bindingModes?.map(bindingMode => (
                     <button
                       className="binding-mode"
                       key={bindingMode.name}
                       onClick={() =>
-                        output.glazewm.runCommand(
+                        output.glazewm?.runCommand(
                           `wm-disable-binding-mode --name ${bindingMode.name}`,
                         )
                       }
@@ -170,64 +416,134 @@
                       {bindingMode.displayName ?? bindingMode.name}
                     </button>
                   ))}
-
-                  <button
-                    className={`tiling-direction nf ${
-                      output.glazewm.tilingDirection === 'horizontal'
-                        ? 'nf-md-swap_horizontal'
-                        : 'nf-md-swap_vertical'
-                    }`}
-                    onClick={() =>
-                      output.glazewm.runCommand('toggle-tiling-direction')
-                    }
-                  ></button>
                 </>
               )}
 
+              {/* Weather Pill */}
+              {output.weather && (
+                <div
+                  className="weather clickable-pill"
+                  title={`Meteo: ${output.weather.status?.replace(/_/g, ' ') || 'Condizioni attuali'} • ${Math.round(output.weather.celsiusTemp ?? output.weather.celsius ?? 0)}°C\nClick: apri previsioni meteo`}
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe weather',
+                    )
+                  }
+                >
+                  {getWeatherIcon(output.weather)}
+                  <span>{Math.round(output.weather.celsiusTemp ?? output.weather.celsius ?? 0)}°C</span>
+                </div>
+              )}
+
               {output.network && (
-                <div className="network">
+                <div
+                  className="network clickable-pill"
+                  title="Stato Rete • Click: impostazioni connessione"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe network',
+                    )
+                  }
+                >
                   {getNetworkIcon(output.network)}
-                  {output.network.defaultGateway?.ssid}
+                  {output.network.defaultGateway?.ssid ||
+                    (output.network.defaultInterface?.type === 'ethernet'
+                      ? 'Ethernet'
+                      : '')}
                 </div>
               )}
 
               {output.memory && (
-                <div className="memory">
+                <div
+                  className="memory clickable-pill"
+                  title="Uso RAM • Click: Gestione Attività (Task Manager)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe taskmgr',
+                    )
+                  }
+                >
                   <i className="nf nf-fae-chip"></i>
-                  {Math.round(output.memory.usage)}%
+                  {Math.round(output.memory.usage || 0)}%
                 </div>
               )}
 
               {output.cpu && (
-                <div className="cpu">
+                <div
+                  className="cpu clickable-pill"
+                  title="Uso CPU • Click: Gestione Attività (Task Manager)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe taskmgr',
+                    )
+                  }
+                >
                   <i className="nf nf-oct-cpu"></i>
-
-                  {/* Change the text color if the CPU usage is high. */}
                   <span
-                    className={output.cpu.usage > 85 ? 'high-usage' : ''}
+                    className={(output.cpu.usage || 0) > 85 ? 'high-usage' : ''}
                   >
-                    {Math.round(output.cpu.usage)}%
+                    {Math.round(output.cpu.usage || 0)}%
                   </span>
                 </div>
               )}
 
               {output.battery && (
                 <div className="battery">
-                  {/* Show icon for whether battery is charging. */}
                   {output.battery.isCharging && (
                     <i className="nf nf-md-power_plug charging-icon"></i>
                   )}
                   {getBatteryIcon(output.battery)}
-                  {Math.round(output.battery.chargePercent)}%
+                  {Math.round(output.battery.chargePercent || 0)}%
                 </div>
               )}
 
-              {output.weather && (
-                <div className="weather">
-                  {getWeatherIcon(output.weather)}
-                  {Math.round(output.weather.celsiusTemp)}°C
-                </div>
-              )}
+              {/* Power / System Control Pill */}
+              <div className="power-group">
+                <button
+                  className="power-btn reload"
+                  title="Ricarica Barra Zebar (Alt + Shift + Z)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe restart_bar',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-refresh"></i>
+                </button>
+                <button
+                  className="power-btn lock"
+                  title="Blocca sessione (Alt + Shift + Esc)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe lock',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-lock_outline"></i>
+                </button>
+                <button
+                  className="power-btn sleep"
+                  title="Sospendi PC"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec rundll32.exe powrprof.dll,SetSuspendState 0,1,0',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-power_sleep"></i>
+                </button>
+                <button
+                  className="power-btn power"
+                  title="Menu Spegnimento Windows (Alt + \)"
+                  onClick={() =>
+                    output.glazewm?.runCommand(
+                      'shell-exec D:/Progetto/scripts/media-ctl.exe shutdown_dialog',
+                    )
+                  }
+                >
+                  <i className="nf nf-md-power"></i>
+                </button>
+              </div>
             </div>
           </div>
         );

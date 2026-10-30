@@ -8,7 +8,7 @@
     {
       "name": "bar",
       "htmlPath": "./index.html",
-      "zOrder": "top",
+      "zOrder": "top_most",
       "shownInTaskbar": false,
       "focused": false,
       "resizable": false,
@@ -42,4 +42,3 @@
     }
   ]
 }
-

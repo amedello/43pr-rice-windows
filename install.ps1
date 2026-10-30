@@ -56,7 +56,12 @@ if ($userPath -notlike "*$binDir*") {
 }
 
 # [3/5] Configure GlazeWM and Zebar
-Write-Host "`n[3/5] Linking GlazeWM & Zebar Configurations..." -ForegroundColor Yellow
+Write-Host "`n[3/5] Building Native Controller & Linking GlazeWM / Zebar..." -ForegroundColor Yellow
+$csc = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+if (Test-Path $csc) {
+    & $csc /target:winexe /out:"$repoDir\scripts\media-ctl.exe" "$repoDir\scripts\media-ctl.cs" | Out-Null
+    Write-Host "Native controller media-ctl.exe built successfully." -ForegroundColor Green
+}
 powershell -ExecutionPolicy Bypass -File "$repoDir\scripts\setup-glzr.ps1"
 
 # [4/5] Configure Terminal, Starship & Fastfetch

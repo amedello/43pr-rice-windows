@@ -56,3 +56,4 @@ if ($targetWallpaper -and (Test-Path $targetWallpaper)) {
     Write-Host "Applying wallpaper: $targetWallpaper" -ForegroundColor Cyan
     & "$repoDir\scripts\theme.ps1" -Wallpaper $targetWallpaper
 }
+

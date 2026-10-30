@@ -4,3 +4,8 @@
 .DS_Store
 Thumbs.db
 
+# Junsun Ambient Light (separate project)
+junsun-ambient-light/
+AmbientLight-Junsun.apk
+healt/
+

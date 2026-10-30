@@ -18,7 +18,8 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
 $extraPaths = @(
     "$env:LOCALAPPDATA\Microsoft\WinGet\Links",
     "$env:LOCALAPPDATA\Programs\glzr\bin",
-    "$env:LOCALAPPDATA\Programs\glzr\bin\cli"
+    "$env:LOCALAPPDATA\Programs\glzr\bin\cli",
+    "D:\Progetto\scripts"
 )
 foreach ($p in $extraPaths) {
     if ((Test-Path $p) -and ($env:PATH -notlike "*$p*")) {
@@ -36,6 +37,12 @@ if (Get-Command starship -ErrorAction SilentlyContinue) {
 Set-Alias -Name ff -Value fastfetch -ErrorAction SilentlyContinue
 function c { Clear-Host }
 function reload-profile { . $PROFILE }
+function theme { & "D:\Progetto\scripts\theme.ps1" @args }
+function wallpaper { & "D:\Progetto\scripts\wallpaper-picker.ps1" @args }
+function toggle-taskbar { & "D:\Progetto\scripts\toggle-taskbar.ps1" @args }
+function switch-audio { & "D:\Progetto\scripts\switch-audio.ps1" @args }
+function keys { & "D:\Progetto\scripts\show-cheatsheet.ps1" -Cli }
+function cheatsheet { & "D:\Progetto\scripts\show-cheatsheet.ps1" }
 
 # Modern Eza replacement for ls/dir
 if (Get-Command eza -ErrorAction SilentlyContinue) {

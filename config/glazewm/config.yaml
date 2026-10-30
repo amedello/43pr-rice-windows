@@ -6,7 +6,7 @@ general:
     on_focus_window: false
   show_floating_on_top: true
   startup_commands:
-    - 'shell-exec zebar'
+    - 'shell-exec D:/Progetto/scripts/media-ctl.exe startup'
   shutdown_commands:
     - 'shell-exec taskkill /IM zebar.exe /F'
 
@@ -23,11 +23,19 @@ window_effects:
   focused_window:
     border:
       enabled: true
-      color: "#89b4fa"   # Accent color (updated by theme engine)
+      color: "#7aa2f7"   # Accent color (updated by theme engine)
+    transparency:
+      enabled: true
+      opacity: "92%"
   other_windows:
     border:
       enabled: false
       color: "#1e1e2e"
+    transparency:
+      enabled: true
+      opacity: "82%"
+  hide_title_bar:
+    enabled: true
 
 workspaces:
   - name: "1"
@@ -66,11 +74,19 @@ window_rules:
       - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
       - window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
 
-  # Automatically float small popups and utility apps
+  # Automatically float small popups, dialogs, and utility apps
   - commands: ['set-floating']
     match:
       - window_process: { equals: 'CalculatorApp' }
       - window_process: { equals: 'Taskmgr' }
+      - window_process: { equals: 'control' }
+      - window_process: { equals: 'SoundVolumeView' }
+      - window_class: { equals: '#32770' }
+
+  # Dedicated Workspaces for background apps
+  - commands: ['move --workspace 9']
+    match:
+      - window_process: { equals: 'Spotify' }
 
 keybindings:
   # =====================================================================
@@ -97,7 +113,7 @@ keybindings:
     bindings: ['alt+shift+w']
 
   # Power / Shutdown Menu (Super + Grave on US, Alt + \ on ITA, Alt + P fallback)
-  - commands: ['shell-exec powershell -Command "(New-Object -ComObject Shell.Application).ShutdownWindows()"']
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe shutdown_dialog']
     bindings: ['alt+oem_pipe', 'alt+p']
 
   # File Explorer (Super + E)
@@ -107,6 +123,30 @@ keybindings:
   # Default Browser (Super + B)
   - commands: ['shell-exec cmd /c start http://']
     bindings: ['alt+b']
+
+  # Toggle Windows Taskbar Auto-Hide (Super + Shift + B)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe toggle_taskbar']
+    bindings: ['alt+shift+b']
+
+  # Switch Audio Output Device (Super + Shift + A)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe switch_audio']
+    bindings: ['alt+shift+a']
+
+  # Cheatsheet & Shortcuts Helper (Alt + F1 or Alt + Shift + ?)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe cheatsheet']
+    bindings: ['alt+shift+oem_question', 'alt+f1', 'alt+shift+f1']
+
+  # Restart Zebar Bar (Super + Shift + Z)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe restart_bar']
+    bindings: ['alt+shift+z']
+
+  # Screenshot / Snipping Tool (Super + Shift + S)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe screenshot']
+    bindings: ['alt+shift+s']
+
+  # Lock Workstation (Super + Shift + Esc)
+  - commands: ['shell-exec D:/Progetto/scripts/media-ctl.exe lock']
+    bindings: ['alt+shift+escape']
 
   # Toggle Floating Window (Super + Space)
   - commands: ['toggle-floating']
@@ -203,4 +243,14 @@ keybindings:
   # =====================================================================
   - commands: ['toggle-tiling-direction']
     bindings: ['alt+s']
+
+
+
+
+
+
+
+
+
+
 

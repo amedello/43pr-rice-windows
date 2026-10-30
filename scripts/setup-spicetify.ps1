@@ -15,3 +15,4 @@ Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/spicetify/
 Write-Host "Applying 43PR Spotify theme..." -ForegroundColor Cyan
 & spicetify backup apply
 Write-Host "Spicetify theme applied successfully!" -ForegroundColor Green
+

@@ -45,6 +45,12 @@ Su Windows, il tasto `Alt` agisce come tasto principale `Super/Mod`:
 | **`Alt + Shift + H/J/K/L`** | **Sposta Finestra nella Direzione** | `Super + Shift + Arrows` |
 | **`Alt + E`** | **Esplora Risorse (File Manager)** | `Super + E` |
 | **`Alt + B`** | **Browser Web Predefinito** | `Super + B` |
+| **`Alt + Shift + S`** | **Cattura Schermo (Ritagli / Snipping Tool)** | `Super + Shift + S` |
+| **`Alt + Shift + B`** | **Nascondi / Mostra Barra Inferiore Windows** | `Super + Shift + B` |
+| **`Alt + Shift + A`** | **Cambia Uscita Audio (Cuffie / Casse / Monitor)** | `Super + Shift + A` |
+| **`Alt + Shift + Esc`** | **Blocca Sessione Windows (Lock Workstation)** | `Super + L` |
+| **`Alt + Shift + Z`** | **Riavvia / Mostra la Barra Zebar** | `Super + Shift + B` |
+| **`Alt + F1` o `Alt + Shift + ?`** | **Pannello Rapido Scorciatoie (Cheatsheet Popup)** | `Super + /` |
 | **`Alt + S`** | **Alterna Direzione Tiling (Orizzontale/Verticale)** | `Super + X` |
 | **`Alt + W`** | **Prossimo Wallpaper (Cicla Sfondo)** | `Super + W` |
 | **`Alt + Shift + W`** | **Scegli Wallpaper dalla Finestra di Dialogo** | `Super + W` (Picker) |
@@ -60,24 +66,34 @@ Nel tuo terminale PowerShell sono ora attivi i comandi moderni:
 - `ls` / `ll` / `tree`: Usa **Eza** con icone a colori e gerarchia cartelle.
 - `top`: Apre **Btop** (monitor di sistema con grafici CPU/GPU/RAM).
 - `ff`: Mostra la schermata **Fastfetch**.
-- `theme.ps1 -Theme <nome>`: Cambia tema al volo tra i 27 disponibili.
+- `theme -Theme <nome>`: Cambia tema al volo tra i 27 disponibili (es. `theme -List`).
+- `wallpaper`: Cambia o seleziona lo sfondo (es. `wallpaper -Select`).
+- `toggle-taskbar`: Mostra o nasconde automaticamente la barra delle applicazioni di Windows.
+- `switch-audio`: Alterna istantaneamente l'uscita audio (Cuffie / Altoparlanti).
+- `keys`: Mostra la guida riassuntiva di tutti i tasti e comandi nel terminale.
 
 ---
 
 ## 🎨 Personalizzazione Temi e Wallpaper
 
-Il comando `theme.ps1` permette di cambiare tema e sfondo in qualsiasi momento:
+Il comando `theme` e `wallpaper` permettono di cambiare al volo palette e sfondo tra i 17 wallpaper inclusi (Catppuccin, Tokyo Night, Gruvbox, Nord):
 
 ```powershell
 # Mostra tutti i 27 temi disponibili
-.\scripts\theme.ps1 -List
+theme -List
 
-# Applica un tema (es. Catppuccin Mocha, Nord, Dracula, Tokyo Night)
-.\scripts\theme.ps1 -Theme catppuccin-mocha
+# Applica un tema: imposta automaticamente colori Terminale, Windows, Zebar, bordi GlazeWM e wallpaper abbinato!
+theme -Theme gruvbox-dark
+theme -Theme tokyo-night
+theme -Theme catppuccin-mocha
+theme -Theme nord
 
-# Cicla o seleziona uno sfondo
-.\scripts\wallpaper-picker.ps1          # Prossimo sfondo
-.\scripts\wallpaper-picker.ps1 -Select  # Apri finestra selezione
+# Cambia tema mantenendo lo sfondo attuale
+theme -Theme dracula -NoWallpaper
+
+# Cicla o seleziona uno sfondo specifico (tra i 17 disponibili)
+wallpaper          # Passa al prossimo sfondo
+wallpaper -Select  # Apri finestra per scegliere l'immagine
 ```
 
 ---

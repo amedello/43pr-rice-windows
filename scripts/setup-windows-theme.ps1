@@ -103,3 +103,4 @@ $result = [UIntPtr]::Zero
 [ShellRefresh]::SendMessageTimeout([IntPtr]0xffff, 0x001A, [UIntPtr]::Zero, "ImmersiveColorSet", 2, 1000, [ref]$result) | Out-Null
 
 Write-Host "`nWindows System Theme successfully updated to 43PR Dark Mode!" -ForegroundColor Green
+
