@@ -92,6 +92,15 @@ foreach ($f in $ps1Files) {
         }
     }
 
+    # Check for icon font applied to elements containing regular text (causes tofu rectangles)
+    $iconFontMatches = [regex]::Matches($content, '(?i)<(?:Button|TextBlock)[^>]+FontFamily="[^"]*(?:Segoe Fluent Icons|Segoe MDL2 Assets)[^"]*"[^>]+(?:Content|Text)\s*=\s*"([^"]+)"')
+    foreach ($m in $iconFontMatches) {
+        $val = $m.Groups[1].Value
+        if ($val -match '[a-zA-Z]{2,}') {
+            $fileIssues += "Element has Segoe icon font but contains text '$val' (causes tofu glyphs)"
+        }
+    }
+
     if ($fileIssues.Count -eq 0) {
         Write-Host "  [OK] Clean: $rel" -ForegroundColor Green
     } else {
