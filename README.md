@@ -1,5 +1,7 @@
 # 43PR Rice for Windows 10 / 11
 
+> 🇮🇹 **Disponibile in Italiano:** [Documentazione in Italiano](README.it.md)
+
 A minimalist, highly performant tiling window manager and desktop environment for Windows, powered by **GlazeWM**, **Zebar**, and native **WPF / C#** utilities.
 
 Designed for productivity, keyboard navigation, and pure aesthetics with 27 harmonized themes, an automatic day/night circadian switcher, a native HUD suite, and zero terminal popup latency.
