@@ -231,13 +231,15 @@ class Program {
     }
 
     static string GetScriptsDirectory() {
+        string userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string glzrScripts = Path.Combine(userHome, @".glzr\scripts");
+        if (Directory.Exists(glzrScripts) && File.Exists(Path.Combine(glzrScripts, "power-menu.ps1"))) {
+            return glzrScripts;
+        }
         string baseDir = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\', '/');
         if (File.Exists(Path.Combine(baseDir, "theme.ps1"))) return baseDir;
         string subDir = Path.Combine(baseDir, "scripts");
         if (File.Exists(Path.Combine(subDir, "theme.ps1"))) return subDir;
-        string userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        string glzrScripts = Path.Combine(userHome, @".glzr\scripts");
-        if (Directory.Exists(glzrScripts)) return glzrScripts;
         return baseDir;
     }
 
@@ -535,6 +537,22 @@ class Program {
         } catch {}
     }
 
+    static void RunUpgrade() {
+        try {
+            string repoDir = Path.GetDirectoryName(GetScriptsDirectory());
+            string batPath = Path.Combine(repoDir, "upgrade-43pr.bat");
+            if (File.Exists(batPath)) {
+                ProcessStartInfo psi = new ProcessStartInfo("cmd.exe", string.Format("/c \"{0}\"", batPath)) {
+                    UseShellExecute = true,
+                    WorkingDirectory = repoDir
+                };
+                Process.Start(psi);
+            } else {
+                RunScript("upgrade-43pr.ps1");
+            }
+        } catch {}
+    }
+
     static void OpenTaskManager() {
         try {
             ProcessStartInfo psi = new ProcessStartInfo("taskmgr.exe") { UseShellExecute = true };
@@ -823,6 +841,20 @@ class Program {
             case "wallpaper_select":
             case "pick_wallpaper":
                 RunScript("wallpaper-picker.ps1", "-Select");
+                break;
+            case "upgrade":
+            case "upgrade_system":
+            case "update":
+                RunUpgrade();
+                break;
+            case "todo":
+            case "notes":
+            case "tasks":
+                RunScript("todo-hud.ps1");
+                break;
+            case "quick_actions":
+            case "actions":
+                RunScript("quick-actions.ps1");
                 break;
         }
     }

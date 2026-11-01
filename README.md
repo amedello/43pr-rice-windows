@@ -115,6 +115,9 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Snipping Tool (Screen capture) |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> | Toggle Windows Taskbar visibility |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd> | Switch Audio Output Device |
+| <kbd>Alt</kbd> + <kbd>N</kbd> | Notes & Todo HUD (Quickshell port: tasks, notes & persistence) |
+| <kbd>Alt</kbd> + <kbd>A</kbd> | Quick Actions Hub (Quickshell port: system quick toggles) |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> | Upgrade 43PR System (Git pull, backup, sync & audit) |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> | Power Menu (Lock, Sleep, Restart, Shutdown) |
 
 ### Themes & Customization
@@ -125,6 +128,54 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd> | Cycle next wallpaper |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>W</kbd> | Open Wallpaper Selector Dialog |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>/</kbd> | Open Shortcuts Cheatsheet |
+
+---
+
+## ðŸ”„ System Upgrades & Upstream Synchronization
+
+You can upgrade and synchronize your environment anytime:
+
+- **Via GUI**: Press <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> or open the Power Menu (<kbd>Alt</kbd> + <kbd>P</kbd>) and press <kbd>U</kbd> (**Aggiorna**).
+- **Via Terminal / Batch**: Run `upgrade-43pr.bat` or:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File .\scripts\upgrade-43pr.ps1
+  ```
+
+The upgrader automatically:
+1. **Tracks 43PR Linux Upstream**: inspects `43PR/dotfiles` for new commits, styles, and Quickshell components.
+2. **Reconciles Git**: pulls changes from `origin/master` with safe stashing of local changes.
+3. **Creates Backups**: saves timestamped configurations in `~/.glzr/backups/`.
+4. **Syncs Configurations**: synchronizes `.glzr` and repository configs.
+5. **Recompiles Native Controller**: builds `media-ctl.exe` cleanly.
+6. **Updates Packages (Optional)**: pass `-UpdatePackages` to upgrade winget packages.
+7. **Hot Reload**: reloads GlazeWM and restarts Zebar without closing applications.
+8. **Compliance Audit**: runs `audit-project.ps1` to certify 100% compliance.
+
+To inspect upstream 43PR Linux changes at any time:
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\check-upstream-43pr.ps1
+```
+
+---
+
+## ðŸ”„ System Upgrades
+
+You can upgrade your 43PR Rice environment at any time to receive our latest updates:
+
+- **Via GUI**: Press <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> or open the Power Menu (<kbd>Alt</kbd> + <kbd>P</kbd>) and select <kbd>U</kbd> (**Aggiorna**).
+- **Via Terminal or Batch**: Run `upgrade-43pr.bat` or:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File .\scripts\upgrade-43pr.ps1
+  ```
+
+The upgrader safely and automatically:
+1. **Checks for releases**: queries `origin/master` for newly pushed commits on our repository.
+2. **Protects user state**: stashes and restores local modifications, preserving notes, personal wallpapers, and custom themes.
+3. **Creates backups**: saves timestamped configurations in `~/.glzr/backups/`.
+4. **Syncs system files**: ensures `config/` and `~/.glzr/` remain synchronized.
+5. **Recompiles native controller**: rebuilds `media-ctl.exe` with zero console popups.
+6. **Hot reload**: reloads GlazeWM and restarts Zebar smoothly.
+7. **Compliance audit**: runs `audit-project.ps1` to ensure a 100% healthy environment.
 
 ---
 

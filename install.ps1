@@ -27,12 +27,33 @@ $scriptSource = $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($scriptSource) -or -not (Test-Path (Join-Path $scriptSource "config"))) {
     Write-Host "[*] Web or stream installation detected." -ForegroundColor Yellow
     $installDir = Join-Path $HOME ".43pr-rice"
-    if (Test-Path $installDir) {
-        Write-Host "[*] Updating existing repository in $installDir..." -ForegroundColor Cyan
-        git -C $installDir pull 2>$null
+    $hasGit = Get-Command git -ErrorAction SilentlyContinue
+
+    if ($hasGit) {
+        if (Test-Path $installDir) {
+            Write-Host "[*] Updating existing repository in $installDir..." -ForegroundColor Cyan
+            git -C $installDir pull 2>$null
+        } else {
+            Write-Host "[*] Cloning repository to $installDir..." -ForegroundColor Cyan
+            git clone https://github.com/amedello/43pr-rice-windows.git $installDir
+        }
     } else {
-        Write-Host "[*] Cloning repository to $installDir..." -ForegroundColor Cyan
-        git clone https://github.com/amedello/43pr-rice-windows.git $installDir
+        Write-Host "[*] Git not found. Downloading repository package directly from GitHub..." -ForegroundColor Cyan
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        $zipDest = Join-Path $env:TEMP "43pr-install.zip"
+        $extractDest = Join-Path $env:TEMP "43pr-install-extracted"
+        if (Test-Path $extractDest) { Remove-Item -Recurse -Force $extractDest -ErrorAction SilentlyContinue }
+        
+        Invoke-WebRequest -Uri "https://github.com/amedello/43pr-rice-windows/archive/refs/heads/master.zip" -OutFile $zipDest -Headers @{'User-Agent'='43PR-Installer'} -UseBasicParsing
+        Expand-Archive -Path $zipDest -DestinationPath $extractDest -Force
+        
+        $sourceDir = (Get-ChildItem -Path $extractDest -Directory | Select-Object -First 1).FullName
+        if (-not (Test-Path $installDir)) { New-Item -ItemType Directory -Force -Path $installDir | Out-Null }
+        Copy-Item -Recurse -Force (Join-Path $sourceDir "*") $installDir
+        
+        Remove-Item -Force $zipDest -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force $extractDest -ErrorAction SilentlyContinue
+        Write-Host "  [OK] Package downloaded and unpacked successfully without Git." -ForegroundColor Green
     }
     $repoDir = $installDir
 } else {

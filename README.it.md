@@ -116,6 +116,9 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Strumento di Cattura Schermo |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> | Mostra / Nascondi barra delle applicazioni di Windows |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd> | Cambia periferica di uscita audio (Cuffie / Casse) |
+| <kbd>Alt</kbd> + <kbd>N</kbd> | Note & Todo HUD (Port Quickshell: note rapide con checkbox) |
+| <kbd>Alt</kbd> + <kbd>A</kbd> | Quick Actions Hub (Port Quickshell: pannello azioni rapide) |
+| <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> | Aggiorna Sistema 43PR (Git pull, backup, sync e audit) |
 | <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> | Menu Spegnimento & Alimentazione (Power Menu) |
 
 ### Temi e Personalizzazione

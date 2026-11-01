@@ -134,6 +134,15 @@ $xaml = @"
                         <TextBlock Text="[ O ]" FontSize="11" FontWeight="Bold" Foreground="#7982A9" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
                 </Button>
+
+                <!-- Upgrade / Update 43PR -->
+                <Button x:Name="BtnUpgrade" Style="{StaticResource PowerCard}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="&#xE895;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" FontSize="44" Foreground="#2AC3DE" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                        <TextBlock Text="Aggiorna" FontSize="15" FontWeight="SemiBold" Foreground="#CDD6F4" HorizontalAlignment="Center"/>
+                        <TextBlock Text="[ U ]" FontSize="11" FontWeight="Bold" Foreground="#7982A9" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>
@@ -148,6 +157,7 @@ $btnSleep = $window.FindName("BtnSleep")
 $btnRestart = $window.FindName("BtnRestart")
 $btnShutdown = $window.FindName("BtnShutdown")
 $btnLogoff = $window.FindName("BtnLogoff")
+$btnUpgrade = $window.FindName("BtnUpgrade")
 $rootGrid = $window.FindName("RootGrid")
 
 $ctl = Join-Path $PSScriptRoot "media-ctl.exe"
@@ -180,11 +190,17 @@ $actLogoff = {
     & $ctl logoff
 }
 
+$actUpgrade = {
+    $window.Close()
+    & $ctl upgrade
+}
+
 $btnLock.Add_Click({ & $actLock })
 $btnSleep.Add_Click({ & $actSleep })
 $btnRestart.Add_Click({ & $actRestart })
 $btnShutdown.Add_Click({ & $actShutdown })
 $btnLogoff.Add_Click({ & $actLogoff })
+$btnUpgrade.Add_Click({ & $actUpgrade })
 
 # Click on backdrop closes
 $rootGrid.Add_MouseLeftButtonDown({
@@ -203,6 +219,7 @@ $window.Add_KeyDown({
         "R"      { & $actRestart }
         "P"      { & $actShutdown }
         "O"      { & $actLogoff }
+        "U"      { & $actUpgrade }
     }
 })
 

@@ -1,65 +1,57 @@
-# 43PR Cheatsheet Controller (CLI + WPF GUI)
-# Displays all keyboard shortcuts and commands for GlazeWM, Zebar and 43PR
+# 43PR Desktop Shortcuts Cheatsheet (CLI + WPF HUD)
+# Displays all active keybindings and commands for GlazeWM and 43PR Rice
+# Pure 7-bit ASCII encoded for 100% mojibake prevention
 
+[CmdletBinding()]
 param (
     [switch]$Cli
 )
 
-# CLI output if requested
+# CLI Mode
 if ($Cli) {
     Write-Host ""
     Write-Host "================================================================================" -ForegroundColor Cyan
-    Write-Host "                      43PR DESKTOP CHEATSHEET & SHORTCUTS                       " -ForegroundColor Cyan
+    Write-Host "                 43PR DESKTOP RICE - GUIDA SCORCIATOIE TASTIERA                 " -ForegroundColor Cyan
     Write-Host "================================================================================" -ForegroundColor Cyan
 
-    Write-Host "`n  -- FINESTRE E TILING --------------------------------------------------" -ForegroundColor Yellow
+    Write-Host "`n  -- GESTIONE FINESTRE E TILING -----------------------------------------" -ForegroundColor Yellow
     Write-Host "  Alt + Q               " -NoNewline -ForegroundColor White; Write-Host "Chiudi finestra attiva" -ForegroundColor Gray
-    Write-Host "  Alt + F               " -NoNewline -ForegroundColor White; Write-Host "Schermo intero (Fullscreen on/off)" -ForegroundColor Gray
-    Write-Host "  Alt + Space           " -NoNewline -ForegroundColor White; Write-Host "Alterna modalita Fluttuante (Floating on/off)" -ForegroundColor Gray
-    Write-Host "  Alt + S               " -NoNewline -ForegroundColor White; Write-Host "Alterna direzione tiling (Orizzontale / Verticale)" -ForegroundColor Gray
-    Write-Host "  Alt + H / J / K / L   " -NoNewline -ForegroundColor White; Write-Host "Sposta focus: Sinistra, Basso, Alto, Destra" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + H/J/K/L " -NoNewline -ForegroundColor White; Write-Host "Sposta finestra nella direzione" -ForegroundColor Gray
-
-    Write-Host "`n  -- WORKSPACES E DESKTOP -----------------------------------------------" -ForegroundColor Yellow
+    Write-Host "  Alt + F               " -NoNewline -ForegroundColor White; Write-Host "Schermo intero (Fullscreen toggle)" -ForegroundColor Gray
+    Write-Host "  Alt + Space           " -NoNewline -ForegroundColor White; Write-Host "Finestra fluttuante (Floating toggle)" -ForegroundColor Gray
+    Write-Host "  Alt + S               " -NoNewline -ForegroundColor White; Write-Host "Alterna divisione orizzontale/verticale" -ForegroundColor Gray
+    Write-Host "  Alt + H / J / K / L   " -NoNewline -ForegroundColor White; Write-Host "Sposta focus (Sinistra / Basso / Alto / Destra)" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + H/J/K/L " -NoNewline -ForegroundColor White; Write-Host "Sposta posizione finestra attiva" -ForegroundColor Gray
     Write-Host "  Alt + 1 .. 9          " -NoNewline -ForegroundColor White; Write-Host "Passa al Workspace 1 .. 9" -ForegroundColor Gray
     Write-Host "  Alt + Shift + 1 .. 9  " -NoNewline -ForegroundColor White; Write-Host "Sposta finestra attiva nel Workspace 1 .. 9" -ForegroundColor Gray
 
-    Write-Host "`n  -- APPLICAZIONI E SISTEMA ---------------------------------------------" -ForegroundColor Yellow
-    Write-Host "  Alt + T               " -NoNewline -ForegroundColor White; Write-Host "Apri Terminale (Windows Terminal)" -ForegroundColor Gray
-    Write-Host "  Alt + U               " -NoNewline -ForegroundColor White; Write-Host "Quake Scratchpad Terminal (Mostra / Nascondi al volo)" -ForegroundColor Cyan
-    Write-Host "  Alt + V               " -NoNewline -ForegroundColor White; Write-Host "Clipboard History Manager (Cronologia appunti)" -ForegroundColor Cyan
-    Write-Host "  Alt + Tab / Alt + J   " -NoNewline -ForegroundColor White; Write-Host "Window Switcher (Cerca e salta tra finestre)" -ForegroundColor Cyan
-    Write-Host "  Alt + C               " -NoNewline -ForegroundColor White; Write-Host "Calcolatrice Rapida & Convertitore al volo" -ForegroundColor Cyan
-    Write-Host "  Alt + Shift + C       " -NoNewline -ForegroundColor White; Write-Host "Pipetta Color Picker (Copia HEX pixel schermo)" -ForegroundColor Cyan
-    Write-Host "  Alt + Shift + M       " -NoNewline -ForegroundColor White; Write-Host "Hardware Sensors HUD (CPU/RAM/Dischi in tempo reale)" -ForegroundColor Cyan
-    Write-Host "  Alt + D               " -NoNewline -ForegroundColor White; Write-Host "Flow Launcher (Cerca app, file, comandi)" -ForegroundColor Gray
-    Write-Host "  Alt + E               " -NoNewline -ForegroundColor White; Write-Host "Esplora Risorse (File Manager)" -ForegroundColor Gray
+    Write-Host "`n  -- APPLICAZIONI E STRUMENTI -------------------------------------------" -ForegroundColor Yellow
+    Write-Host "  Alt + T               " -NoNewline -ForegroundColor White; Write-Host "Windows Terminal" -ForegroundColor Gray
+    Write-Host "  Alt + U               " -NoNewline -ForegroundColor White; Write-Host "Terminale Quake Scratchpad a discesa" -ForegroundColor Gray
+    Write-Host "  Alt + V               " -NoNewline -ForegroundColor White; Write-Host "Clipboard History Manager (Appunti)" -ForegroundColor Gray
+    Write-Host "  Alt + Tab / Alt + J   " -NoNewline -ForegroundColor White; Write-Host "Global Window Switcher (Cambia app)" -ForegroundColor Gray
+    Write-Host "  Alt + N               " -NoNewline -ForegroundColor White; Write-Host "Note & Todo HUD (Attivita e note rapide)" -ForegroundColor Gray
+    Write-Host "  Alt + A               " -NoNewline -ForegroundColor White; Write-Host "Quick Actions Hub (Azioni rapide)" -ForegroundColor Gray
+    Write-Host "  Alt + C               " -NoNewline -ForegroundColor White; Write-Host "Calcolatrice Rapida & Unita al volo" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + C       " -NoNewline -ForegroundColor White; Write-Host "Pipetta Color Picker (Cattura colore pixel)" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + M       " -NoNewline -ForegroundColor White; Write-Host "Sensori Hardware HUD (CPU, GPU, RAM, Dischi)" -ForegroundColor Gray
+    Write-Host "  Alt + D               " -NoNewline -ForegroundColor White; Write-Host "Flow Launcher (Cerca app e file)" -ForegroundColor Gray
+    Write-Host "  Alt + E               " -NoNewline -ForegroundColor White; Write-Host "Esplora Risorse" -ForegroundColor Gray
     Write-Host "  Alt + B               " -NoNewline -ForegroundColor White; Write-Host "Browser Web predefinito" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + S       " -NoNewline -ForegroundColor White; Write-Host "Cattura Schermo (Ritagli / Snipping Tool)" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + B       " -NoNewline -ForegroundColor White; Write-Host "Mostra / Nascondi barra inferiore Windows" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + A       " -NoNewline -ForegroundColor White; Write-Host "Cambia uscita audio (Cuffie / Casse / Monitor)" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + G       " -NoNewline -ForegroundColor White; Write-Host "Zen Mode / Gaming Mode (Toggle Tiling & Barra)" -ForegroundColor Cyan
+    Write-Host "  Alt + Shift + S       " -NoNewline -ForegroundColor White; Write-Host "Strumento Cattura Schermo" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + B       " -NoNewline -ForegroundColor White; Write-Host "Mostra/Nascondi barra inferiore Windows" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + A       " -NoNewline -ForegroundColor White; Write-Host "Cambia uscita audio (Cuffie / Casse)" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + G       " -NoNewline -ForegroundColor White; Write-Host "Zen Mode / Gaming Mode toggle" -ForegroundColor Gray
     Write-Host "  Alt + Shift + Esc     " -NoNewline -ForegroundColor White; Write-Host "Blocca sessione Windows" -ForegroundColor Gray
-    Write-Host "  Alt + P / Alt + \     " -NoNewline -ForegroundColor White; Write-Host "Wlogout Power Menu (Blocca/Sospendi/Riavvia/Spegni)" -ForegroundColor Gray
+    Write-Host "  Alt + P / Alt + \     " -NoNewline -ForegroundColor White; Write-Host "Wlogout Power Menu" -ForegroundColor Gray
 
-    Write-Host "`n  -- TEMI, SFONDI E BARRA -----------------------------------------------" -ForegroundColor Yellow
-    Write-Host "  Alt + Shift + T       " -NoNewline -ForegroundColor White; Write-Host "Theme Switcher & Giorno/Notte (GUI)" -ForegroundColor Cyan
-    Write-Host "  Alt + W               " -NoNewline -ForegroundColor White; Write-Host "Cicla al prossimo sfondo coordinato" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + W       " -NoNewline -ForegroundColor White; Write-Host "Apri finestra selettore sfondi" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + Z       " -NoNewline -ForegroundColor White; Write-Host "Riavvia / Mostra la Barra Zebar" -ForegroundColor Gray
+    Write-Host "`n  -- PERSONALIZZAZIONE E BARRA ------------------------------------------" -ForegroundColor Yellow
+    Write-Host "  Alt + Shift + T       " -NoNewline -ForegroundColor White; Write-Host "Selettore Grafico dei Temi (27 temi)" -ForegroundColor Gray
+    Write-Host "  Alt + W               " -NoNewline -ForegroundColor White; Write-Host "Cicla al prossimo sfondo" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + W       " -NoNewline -ForegroundColor White; Write-Host "Selettore sfondi (Dialog)" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + Z       " -NoNewline -ForegroundColor White; Write-Host "Riavvia / Mostra Barra Zebar" -ForegroundColor Gray
+    Write-Host "  Alt + Shift + U       " -NoNewline -ForegroundColor White; Write-Host "Aggiorna Sistema 43PR Rice" -ForegroundColor Gray
     Write-Host "  Alt + Shift + R       " -NoNewline -ForegroundColor White; Write-Host "Ricarica configurazione GlazeWM al volo" -ForegroundColor Gray
-    Write-Host "  Alt + Shift + Q       " -NoNewline -ForegroundColor White; Write-Host "Chiudi GlazeWM" -ForegroundColor Gray
     Write-Host "  Alt + F1 / Alt+Shift+?" -NoNewline -ForegroundColor White; Write-Host "Apri questa guida a schermo (Popup GUI)" -ForegroundColor Gray
-
-    Write-Host "`n  -- COMANDI RAPIDI TERMINALE -------------------------------------------" -ForegroundColor Yellow
-    Write-Host '  theme -List           ' -NoNewline -ForegroundColor Cyan; Write-Host 'Mostra i 27 temi disponibili' -ForegroundColor Gray
-    Write-Host '  theme -Theme [nome]   ' -NoNewline -ForegroundColor Cyan; Write-Host 'Applica tema coordinato su tutto il sistema' -ForegroundColor Gray
-    Write-Host '  wallpaper             ' -NoNewline -ForegroundColor Cyan; Write-Host 'Passa al prossimo sfondo (o -Select)' -ForegroundColor Gray
-    Write-Host '  toggle-taskbar        ' -NoNewline -ForegroundColor Cyan; Write-Host 'Nasconde/mostra barra inferiore di Windows' -ForegroundColor Gray
-    Write-Host '  switch-audio          ' -NoNewline -ForegroundColor Cyan; Write-Host 'Scambia al volo uscita audio (Cuffie/Casse)' -ForegroundColor Gray
-    Write-Host '  ls / ll / tree        ' -NoNewline -ForegroundColor Cyan; Write-Host 'Visualizzazione cartelle moderna con Eza' -ForegroundColor Gray
-    Write-Host '  top / ff              ' -NoNewline -ForegroundColor Cyan; Write-Host 'Btop monitor di sistema / Fastfetch banner' -ForegroundColor Gray
-    Write-Host '  keys                  ' -NoNewline -ForegroundColor Cyan; Write-Host 'Mostra questa guida comandi rapida' -ForegroundColor Gray
     Write-Host ""
     return
 }
@@ -67,16 +59,59 @@ if ($Cli) {
 # WPF GUI Popup
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 
-$xamlText = @'
+# Read accent color from Zebar styles
+$accentColor = "#7AA2F7"
+$styleFile = Join-Path $HOME ".glzr\zebar\starter\styles.css"
+if (-not (Test-Path $styleFile)) {
+    $styleFile = Join-Path (Split-Path -Parent $PSScriptRoot) "config\zebar\starter\styles.css"
+}
+if (Test-Path $styleFile) {
+    $content = Get-Content $styleFile -Raw
+    if ($content -match '--accent:\s*(#[0-9a-fA-F]{6})') {
+        $accentColor = $matches[1]
+    }
+}
+
+$xamlText = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="43PR Cheatsheet" Width="780" Height="570"
-        WindowStartupLocation="CenterScreen" WindowStyle="None"
-        AllowsTransparency="True" Background="Transparent"
-        Topmost="True" ShowInTaskbar="False">
-    <Border Background="#EE16161E" CornerRadius="16" BorderThickness="1.5" BorderBrush="#7AA2F7" Padding="24">
+        Title="43PR Cheatsheet"
+        Width="840"
+        SizeToContent="Height"
+        MinHeight="440"
+        MaxHeight="820"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False">
+    <Window.Resources>
+        <Style x:Key="IconFont" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol"/>
+        </Style>
+        <Style x:Key="TextFont" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI, Consolas"/>
+        </Style>
+        <Style x:Key="KeyStyle" TargetType="TextBlock" BasedOn="{StaticResource TextFont}">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="$accentColor"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style x:Key="DescStyle" TargetType="TextBlock" BasedOn="{StaticResource TextFont}">
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#F20B0D13"
+            CornerRadius="16"
+            BorderThickness="1.5"
+            BorderBrush="$accentColor"
+            Padding="24"
+            Margin="10">
         <Border.Effect>
-            <DropShadowEffect Color="#000000" BlurRadius="28" Opacity="0.65" ShadowDepth="4"/>
+            <DropShadowEffect Color="#000000" BlurRadius="28" Opacity="0.8" ShadowDepth="4"/>
         </Border.Effect>
         <Grid>
             <Grid.RowDefinitions>
@@ -85,190 +120,205 @@ $xamlText = @'
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <!-- Header -->
             <DockPanel Grid.Row="0" Margin="0,0,0,16">
-                <Button Name="CloseBtn" DockPanel.Dock="Right" Content="&#xE711;"
-                        FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
-                        Background="Transparent" Foreground="#9AA5CE" BorderThickness="0"
-                        FontSize="12" Cursor="Hand" Width="28" Height="28"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="43PR" FontSize="20" FontWeight="Bold" Foreground="#7AA2F7" FontFamily="Segoe UI Variable Display, JetBrainsMono Nerd Font, Consolas" VerticalAlignment="Center"/>
-                    <TextBlock Text=" Desktop Cheatsheet" FontSize="18" FontWeight="SemiBold" Foreground="#CDD6F4" FontFamily="Segoe UI Variable Text, JetBrainsMono Nerd Font, Consolas" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                <Button Name="CloseBtn" DockPanel.Dock="Right" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="28" Height="28" FocusVisualStyle="{x:Null}">
+                    <TextBlock Text="&#xE711;" Style="{StaticResource IconFont}" FontSize="12" Foreground="#9AA5CE" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="43PR" FontSize="20" FontWeight="Bold" Foreground="$accentColor" Style="{StaticResource TextFont}" VerticalAlignment="Center"/>
+                    <TextBlock Text=" Desktop Cheatsheet" FontSize="18" FontWeight="SemiBold" Foreground="#CDD6F4" Style="{StaticResource TextFont}" VerticalAlignment="Center" Margin="6,0,0,0"/>
                 </StackPanel>
             </DockPanel>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <!-- Content Two-Column Grid with ScrollViewer -->
+            <ScrollViewer Grid.Row="1" MaxHeight="660" VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
+                <Grid Margin="0,0,4,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0">
-                    <TextBlock Text="FINESTRE E TILING" FontWeight="Bold" Foreground="#E0AF68" FontSize="13" Margin="0,0,0,8"/>
-                    
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Q" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Chiudi finestra" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + F" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Schermo intero (Fullscreen)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Space" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Finestra fluttuante (Float)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + S" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Alterna orizzontale/verticale" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + H/J/K/L" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Focus finestra (Vim / Frecce)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + Direz" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Sposta posizione finestra" Foreground="#9AA5CE"/>
-                    </DockPanel>
+                    <!-- Left Column: Windows, Workspaces & Customization -->
+                    <StackPanel Grid.Column="0">
+                        <!-- Finestre e Tiling -->
+                        <TextBlock Text="FINESTRE E TILING" FontWeight="Bold" Foreground="#E0AF68" FontSize="12" Margin="0,0,0,8" Style="{StaticResource TextFont}"/>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Q" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Chiudi finestra" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + F" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Schermo intero (Fullscreen)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Space" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Finestra fluttuante (Float)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + S" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Alterna orizzontale/verticale" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + H/J/K/L" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Focus finestra (Vim / Frecce)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + Direz" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Sposta posizione finestra" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
 
-                    <TextBlock Text="WORKSPACES" FontWeight="Bold" Foreground="#E0AF68" FontSize="13" Margin="0,16,0,8"/>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + 1 .. 9" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Vai al Workspace 1 .. 9" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + 1 .. 9" FontWeight="Bold" Foreground="#CDD6F4" Width="130"/>
-                        <TextBlock Text="Sposta finestra nel Workspace" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                </StackPanel>
+                        <!-- Workspaces -->
+                        <TextBlock Text="WORKSPACES" FontWeight="Bold" Foreground="#E0AF68" FontSize="12" Margin="0,14,0,8" Style="{StaticResource TextFont}"/>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + 1 .. 9" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Vai al Workspace 1 .. 9" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + 1 .. 9" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Sposta finestra nel Workspace" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
 
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="APPLICAZIONI E SISTEMA" FontWeight="Bold" Foreground="#9ECE6A" FontSize="13" Margin="0,0,0,8"/>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + T" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Terminale (Windows Terminal)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + U" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Quake Scratchpad Terminal" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + V" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Clipboard History Manager" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Tab / Alt + J" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Global Window Switcher" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + C" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Calcolatrice Rapida &amp; Unita" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + C" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Color Picker Pipetta" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + M" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Hardware Sensors HUD" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + D" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Flow Launcher (Cerca app/file)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + E" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Esplora Risorse" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + B" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Browser Web" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + S" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Cattura Schermo (Ritagli)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + B" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Nascondi barra inferiore Win" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + A" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Cambia uscita audio (Cuffie/Casse)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + G" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Zen Mode / Gaming Mode" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + Esc" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Blocca sessione Windows" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + P / Alt + \" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Wlogout Power Menu" Foreground="#9AA5CE"/>
-                    </DockPanel>
+                        <!-- Personalizzazione e Sistema -->
+                        <TextBlock Text="PERSONALIZZAZIONE &amp; BARRA" FontWeight="Bold" Foreground="#BB9AF7" FontSize="12" Margin="0,14,0,8" Style="{StaticResource TextFont}"/>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + T" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Theme Switcher (27 Temi)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + W" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Cicla al prossimo sfondo" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + W" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Selettore sfondi da file" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + Z" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Riavvia barra Zebar" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + U" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Aggiorna Sistema 43PR" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + R" Width="135" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Ricarica config GlazeWM" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                    </StackPanel>
 
-                    <TextBlock Text="PERSONALIZZAZIONE &amp; BARRA" FontWeight="Bold" Foreground="#BB9AF7" FontSize="13" Margin="0,16,0,8"/>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + T" FontWeight="Bold" Foreground="#7AA2F7" Width="140"/>
-                        <TextBlock Text="Theme Switcher &amp; Giorno/Notte" Foreground="#CDD6F4"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + W" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Cicla al prossimo sfondo" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + W" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Selettore sfondi (Dialog)" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + Z" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Riavvia / Mostra Barra Zebar" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + Shift + R" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Ricarica configurazione GlazeWM" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                    <DockPanel Margin="0,3">
-                        <TextBlock Text="Alt + F1 / Alt+Shift+?" FontWeight="Bold" Foreground="#CDD6F4" Width="140"/>
-                        <TextBlock Text="Guida rapida a schermo" Foreground="#9AA5CE"/>
-                    </DockPanel>
-                </StackPanel>
-            </Grid>
+                    <!-- Right Column: Applicazioni e Utility -->
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="APPLICAZIONI E STRUMENTI" FontWeight="Bold" Foreground="#9ECE6A" FontSize="12" Margin="0,0,0,8" Style="{StaticResource TextFont}"/>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + T" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Terminale (Windows Terminal)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + U" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Quake Scratchpad Terminal" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + V" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Clipboard History Manager" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Tab / Alt + J" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Global Window Switcher" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + N" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Note &amp; Todo HUD (Attivita)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + A" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Quick Actions Hub (Azioni)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + C" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Calcolatrice Rapida &amp; Unita" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + C" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Color Picker Pipetta (HEX)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + M" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Hardware Sensors HUD" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + D" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Flow Launcher (Cerca)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + E" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Esplora Risorse" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + B" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Browser Web" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + S" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Cattura Schermo (Ritagli)" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + B" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Nascondi barra inferiore Win" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + A" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Cambia uscita audio" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + G" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Zen Mode / Gaming Mode" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + Shift + Esc" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Blocca sessione Windows" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                        <DockPanel Margin="0,2.5">
+                            <TextBlock Text="Alt + P / Alt + \" Width="140" Style="{StaticResource KeyStyle}"/>
+                            <TextBlock Text="Wlogout Power Menu" Style="{StaticResource DescStyle}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
 
-            <Border Grid.Row="2" Margin="0,16,0,0" Padding="8,6" Background="#20FFFFFF" CornerRadius="8">
+            <!-- Footer Hint (Clicking on it also dismisses) -->
+            <Border Name="HintBar" Grid.Row="2" Margin="0,16,0,0" Padding="10,8" Background="#16FFFFFF" CornerRadius="8" Cursor="Hand">
                 <DockPanel>
-                    <TextBlock Text="Suggerimento:" FontWeight="Bold" Foreground="#7AA2F7" FontSize="11"/>
-                    <TextBlock Text=" Premi ESC o clicca ovunque per chiudere questa finestra." Foreground="#A9B1D6" FontSize="11" Margin="4,0,0,0"/>
+                    <TextBlock Text="Suggerimento:" FontWeight="Bold" Foreground="$accentColor" FontSize="11" Style="{StaticResource TextFont}"/>
+                    <TextBlock Text=" Premi ESC o clicca all'esterno della finestra per chiuderla." Foreground="#A9B1D6" FontSize="11" Margin="6,0,0,0" Style="{StaticResource TextFont}"/>
                 </DockPanel>
             </Border>
         </Grid>
     </Border>
 </Window>
-'@
+"@
 
-[xml]$xaml = $xamlText
-$reader = (New-Object System.Xml.XmlNodeReader $xaml)
-$window = [Windows.Markup.XamlReader]::Load($reader)
+$reader = [System.Xml.XmlReader]::Create([System.IO.StringReader]::new($xamlText))
+$window = [System.Windows.Markup.XamlReader]::Load($reader)
 
 # Close handlers
 $closeBtn = $window.FindName("CloseBtn")
 $closeBtn.Add_Click({ $window.Close() })
 
+$hintBar = $window.FindName("HintBar")
+$hintBar.Add_MouseLeftButtonDown({ $window.Close() })
+
+# Close immediately when clicking outside (window loses focus)
+$window.Add_Deactivated({
+    $window.Close()
+})
+
 $window.Add_KeyDown({
     param($s, $e)
-    if ($e.Key -eq [Windows.Input.Key]::Escape) {
+    if ($e.Key -eq [System.Windows.Input.Key]::Escape) {
         $window.Close()
     }
 })
 
-$window.Add_MouseDown({
-    param($s, $e)
-    if ($e.ChangedButton -eq [Windows.Input.MouseButton]::Left) {
-        $window.DragMove()
-    }
-})
-
 $window.ShowDialog() | Out-Null
-

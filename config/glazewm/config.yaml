@@ -76,6 +76,7 @@ window_rules:
   - commands: ['ignore']
     match:
       - window_process: { equals: 'zebar' }
+      - window_title: { regex: '(?i)43pr notification' }
       - window_process: { regex: '(?i)flow\.launcher' }
       - window_process: { regex: '(?i)powertoys' }
       - window_process: { equals: 'ScreenClippingHost' }
@@ -103,6 +104,8 @@ window_rules:
       - window_title: { regex: '(?i)43pr calculator' }
       - window_title: { regex: '(?i)43pr hardware hud' }
       - window_title: { regex: '(?i)43pr theme switcher' }
+      - window_title: { regex: '(?i)43pr todo' }
+      - window_title: { regex: '(?i)43pr quick actions' }
 
   # Dedicated Workspaces for background apps
   - commands: ['move --workspace 9']
@@ -150,6 +153,18 @@ keybindings:
   # Color Picker Pipette Eyedropper (Super + Shift + C)
   - commands: ['shell-exec media-ctl.exe color_picker']
     bindings: ['alt+shift+c']
+
+  # 43PR Notes & Todo HUD (Super + N)
+  - commands: ['shell-exec media-ctl.exe todo']
+    bindings: ['alt+n']
+
+  # 43PR Quick Actions Hub (Super + A)
+  - commands: ['shell-exec media-ctl.exe quick_actions']
+    bindings: ['alt+a']
+
+  # Upgrade 43PR Desktop (Super + Shift + U)
+  - commands: ['shell-exec media-ctl.exe upgrade']
+    bindings: ['alt+shift+u']
 
   # 43PR Theme Switcher & Auto Day/Night (Super + Shift + T)
   - commands: ['shell-exec media-ctl.exe theme_picker']
