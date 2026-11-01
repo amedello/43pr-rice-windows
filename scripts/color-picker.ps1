@@ -66,7 +66,7 @@ $xaml = @"
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock x:Name="TxtHex" Text="#FFFFFF" FontWeight="Bold" FontSize="15" Foreground="#CDD6F4" FontFamily="Consolas"/>
                         <TextBlock x:Name="TxtRgb" Text="rgb(255, 255, 255)" FontSize="10" Foreground="#9AA5CE" FontFamily="Consolas" Margin="0,4,0,0"/>
-                        <TextBlock Text="Click: Copia" FontSize="9" Foreground="#7982A9" FontFamily="Segoe UI Variable Text" Margin="0,4,0,0"/>
+                        <TextBlock Text="Click: Copia" FontSize="9" Foreground="#7982A9" FontFamily="Segoe UI Variable Text, Segoe UI, Consolas" Margin="0,4,0,0"/>
                     </StackPanel>
                 </Grid>
             </Border>

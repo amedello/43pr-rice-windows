@@ -171,7 +171,7 @@ $xaml = @"
                         </Button.Resources>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="&#xE706;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="Giorno" FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            <TextBlock Text="Giorno" FontFamily="Segoe UI Variable Text, Segoe UI, Consolas" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
@@ -188,7 +188,7 @@ $xaml = @"
                         </Button.Resources>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="&#xE708;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="Notte" FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            <TextBlock Text="Notte" FontFamily="Segoe UI Variable Text, Segoe UI, Consolas" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
@@ -205,7 +205,7 @@ $xaml = @"
                         </Button.Resources>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="&#xE777;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="TxtAutoText" Text="$autoStatusText" FontFamily="Segoe UI Variable Text, Segoe UI, sans-serif" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtAutoText" Text="$autoStatusText" FontFamily="Segoe UI Variable Text, Segoe UI, Consolas" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
